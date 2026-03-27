@@ -1,0 +1,104 @@
+{
+  "theme": "light",
+  "archetype": "4 (Swiss & High-Contrast)",
+  "design_philosophy": "Objective, highly legible, functional-first SaaS. For medical students where information density and clarity are critical. The UI serves as a neutral, high-contrast canvas so that the colorful subject tags and learning content stand out without visual clutter. Surfaces are flat and solid—no glassmorphism, as it distorts reading.",
+  "colors": {
+    "background": "#F8FAFC",
+    "surface": "#FFFFFF",
+    "primary": "#0F172A",
+    "primary_foreground": "#FFFFFF",
+    "secondary": "#F1F5F9",
+    "secondary_foreground": "#334155",
+    "accent": "#2563EB",
+    "accent_foreground": "#FFFFFF",
+    "muted": "#F1F5F9",
+    "muted_foreground": "#64748B",
+    "border": "#E2E8F0",
+    "success": "#059669",
+    "success_light": "#D1FAE5",
+    "warning": "#D97706",
+    "warning_light": "#FEF3C7",
+    "danger": "#E11D48",
+    "danger_light": "#FFE4E6",
+    "subject_colors": [
+      "#3B82F6", "#8B5CF6", "#EC4899", "#F43F5E", "#F59E0B", "#10B981", "#06B6D4"
+    ]
+  },
+  "typography": {
+    "fonts": {
+      "heading": "Outfit, sans-serif",
+      "body": "IBM Plex Sans, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl tracking-tight font-bold text-primary",
+      "h2": "text-2xl sm:text-3xl tracking-tight font-semibold text-primary",
+      "h3": "text-xl sm:text-2xl tracking-tight font-medium text-primary",
+      "h4": "text-lg sm:text-xl font-medium text-primary",
+      "body": "text-base leading-relaxed text-secondary-foreground",
+      "small": "text-sm text-muted-foreground",
+      "overline": "text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground"
+    }
+  },
+  "spacing_and_layout": {
+    "general": "Generous internal padding (p-6 or p-8) for cards to prevent text collision. The dashboard must use a 'Control Room' dense grid.",
+    "dashboard_grid": "grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6. Use col-span-2 or col-span-3 for main activity charts. col-span-1 for stats summaries.",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "card_style": "bg-white border border-border rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200. No heavy gradients."
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-4 py-2 font-medium transition-colors",
+      "secondary": "bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-lg px-4 py-2 font-medium transition-colors",
+      "accent": "bg-accent text-accent-foreground hover:bg-accent/90 rounded-lg px-4 py-2 font-medium transition-colors shadow-sm",
+      "outline": "border border-border text-primary hover:bg-muted rounded-lg px-4 py-2 font-medium transition-colors"
+    },
+    "inputs": {
+      "default": "border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-white transition-all text-sm"
+    },
+    "subject_card": {
+      "style": "bg-white border-l-4 border-r border-t border-b border-border rounded-lg p-6 hover:-translate-y-1 transition-transform cursor-pointer shadow-sm",
+      "note": "The left border color should be dynamically set to the subject's customizable color."
+    },
+    "flashcard": {
+      "style": "bg-white border border-border rounded-2xl p-12 text-center shadow-sm min-h-[300px] flex flex-col justify-center items-center cursor-pointer hover:shadow-md transition-all",
+      "flip_animation": "Use Framer Motion for a 3D flip effect on Y-axis."
+    },
+    "sidebar": {
+      "style": "w-64 border-r border-border bg-white h-screen fixed top-0 left-0 flex flex-col",
+      "link_active": "bg-muted text-primary font-medium rounded-lg px-3 py-2 flex items-center gap-3",
+      "link_inactive": "text-muted-foreground hover:bg-muted/50 hover:text-primary rounded-lg px-3 py-2 flex items-center gap-3 transition-colors"
+    },
+    "knowledge_graph": {
+      "style": "Use a light canvas background. Nodes should be primary color, edges should be muted.",
+      "library": "react-force-graph-2d or custom svg for simpler views."
+    }
+  },
+  "motion": {
+    "hover": "Subtle -translate-y-[2px] and shadow elevation for cards.",
+    "page_transition": "Fade in with slight upward motion (y: 10 to 0) using Framer Motion.",
+    "list_stagger": "Stagger list item appearances by 0.05s."
+  },
+  "media": {
+    "images": {
+      "auth_hero": {
+        "url": "https://images.pexels.com/photos/5998447/pexels-photo-5998447.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Medical student studying at desk, used for login/signup page side panel."
+      },
+      "empty_state_anatomy": {
+        "url": "https://images.unsplash.com/photo-1729339983367-770c2527ce75?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHwxfHxodW1hbiUyMGFuYXRvbXklMjBhYnN0cmFjdCUyMGNsZWFuJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzQ2MjE4NTd8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Clean anatomy illustration, used as a subtle background or empty state graphic in the AI analysis section."
+      }
+    }
+  },
+  "instructions_to_main_agent": [
+    "Install and use 'lucide-react' for all icons.",
+    "Use 'recharts' for the statistics page (Radar chart for subject mastery, Line chart for activity).",
+    "Use Shadcn UI primitives for Tabs, Dialogs, Select, DropdownMenu, Progress, and Cards. Heavily customize them to remove default Vercel look by applying the 'Swiss & High-Contrast' borders and flat colors.",
+    "For the main layout, implement a fixed sidebar on desktop and a mobile-friendly hamburger menu.",
+    "Ensure all interactive elements have 'data-testid' attributes in kebab-case.",
+    "The Dashboard should utilize a strict bento grid ('Control Room' mode) to maximize data density.",
+    "For the course text view, provide a reading-focused typography setup: max-w-prose, leading-loose, text-base.",
+    "Use Framer Motion for the Flashcard flipping animation and staggered list rendering for subjects."
+  ]
+}

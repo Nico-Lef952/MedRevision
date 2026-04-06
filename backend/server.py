@@ -1303,19 +1303,16 @@ async def root():
 # Include router
 app.include_router(api_router)
 
-# CORS
-frontend_url = os.environ.get("FRONTEND_URL", "http://localhost:3000")
-cors_origins = os.environ.get("CORS_ORIGINS", "*")
-
-if cors_origins == "*":
-    origins = ["*"]
-else:
-    origins = cors_origins.split(",")
+# CORS - Must specify origins explicitly when using credentials
+cors_origins = [
+    "http://localhost:3000",
+    "https://yo-social-33.preview.emergentagent.com",
+]
 
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=origins,
+    allow_origins=cors_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )

@@ -371,12 +371,14 @@ async def register(data: UserRegister):
     access_token = create_access_token(user_id, email)
     refresh_token = create_refresh_token(user_id)
     
+    # Return token in response body for clients that can't use cookies
     response = JSONResponse(content={
         "id": user_id,
         "email": email,
         "name": data.name,
         "role": "user",
-        "created_at": user_doc["created_at"]
+        "created_at": user_doc["created_at"],
+        "access_token": access_token
     })
     
     response.set_cookie(key="access_token", value=access_token, httponly=True, secure=False, samesite="lax", max_age=3600, path="/")
@@ -417,12 +419,14 @@ async def login(data: UserLogin, request: Request):
     access_token = create_access_token(user_id, email)
     refresh_token = create_refresh_token(user_id)
     
+    # Return token in response body for clients that can't use cookies
     response = JSONResponse(content={
         "id": user_id,
         "email": user["email"],
         "name": user["name"],
         "role": user["role"],
-        "created_at": user["created_at"]
+        "created_at": user["created_at"],
+        "access_token": access_token
     })
     
     response.set_cookie(key="access_token", value=access_token, httponly=True, secure=False, samesite="lax", max_age=3600, path="/")

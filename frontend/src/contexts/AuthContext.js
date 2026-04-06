@@ -1,22 +1,28 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import { authApi, setAuthToken, clearAuthToken } from '../lib/api';
 
 const AuthContext = createContext(null);
 
-const API_URL = process.env.REACT_APP_BACKEND_URL;
-
-// Configure axios defaults
-axios.defaults.withCredentials = true;
+const TOKEN_KEY = 'medrevision_token';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null); // null = checking, false = not auth, object = auth
   const [loading, setLoading] = useState(true);
 
   const checkAuth = useCallback(async () => {
+    // Try to get token from localStorage
+    const savedToken = localStorage.getItem(TOKEN_KEY);
+    if (savedToken) {
+      setAuthToken(savedToken);
+    }
+    
     try {
-      const response = await axios.get(`${API_URL}/api/auth/me`);
+      const response = await authApi.me();
       setUser(response.data);
     } catch (error) {
+      // Clear invalid token
+      localStorage.removeItem(TOKEN_KEY);
+      clearAuthToken();
       setUser(false);
     } finally {
       setLoading(false);
@@ -28,19 +34,45 @@ export function AuthProvider({ children }) {
   }, [checkAuth]);
 
   const login = async (email, password) => {
-    const response = await axios.post(`${API_URL}/api/auth/login`, { email, password });
-    setUser(response.data);
-    return response.data;
+    const response = await authApi.login({ email, password });
+    const userData = response.data;
+    
+    // Store the token from response
+    if (userData.access_token) {
+      localStorage.setItem(TOKEN_KEY, userData.access_token);
+      setAuthToken(userData.access_token);
+    }
+    
+    // Remove token from user object before storing in state
+    const { access_token, ...userWithoutToken } = userData;
+    setUser(userWithoutToken);
+    return userWithoutToken;
   };
 
   const register = async (email, password, name) => {
-    const response = await axios.post(`${API_URL}/api/auth/register`, { email, password, name });
-    setUser(response.data);
-    return response.data;
+    const response = await authApi.register({ email, password, name });
+    const userData = response.data;
+    
+    // Store the token from response
+    if (userData.access_token) {
+      localStorage.setItem(TOKEN_KEY, userData.access_token);
+      setAuthToken(userData.access_token);
+    }
+    
+    // Remove token from user object before storing in state
+    const { access_token, ...userWithoutToken } = userData;
+    setUser(userWithoutToken);
+    return userWithoutToken;
   };
 
   const logout = async () => {
-    await axios.post(`${API_URL}/api/auth/logout`);
+    try {
+      await authApi.logout();
+    } catch (e) {
+      // Ignore logout errors
+    }
+    localStorage.removeItem(TOKEN_KEY);
+    clearAuthToken();
     setUser(false);
   };
 

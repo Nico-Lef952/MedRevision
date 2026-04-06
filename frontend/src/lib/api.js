@@ -2,8 +2,30 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
-// Configure axios
-axios.defaults.withCredentials = true;
+// Create axios instance with credentials
+const api = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+});
+
+// Store token in memory as fallback when cookies don't work
+let authToken = null;
+
+export const setAuthToken = (token) => {
+  authToken = token;
+};
+
+export const clearAuthToken = () => {
+  authToken = null;
+};
+
+// Add auth header interceptor
+api.interceptors.request.use((config) => {
+  if (authToken) {
+    config.headers.Authorization = `Bearer ${authToken}`;
+  }
+  return config;
+});
 
 // Helper to format error messages
 export function formatApiError(error) {
@@ -18,60 +40,69 @@ export function formatApiError(error) {
 
 // Subjects API
 export const subjectsApi = {
-  getAll: () => axios.get(`${API_URL}/api/subjects`),
-  get: (id) => axios.get(`${API_URL}/api/subjects/${id}`),
-  create: (data) => axios.post(`${API_URL}/api/subjects`, data),
-  update: (id, data) => axios.put(`${API_URL}/api/subjects/${id}`, data),
-  delete: (id) => axios.delete(`${API_URL}/api/subjects/${id}`)
+  getAll: () => api.get(`/api/subjects`),
+  get: (id) => api.get(`/api/subjects/${id}`),
+  create: (data) => api.post(`/api/subjects`, data),
+  update: (id, data) => api.put(`/api/subjects/${id}`, data),
+  delete: (id) => api.delete(`/api/subjects/${id}`)
 };
 
 // Courses API
 export const coursesApi = {
-  getAll: (params) => axios.get(`${API_URL}/api/courses`, { params }),
-  get: (id) => axios.get(`${API_URL}/api/courses/${id}`),
-  create: (data) => axios.post(`${API_URL}/api/courses`, data),
-  update: (id, data) => axios.put(`${API_URL}/api/courses/${id}`, data),
-  delete: (id) => axios.delete(`${API_URL}/api/courses/${id}`),
-  upload: (formData, subjectId) => axios.post(
-    `${API_URL}/api/courses/upload?subject_id=${subjectId}`,
+  getAll: (params) => api.get(`/api/courses`, { params }),
+  get: (id) => api.get(`/api/courses/${id}`),
+  create: (data) => api.post(`/api/courses`, data),
+  update: (id, data) => api.put(`/api/courses/${id}`, data),
+  delete: (id) => api.delete(`/api/courses/${id}`),
+  upload: (formData, subjectId) => api.post(
+    `/api/courses/upload?subject_id=${subjectId}`,
     formData,
     { headers: { 'Content-Type': 'multipart/form-data' } }
   ),
-  regenerateQuestions: (id) => axios.post(`${API_URL}/api/courses/${id}/regenerate-questions`)
+  regenerateQuestions: (id) => api.post(`/api/courses/${id}/regenerate-questions`)
 };
 
 // Questions API
 export const questionsApi = {
-  getAll: (params) => axios.get(`${API_URL}/api/questions`, { params })
+  getAll: (params) => api.get(`/api/questions`, { params })
 };
 
 // Quiz API
 export const quizApi = {
-  start: (data) => axios.post(`${API_URL}/api/quiz/start`, data),
-  answer: (sessionId, data) => axios.post(`${API_URL}/api/quiz/${sessionId}/answer`, data),
-  complete: (sessionId) => axios.post(`${API_URL}/api/quiz/${sessionId}/complete`)
+  start: (data) => api.post(`/api/quiz/start`, data),
+  answer: (sessionId, data) => api.post(`/api/quiz/${sessionId}/answer`, data),
+  complete: (sessionId) => api.post(`/api/quiz/${sessionId}/complete`)
 };
 
 // Flashcards API
 export const flashcardsApi = {
-  getAll: (params) => axios.get(`${API_URL}/api/flashcards`, { params }),
-  getDue: () => axios.get(`${API_URL}/api/flashcards/due`),
-  review: (cardId, data) => axios.post(`${API_URL}/api/flashcards/${cardId}/review`, data)
+  getAll: (params) => api.get(`/api/flashcards`, { params }),
+  getDue: () => api.get(`/api/flashcards/due`),
+  review: (cardId, data) => api.post(`/api/flashcards/${cardId}/review`, data)
 };
 
 // Stats API
 export const statsApi = {
-  overview: () => axios.get(`${API_URL}/api/stats/overview`),
-  bySubject: () => axios.get(`${API_URL}/api/stats/by-subject`),
-  weakConcepts: () => axios.get(`${API_URL}/api/stats/weak-concepts`)
+  overview: () => api.get(`/api/stats/overview`),
+  bySubject: () => api.get(`/api/stats/by-subject`),
+  weakConcepts: () => api.get(`/api/stats/weak-concepts`)
 };
 
 // Dashboard API
 export const dashboardApi = {
-  get: () => axios.get(`${API_URL}/api/dashboard`)
+  get: () => api.get(`/api/dashboard`)
 };
 
 // Knowledge Graph API
 export const knowledgeGraphApi = {
-  get: () => axios.get(`${API_URL}/api/knowledge-graph`)
+  get: () => api.get(`/api/knowledge-graph`)
+};
+
+// Auth API (for direct use)
+export const authApi = {
+  login: (data) => api.post(`/api/auth/login`, data),
+  register: (data) => api.post(`/api/auth/register`, data),
+  logout: () => api.post(`/api/auth/logout`),
+  me: () => api.get(`/api/auth/me`),
+  refresh: () => api.post(`/api/auth/refresh`)
 };

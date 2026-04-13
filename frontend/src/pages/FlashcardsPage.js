@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { flashcardsApi, subjectsApi, formatApiError } from '../lib/api';
-import { motion, AnimatePresence } from 'framer-motion';
+import { flashcardsApi, subjectsApi } from '../lib/api';
 import {
   Brain,
   RotateCcw,
   ChevronLeft,
   ChevronRight,
-  Check,
-  X,
   Sparkles,
   Filter
 } from 'lucide-react';
@@ -139,7 +136,7 @@ export default function FlashcardsPage() {
       )}
 
       {/* Flashcard */}
-      {cards.length > 0 ? (
+      {cards.length > 0 && currentCard ? (
         <div className="max-w-2xl mx-auto">
           {/* Progress */}
           <div className="flex items-center justify-between mb-4 text-sm text-[#64748B]">
@@ -155,44 +152,55 @@ export default function FlashcardsPage() {
 
           {/* Card */}
           <div
-            className="flashcard-container relative h-80 cursor-pointer"
+            className="relative h-80 cursor-pointer perspective-1000"
             onClick={() => setFlipped(!flipped)}
             data-testid="flashcard"
           >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={flipped ? 'back' : 'front'}
-                initial={{ rotateY: 90, opacity: 0 }}
-                animate={{ rotateY: 0, opacity: 1 }}
-                exit={{ rotateY: -90, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="absolute inset-0 bg-white border border-[#E2E8F0] rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-lg"
-              >
-                <div className="absolute top-4 right-4">
-                  <span className="text-xs text-[#64748B] bg-[#F1F5F9] px-2 py-1 rounded">
-                    {flipped ? 'Réponse' : 'Question'}
-                  </span>
-                </div>
-                
-                <Brain className="w-8 h-8 text-[#2563EB] mb-4" />
-                
-                <p className="text-xl font-medium text-[#0F172A]">
-                  {flipped ? currentCard.answer : currentCard.question}
-                </p>
-                
-                {flipped && currentCard.explanation && (
-                  <p className="text-sm text-[#64748B] mt-4 max-w-md">
-                    {currentCard.explanation}
-                  </p>
-                )}
+            <div
+              className={`absolute inset-0 bg-white border border-[#E2E8F0] rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-lg transition-all duration-300 ${
+                flipped ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              }`}
+            >
+              <div className="absolute top-4 right-4">
+                <span className="text-xs text-[#64748B] bg-[#F1F5F9] px-2 py-1 rounded">
+                  Question
+                </span>
+              </div>
+              
+              <Brain className="w-8 h-8 text-[#2563EB] mb-4" />
+              
+              <p className="text-xl font-medium text-[#0F172A]">
+                {currentCard.question}
+              </p>
 
-                {!flipped && (
-                  <p className="text-sm text-[#64748B] mt-4">
-                    Cliquez pour révéler la réponse
-                  </p>
-                )}
-              </motion.div>
-            </AnimatePresence>
+              <p className="text-sm text-[#64748B] mt-4">
+                Cliquez pour révéler la réponse
+              </p>
+            </div>
+
+            <div
+              className={`absolute inset-0 bg-white border border-[#E2E8F0] rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-lg transition-all duration-300 ${
+                flipped ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+            >
+              <div className="absolute top-4 right-4">
+                <span className="text-xs text-[#64748B] bg-[#F1F5F9] px-2 py-1 rounded">
+                  Réponse
+                </span>
+              </div>
+              
+              <Brain className="w-8 h-8 text-[#059669] mb-4" />
+              
+              <p className="text-xl font-medium text-[#0F172A]">
+                {currentCard.answer}
+              </p>
+              
+              {currentCard.explanation && (
+                <p className="text-sm text-[#64748B] mt-4 max-w-md">
+                  {currentCard.explanation}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Navigation & Rating */}
@@ -202,7 +210,7 @@ export default function FlashcardsPage() {
                 <p className="text-center text-sm text-[#64748B]">
                   Comment avez-vous trouvé cette carte ?
                 </p>
-                <div className="flex justify-center gap-2">
+                <div className="flex justify-center gap-2 flex-wrap">
                   {[
                     { quality: 0, label: 'À revoir', color: 'bg-[#E11D48]' },
                     { quality: 2, label: 'Difficile', color: 'bg-[#D97706]' },

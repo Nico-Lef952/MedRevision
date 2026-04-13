@@ -230,40 +230,80 @@ export default function QuizPage() {
 
           {/* Options */}
           <div className="space-y-3">
-            {question.options?.map((opt, idx) => {
-              let optionClass = 'quiz-option';
-              if (answered) {
-                if (result.correct_options.includes(idx)) {
-                  optionClass += ' correct';
+            {/* For vrai_faux questions without options, show default Vrai/Faux */}
+            {(question.type === 'vrai_faux' && (!question.options || question.options.length === 0)) ? (
+              <>
+                {[{ text: 'Vrai', is_correct: true }, { text: 'Faux', is_correct: false }].map((opt, idx) => {
+                  let optionClass = 'quiz-option';
+                  if (answered) {
+                    if (result.correct_options.includes(idx)) {
+                      optionClass += ' correct';
+                    } else if (selectedOptions.includes(idx)) {
+                      optionClass += ' incorrect';
+                    }
+                    optionClass += ' disabled';
+                  } else if (selectedOptions.includes(idx)) {
+                    optionClass += ' selected';
+                  }
+                  
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => toggleOption(idx)}
+                      disabled={answered}
+                      className={`w-full p-4 text-left border border-[#E2E8F0] rounded-lg flex items-center gap-4 ${optionClass}`}
+                      data-testid={`option-${idx}`}
+                    >
+                      <span className="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-sm font-medium shrink-0">
+                        {idx === 0 ? 'V' : 'F'}
+                      </span>
+                      <span className="flex-1">{opt.text}</span>
+                      {answered && result.correct_options.includes(idx) && (
+                        <CheckCircle className="w-5 h-5 text-[#059669] shrink-0" />
+                      )}
+                      {answered && selectedOptions.includes(idx) && !result.correct_options.includes(idx) && (
+                        <XCircle className="w-5 h-5 text-[#E11D48] shrink-0" />
+                      )}
+                    </button>
+                  );
+                })}
+              </>
+            ) : (
+              question.options?.map((opt, idx) => {
+                let optionClass = 'quiz-option';
+                if (answered) {
+                  if (result.correct_options.includes(idx)) {
+                    optionClass += ' correct';
+                  } else if (selectedOptions.includes(idx)) {
+                    optionClass += ' incorrect';
+                  }
+                  optionClass += ' disabled';
                 } else if (selectedOptions.includes(idx)) {
-                  optionClass += ' incorrect';
+                  optionClass += ' selected';
                 }
-                optionClass += ' disabled';
-              } else if (selectedOptions.includes(idx)) {
-                optionClass += ' selected';
-              }
-              
-              return (
-                <button
-                  key={idx}
-                  onClick={() => toggleOption(idx)}
-                  disabled={answered}
-                  className={`w-full p-4 text-left border border-[#E2E8F0] rounded-lg flex items-center gap-4 ${optionClass}`}
-                  data-testid={`option-${idx}`}
-                >
-                  <span className="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-sm font-medium shrink-0">
-                    {String.fromCharCode(65 + idx)}
-                  </span>
-                  <span className="flex-1">{opt.text}</span>
-                  {answered && result.correct_options.includes(idx) && (
-                    <CheckCircle className="w-5 h-5 text-[#059669] shrink-0" />
-                  )}
-                  {answered && selectedOptions.includes(idx) && !result.correct_options.includes(idx) && (
-                    <XCircle className="w-5 h-5 text-[#E11D48] shrink-0" />
-                  )}
-                </button>
-              );
-            })}
+                
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => toggleOption(idx)}
+                    disabled={answered}
+                    className={`w-full p-4 text-left border border-[#E2E8F0] rounded-lg flex items-center gap-4 ${optionClass}`}
+                    data-testid={`option-${idx}`}
+                  >
+                    <span className="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-sm font-medium shrink-0">
+                      {String.fromCharCode(65 + idx)}
+                    </span>
+                    <span className="flex-1">{opt.text}</span>
+                    {answered && result.correct_options.includes(idx) && (
+                      <CheckCircle className="w-5 h-5 text-[#059669] shrink-0" />
+                    )}
+                    {answered && selectedOptions.includes(idx) && !result.correct_options.includes(idx) && (
+                      <XCircle className="w-5 h-5 text-[#E11D48] shrink-0" />
+                    )}
+                  </button>
+                );
+              })
+            )}
           </div>
 
           {/* Explanation */}

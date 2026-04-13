@@ -133,15 +133,20 @@ async def generate_questions_with_ai(content: str, subject_name: str, analysis: 
 Génère des questions variées à partir du cours. Retourne un JSON array avec chaque question ayant:
 - "type": "qcm" | "vrai_faux" | "flashcard" | "cas_clinique" | "qroc"
 - "question": l'énoncé
-- "options": array d'options pour QCM (avec "text" et "is_correct")
-- "answer": réponse correcte
-- "explanation": explication détaillée
+- "options": array d'options (OBLIGATOIRE pour tous les types)
+  - Pour QCM: 5 options avec "text" et "is_correct" (1-2 correctes)
+  - Pour vrai_faux: [{"text": "Vrai", "is_correct": true/false}, {"text": "Faux", "is_correct": false/true}]
+  - Pour flashcard: [{"text": "la réponse", "is_correct": true}]
+  - Pour cas_clinique: 5 options diagnostiques/thérapeutiques
+  - Pour qroc: [{"text": "réponse attendue", "is_correct": true}]
+- "answer": réponse correcte textuelle
+- "explanation": explication détaillée de la réponse
 - "difficulty": 1-3 (1=facile, 2=moyen, 3=difficile)
-- "concepts": notions liées
+- "concepts": notions liées du cours
 
-Génère 10-15 questions variées. Pour les QCM, 5 options avec 1-2 correctes.
-Pour les cas cliniques, crée un scénario patient réaliste.
-Retourne UNIQUEMENT le JSON array."""
+Génère 12-15 questions variées avec au moins 2 de chaque type.
+Pour les cas cliniques, crée un scénario patient réaliste et détaillé.
+Retourne UNIQUEMENT le JSON array, sans texte avant ou après."""
         ).with_model("openai", "gpt-5.2")
         
         concepts_str = ", ".join(analysis.get("concepts", [])[:10])
@@ -151,7 +156,17 @@ Retourne UNIQUEMENT le JSON array."""
         try:
             json_match = re.search(r'\[[\s\S]*\]', response)
             if json_match:
-                return json.loads(json_match.group())
+                questions = json.loads(json_match.group())
+                # Ensure vrai_faux questions have proper options
+                for q in questions:
+                    if q.get("type") == "vrai_faux" and (not q.get("options") or len(q.get("options", [])) < 2):
+                        # Determine correct answer based on the question
+                        is_true = "vrai" in q.get("answer", "").lower()
+                        q["options"] = [
+                            {"text": "Vrai", "is_correct": is_true},
+                            {"text": "Faux", "is_correct": not is_true}
+                        ]
+                return questions
         except:
             pass
         

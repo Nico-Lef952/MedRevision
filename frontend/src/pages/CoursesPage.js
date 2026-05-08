@@ -6,12 +6,13 @@ import {
   FileText,
   Upload,
   Search,
-  Filter,
   Clock,
   HelpCircle,
   X,
   Check,
-  Sparkles
+  Sparkles,
+  BookOpen,
+  Zap
 } from 'lucide-react';
 
 export default function CoursesPage() {
@@ -20,7 +21,7 @@ export default function CoursesPage() {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [modalMode, setModalMode] = useState('create'); // 'create' or 'upload'
+  const [modalMode, setModalMode] = useState('create');
   const [formData, setFormData] = useState({ title: '', subject_id: '', content: '', tags: '', chapter: '' });
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
@@ -82,7 +83,7 @@ export default function CoursesPage() {
 
   const getSubjectColor = (subjectId) => {
     const subject = subjects.find(s => s.id === subjectId);
-    return subject?.color || '#3B82F6';
+    return subject?.color || '#4F46E5';
   };
 
   const getSubjectName = (subjectId) => {
@@ -92,32 +93,32 @@ export default function CoursesPage() {
 
   if (loading) {
     return (
-      <div className="animate-pulse space-y-6">
-        <div className="h-8 w-48 bg-[#E2E8F0] rounded" />
-        <div className="h-12 bg-[#E2E8F0] rounded-lg" />
-        <div className="grid grid-cols-1 gap-4">
-          {[1,2,3,4].map(i => <div key={i} className="h-24 bg-[#E2E8F0] rounded-xl" />)}
+      <div className="space-y-6">
+        <div className="h-10 w-48 skeleton rounded-lg" />
+        <div className="h-14 skeleton rounded-xl" />
+        <div className="space-y-4">
+          {[1,2,3,4].map(i => <div key={i} className="h-24 skeleton rounded-2xl" />)}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6" data-testid="courses-page">
+    <div className="space-y-8" data-testid="courses-page">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-[#0F172A]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+          <h1 className="text-4xl font-bold text-[#1E293B]" style={{ fontFamily: 'Outfit, sans-serif' }}>
             Cours
           </h1>
-          <p className="text-[#64748B] mt-1">
-            {courses.length} cours au total
+          <p className="text-[#64748B] mt-2 text-lg">
+            {courses.length} cours au total 📝
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
             onClick={() => openModal('upload')}
-            className="flex items-center gap-2 border border-[#E2E8F0] text-[#334155] px-4 py-2 rounded-lg font-medium hover:bg-[#F1F5F9] transition-colors"
+            className="flex items-center gap-2 px-5 py-3 border-2 border-[#E2E8F0] text-[#1E293B] rounded-xl font-semibold hover:border-[#4F46E5] hover:text-[#4F46E5] transition-all"
             data-testid="upload-course-btn"
           >
             <Upload className="w-5 h-5" />
@@ -125,7 +126,7 @@ export default function CoursesPage() {
           </button>
           <button
             onClick={() => openModal('create')}
-            className="flex items-center gap-2 bg-[#0F172A] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#1E293B] transition-colors"
+            className="btn-gradient flex items-center gap-2"
             data-testid="create-course-btn"
           >
             <Plus className="w-5 h-5" />
@@ -137,20 +138,20 @@ export default function CoursesPage() {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#64748B]" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#94A3B8]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Rechercher un cours..."
-            className="w-full pl-10 pr-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-[#2563EB] outline-none"
+            className="w-full pl-12 pr-4 py-3 border-2 border-[#E2E8F0] rounded-xl focus:border-[#4F46E5] transition-colors"
             data-testid="search-input"
           />
         </div>
         <select
           value={filterSubject}
           onChange={(e) => setFilterSubject(e.target.value)}
-          className="px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-[#2563EB] outline-none bg-white"
+          className="px-4 py-3 border-2 border-[#E2E8F0] rounded-xl focus:border-[#4F46E5] transition-colors bg-white font-medium"
           data-testid="filter-subject"
         >
           <option value="">Toutes les matières</option>
@@ -162,38 +163,40 @@ export default function CoursesPage() {
 
       {/* Courses List */}
       {courses.length > 0 ? (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {courses.map((course, idx) => (
             <Link
               key={course.id}
               to={`/courses/${course.id}`}
-              className="flex items-center gap-4 p-4 bg-white border border-[#E2E8F0] rounded-xl hover:shadow-md transition-shadow"
+              className="flex items-center gap-5 p-5 bg-white border border-[#E2E8F0] rounded-2xl hover:shadow-lg hover:border-[#4F46E5]/30 transition-all group"
               data-testid={`course-${idx}`}
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                style={{ backgroundColor: `${getSubjectColor(course.subject_id)}20` }}
+                className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-lg"
+                style={{ background: `linear-gradient(135deg, ${getSubjectColor(course.subject_id)}, ${getSubjectColor(course.subject_id)}CC)` }}
               >
-                <FileText className="w-6 h-6" style={{ color: getSubjectColor(course.subject_id) }} />
+                <FileText className="w-7 h-7 text-white" />
               </div>
               
               <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-[#0F172A] truncate">{course.title}</h3>
-                <p className="text-sm text-[#64748B] truncate">
+                <h3 className="font-bold text-lg text-[#1E293B] group-hover:text-[#4F46E5] transition-colors truncate">
+                  {course.title}
+                </h3>
+                <p className="text-[#64748B] truncate">
                   {getSubjectName(course.subject_id)}
                   {course.chapter && ` · ${course.chapter}`}
                 </p>
                 {course.summary && (
-                  <p className="text-sm text-[#64748B] mt-1 line-clamp-1">{course.summary}</p>
+                  <p className="text-sm text-[#94A3B8] mt-1 line-clamp-1">{course.summary}</p>
                 )}
               </div>
 
-              <div className="hidden sm:flex items-center gap-4 text-sm text-[#64748B] shrink-0">
-                <span className="flex items-center gap-1">
+              <div className="hidden sm:flex items-center gap-4 shrink-0">
+                <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FDF4FF] text-[#A855F7] font-medium text-sm">
                   <HelpCircle className="w-4 h-4" />
                   {course.question_count}
                 </span>
-                <span className="flex items-center gap-1">
+                <span className="flex items-center gap-1 text-sm text-[#94A3B8]">
                   <Clock className="w-4 h-4" />
                   {new Date(course.updated_at).toLocaleDateString('fr-FR')}
                 </span>
@@ -202,7 +205,7 @@ export default function CoursesPage() {
               {course.tags?.length > 0 && (
                 <div className="hidden lg:flex gap-2 shrink-0">
                   {course.tags.slice(0, 2).map((tag, i) => (
-                    <span key={i} className="badge badge-accent">{tag}</span>
+                    <span key={i} className="badge badge-primary">{tag}</span>
                   ))}
                 </div>
               )}
@@ -210,55 +213,70 @@ export default function CoursesPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 bg-white rounded-xl border border-[#E2E8F0]">
-          <FileText className="w-16 h-16 mx-auto text-[#E2E8F0] mb-4" />
-          <h3 className="text-xl font-semibold text-[#0F172A] mb-2">Aucun cours</h3>
-          <p className="text-[#64748B] mb-4">
-            {searchQuery || filterSubject ? 'Aucun résultat pour cette recherche' : 'Ajoutez votre premier cours'}
+        <div className="empty-state text-center py-16 px-6">
+          <div className="w-24 h-24 mx-auto mb-6 rounded-3xl bg-gradient-to-br from-[#06B6D4] to-[#3B82F6] flex items-center justify-center shadow-2xl shadow-cyan-500/30">
+            <FileText className="w-12 h-12 text-white" />
+          </div>
+          <h3 className="text-2xl font-bold text-[#1E293B] mb-3">
+            {searchQuery || filterSubject ? 'Aucun résultat' : 'Aucun cours'}
+          </h3>
+          <p className="text-[#64748B] mb-6 text-lg max-w-md mx-auto">
+            {searchQuery || filterSubject 
+              ? 'Essayez de modifier vos filtres'
+              : 'Ajoutez votre premier cours pour commencer !'}
           </p>
           {!searchQuery && !filterSubject && (
-            <button
-              onClick={() => openModal('create')}
-              className="inline-flex items-center gap-2 bg-[#2563EB] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#1D4ED8] transition-colors"
-            >
-              <Plus className="w-5 h-5" />
-              Créer un cours
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => openModal('upload')}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-[#4F46E5] text-[#4F46E5] rounded-xl font-semibold hover:bg-[#4F46E5] hover:text-white transition-all"
+              >
+                <Upload className="w-5 h-5" />
+                Importer un PDF
+              </button>
+              <button
+                onClick={() => openModal('create')}
+                className="btn-gradient inline-flex items-center gap-2"
+              >
+                <Plus className="w-5 h-5" />
+                Créer un cours
+              </button>
+            </div>
           )}
         </div>
       )}
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl w-full max-w-lg p-6 animate-fadeIn max-h-[90vh] overflow-y-auto" data-testid="course-modal">
+        <div className="fixed inset-0 modal-backdrop flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl w-full max-w-lg p-8 shadow-2xl animate-fadeInUp max-h-[90vh] overflow-y-auto" data-testid="course-modal">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-[#0F172A]" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                {modalMode === 'upload' ? 'Importer un cours' : 'Nouveau cours'}
+              <h2 className="text-2xl font-bold text-[#1E293B]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                {modalMode === 'upload' ? '📄 Importer un cours' : '✍️ Nouveau cours'}
               </h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="p-2 hover:bg-[#F1F5F9] rounded-lg"
+                className="p-2 hover:bg-[#F1F5F9] rounded-xl transition-colors"
               >
-                <X className="w-5 h-5 text-[#64748B]" />
+                <X className="w-6 h-6 text-[#64748B]" />
               </button>
             </div>
 
             {error && (
-              <div className="mb-4 p-3 bg-[#FFE4E6] text-[#E11D48] rounded-lg text-sm">
+              <div className="mb-6 p-4 bg-[#FEE2E2] border border-[#EF4444] text-[#EF4444] rounded-xl text-sm font-medium">
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-[#334155] mb-2">
+                <label className="block text-sm font-semibold text-[#1E293B] mb-2">
                   Matière *
                 </label>
                 <select
                   value={formData.subject_id}
                   onChange={(e) => setFormData({ ...formData, subject_id: e.target.value })}
-                  className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-[#2563EB] outline-none bg-white"
+                  className="w-full px-4 py-3 border-2 border-[#E2E8F0] rounded-xl focus:border-[#4F46E5] transition-colors bg-white"
                   required
                   data-testid="course-subject-select"
                 >
@@ -267,14 +285,19 @@ export default function CoursesPage() {
                     <option key={s.id} value={s.id}>{s.name}</option>
                   ))}
                 </select>
+                {subjects.length === 0 && (
+                  <p className="text-sm text-[#F59E0B] mt-2">
+                    ⚠️ Créez d'abord une matière dans l'onglet "Matières"
+                  </p>
+                )}
               </div>
 
               {modalMode === 'upload' ? (
                 <div>
-                  <label className="block text-sm font-medium text-[#334155] mb-2">
+                  <label className="block text-sm font-semibold text-[#1E293B] mb-2">
                     Fichier (PDF, MD, TXT) *
                   </label>
-                  <div className="border-2 border-dashed border-[#E2E8F0] rounded-lg p-8 text-center">
+                  <div className="border-2 border-dashed border-[#E2E8F0] rounded-2xl p-8 text-center hover:border-[#4F46E5] transition-colors cursor-pointer">
                     <input
                       type="file"
                       accept=".pdf,.md,.txt"
@@ -283,22 +306,21 @@ export default function CoursesPage() {
                       id="file-upload"
                       data-testid="file-input"
                     />
-                    <label
-                      htmlFor="file-upload"
-                      className="cursor-pointer"
-                    >
-                      <Upload className="w-10 h-10 mx-auto text-[#64748B] mb-2" />
-                      <p className="text-[#334155] font-medium">
+                    <label htmlFor="file-upload" className="cursor-pointer">
+                      <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] flex items-center justify-center">
+                        <Upload className="w-8 h-8 text-white" />
+                      </div>
+                      <p className="text-[#1E293B] font-semibold text-lg">
                         {file ? file.name : 'Cliquez pour sélectionner'}
                       </p>
-                      <p className="text-sm text-[#64748B] mt-1">PDF, Markdown ou texte</p>
+                      <p className="text-sm text-[#64748B] mt-2">PDF, Markdown ou texte</p>
                     </label>
                   </div>
                 </div>
               ) : (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-[#334155] mb-2">
+                    <label className="block text-sm font-semibold text-[#1E293B] mb-2">
                       Titre du cours *
                     </label>
                     <input
@@ -306,28 +328,28 @@ export default function CoursesPage() {
                       value={formData.title}
                       onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                       placeholder="Ex: Insuffisance cardiaque"
-                      className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-[#2563EB] outline-none"
+                      className="w-full px-4 py-3 border-2 border-[#E2E8F0] rounded-xl focus:border-[#4F46E5] transition-colors"
                       required
                       data-testid="course-title-input"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-[#334155] mb-2">
-                      Chapitre
+                    <label className="block text-sm font-semibold text-[#1E293B] mb-2">
+                      Chapitre (optionnel)
                     </label>
                     <input
                       type="text"
                       value={formData.chapter}
                       onChange={(e) => setFormData({ ...formData, chapter: e.target.value })}
                       placeholder="Ex: Chapitre 3"
-                      className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-[#2563EB] outline-none"
+                      className="w-full px-4 py-3 border-2 border-[#E2E8F0] rounded-xl focus:border-[#4F46E5] transition-colors"
                       data-testid="course-chapter-input"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-[#334155] mb-2">
+                    <label className="block text-sm font-semibold text-[#1E293B] mb-2">
                       Contenu du cours *
                     </label>
                     <textarea
@@ -335,14 +357,14 @@ export default function CoursesPage() {
                       onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                       placeholder="Collez ou écrivez le contenu de votre cours ici..."
                       rows={8}
-                      className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-[#2563EB] outline-none resize-none"
+                      className="w-full px-4 py-3 border-2 border-[#E2E8F0] rounded-xl focus:border-[#4F46E5] transition-colors resize-none"
                       required
                       data-testid="course-content-input"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-[#334155] mb-2">
+                    <label className="block text-sm font-semibold text-[#1E293B] mb-2">
                       Tags (séparés par des virgules)
                     </label>
                     <input
@@ -350,17 +372,17 @@ export default function CoursesPage() {
                       value={formData.tags}
                       onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
                       placeholder="cardiologie, ECG, arythmie"
-                      className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-[#2563EB] outline-none"
+                      className="w-full px-4 py-3 border-2 border-[#E2E8F0] rounded-xl focus:border-[#4F46E5] transition-colors"
                       data-testid="course-tags-input"
                     />
                   </div>
                 </>
               )}
 
-              <div className="bg-[#F0FDF4] border border-[#059669] rounded-lg p-3 flex items-start gap-3">
-                <Sparkles className="w-5 h-5 text-[#059669] shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 p-4 bg-gradient-to-r from-[#F0FDF4] to-[#DCFCE7] border border-[#10B981] rounded-xl">
+                <Zap className="w-6 h-6 text-[#10B981] shrink-0 mt-0.5" />
                 <p className="text-sm text-[#059669]">
-                  L'IA analysera automatiquement le contenu pour extraire les notions clés et générer des questions.
+                  <strong>IA automatique :</strong> Le contenu sera analysé pour extraire les notions clés et générer des questions de révision !
                 </p>
               </div>
 
@@ -368,14 +390,14 @@ export default function CoursesPage() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="flex-1 px-4 py-2 border border-[#E2E8F0] text-[#64748B] rounded-lg hover:bg-[#F1F5F9] transition-colors"
+                  className="flex-1 px-6 py-3 border-2 border-[#E2E8F0] text-[#64748B] rounded-xl hover:bg-[#F1F5F9] transition-colors font-semibold"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  disabled={submitting || (modalMode === 'upload' && !file)}
-                  className="flex-1 flex items-center justify-center gap-2 bg-[#0F172A] text-white px-4 py-2 rounded-lg hover:bg-[#1E293B] transition-colors disabled:opacity-50"
+                  disabled={submitting || (modalMode === 'upload' && !file) || !formData.subject_id}
+                  className="flex-1 btn-gradient flex items-center justify-center gap-2 disabled:opacity-50"
                   data-testid="course-submit-btn"
                 >
                   {submitting ? (

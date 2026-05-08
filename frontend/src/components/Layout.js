@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
   LayoutDashboard,
@@ -11,23 +11,23 @@ import {
   Network,
   LogOut,
   Menu,
-  X
+  X,
+  Sparkles
 } from 'lucide-react';
 
 const navItems = [
-  { path: '/', icon: LayoutDashboard, label: 'Tableau de bord' },
-  { path: '/subjects', icon: BookOpen, label: 'Matières' },
-  { path: '/courses', icon: FileText, label: 'Cours' },
-  { path: '/quiz', icon: HelpCircle, label: 'Quiz' },
-  { path: '/flashcards', icon: Brain, label: 'Flashcards' },
-  { path: '/stats', icon: BarChart3, label: 'Statistiques' },
-  { path: '/knowledge-graph', icon: Network, label: 'Carte des savoirs' },
+  { path: '/', icon: LayoutDashboard, label: 'Tableau de bord', color: '#4F46E5' },
+  { path: '/subjects', icon: BookOpen, label: 'Matières', color: '#8B5CF6' },
+  { path: '/courses', icon: FileText, label: 'Cours', color: '#06B6D4' },
+  { path: '/quiz', icon: HelpCircle, label: 'Quiz', color: '#F59E0B' },
+  { path: '/flashcards', icon: Brain, label: 'Flashcards', color: '#EC4899' },
+  { path: '/stats', icon: BarChart3, label: 'Statistiques', color: '#10B981' },
+  { path: '/knowledge-graph', icon: Network, label: 'Carte des savoirs', color: '#EF4444' },
 ];
 
 export default function Layout({ children }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
   const handleLogout = async () => {
@@ -36,48 +36,48 @@ export default function Layout({ children }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAFBFF]">
       {/* Mobile header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b border-[#E2E8F0] z-40 flex items-center justify-between px-4">
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-lg border-b border-[#E2E8F0] z-40 flex items-center justify-between px-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-[#0F172A] rounded-lg flex items-center justify-center">
-            <BookOpen className="w-4 h-4 text-white" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] flex items-center justify-center shadow-lg">
+            <Sparkles className="w-5 h-5 text-white" />
           </div>
-          <span className="font-bold text-[#0F172A]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+          <span className="font-bold text-[#1E293B] text-lg" style={{ fontFamily: 'Outfit, sans-serif' }}>
             MedRevision
           </span>
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 hover:bg-[#F1F5F9] rounded-lg"
+          className="p-2 hover:bg-[#F0F4FF] rounded-xl transition-colors"
           data-testid="mobile-menu-btn"
         >
-          {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {sidebarOpen ? <X className="w-6 h-6 text-[#4F46E5]" /> : <Menu className="w-6 h-6 text-[#4F46E5]" />}
         </button>
       </div>
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-screen w-64 bg-white border-r border-[#E2E8F0] z-50 transform transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed top-0 left-0 h-screen w-72 bg-white border-r border-[#E2E8F0] z-50 transform transition-transform duration-300 lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         data-testid="sidebar"
       >
         {/* Logo */}
-        <div className="h-16 flex items-center gap-3 px-4 border-b border-[#E2E8F0]">
-          <div className="w-10 h-10 bg-[#0F172A] rounded-xl flex items-center justify-center">
-            <BookOpen className="w-5 h-5 text-white" />
+        <div className="h-20 flex items-center gap-3 px-6 border-b border-[#E2E8F0]">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] flex items-center justify-center shadow-lg shadow-indigo-500/30">
+            <Sparkles className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="font-bold text-[#0F172A]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+            <h1 className="font-bold text-xl text-[#1E293B]" style={{ fontFamily: 'Outfit, sans-serif' }}>
               MedRevision
             </h1>
-            <p className="text-xs text-[#64748B]">Révision médicale</p>
+            <p className="text-xs text-[#64748B]">Révision intelligente</p>
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className="p-4 space-y-1">
+        <nav className="p-4 space-y-2">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
@@ -88,30 +88,35 @@ export default function Layout({ children }) {
               }
               data-testid={`nav-${item.path.replace('/', '') || 'dashboard'}`}
             >
-              <item.icon className="w-5 h-5" />
+              <div 
+                className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{ backgroundColor: `${item.color}15` }}
+              >
+                <item.icon className="w-5 h-5" style={{ color: item.color }} />
+              </div>
               <span>{item.label}</span>
             </NavLink>
           ))}
         </nav>
 
         {/* User section */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[#E2E8F0]">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 bg-[#2563EB] rounded-full flex items-center justify-center text-white font-medium">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[#E2E8F0] bg-gradient-to-t from-white to-transparent">
+          <div className="flex items-center gap-3 mb-4 p-3 bg-[#F0F4FF] rounded-xl">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#4F46E5] to-[#EC4899] flex items-center justify-center text-white font-bold text-lg">
               {user?.name?.charAt(0) || 'U'}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-[#0F172A] truncate">{user?.name || 'Utilisateur'}</p>
+              <p className="font-semibold text-[#1E293B] truncate">{user?.name || 'Utilisateur'}</p>
               <p className="text-xs text-[#64748B] truncate">{user?.email}</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-2 px-3 py-2 text-[#64748B] hover:text-[#E11D48] hover:bg-[#FFE4E6] rounded-lg transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 text-[#EF4444] hover:bg-[#FEE2E2] rounded-xl transition-all font-medium"
             data-testid="logout-btn"
           >
-            <LogOut className="w-4 h-4" />
-            <span className="text-sm">Déconnexion</span>
+            <LogOut className="w-5 h-5" />
+            <span>Déconnexion</span>
           </button>
         </div>
       </aside>
@@ -119,14 +124,14 @@ export default function Layout({ children }) {
       {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Main content */}
-      <main className="lg:ml-64 min-h-screen pt-16 lg:pt-0">
-        <div className="p-4 sm:p-6 lg:p-8">
+      <main className="lg:ml-72 min-h-screen pt-16 lg:pt-0">
+        <div className="p-6 lg:p-8">
           {children}
         </div>
       </main>

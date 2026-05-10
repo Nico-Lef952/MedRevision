@@ -52,7 +52,7 @@ export default function QuizPage() {
   const [selectedSubject, setSelectedSubject] = useState(searchParams.get('subject_id') || '');
   const [selectedCourse, setSelectedCourse] = useState(searchParams.get('course_id') || '');
   const [questionCount, setQuestionCount] = useState(parseInt(searchParams.get('auto_count')) || 10);
-  const [questionTypes, setQuestionTypes] = useState(['qi', 'qrm', 'qroc']);
+  const [questionTypes, setQuestionTypes] = useState(['qi', 'qrm', 'qroc', 'dp', 'qcm', 'vrai_faux', 'cas_clinique']);
 
   // Quiz state
   const [session, setSession] = useState(null);
@@ -579,7 +579,10 @@ export default function QuizPage() {
               { value: 'qi', label: 'QI' },
               { value: 'qrm', label: 'QRM' },
               { value: 'qroc', label: 'QROC' },
-              { value: 'dp', label: 'Dossier progressif' }
+              { value: 'dp', label: 'Dossier progressif' },
+              { value: 'qcm', label: 'QCM (legacy)' },
+              { value: 'vrai_faux', label: 'Vrai/Faux (legacy)' },
+              { value: 'cas_clinique', label: 'Cas clinique (legacy)' }
             ].map(({ value, label }) => (
               <button
                 key={value}

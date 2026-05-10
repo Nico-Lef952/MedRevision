@@ -22,7 +22,7 @@ export default function ExamPage() {
     subject_id: '',
     question_count: 30,
     duration_minutes: 60,
-    question_types: ['qi', 'qrm', 'qroc', 'dp']
+    question_types: ['qi', 'qrm', 'qroc', 'dp', 'qcm', 'vrai_faux', 'cas_clinique']
   });
   const [session, setSession] = useState(null);
   const [answers, setAnswers] = useState({});

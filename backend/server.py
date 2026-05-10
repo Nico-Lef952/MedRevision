@@ -126,28 +126,48 @@ Retourne UNIQUEMENT le JSON, sans texte avant ou après."""
         }
 
 async def generate_questions_with_ai(content: str, subject_name: str, analysis: dict) -> list:
-    """Generate various question types from course content"""
+    """Generate EDN-style questions: QI (1 correct), QRM (multiple correct), QROC (open short), DP (clinical case series)"""
     try:
         chat = LlmChat(
             api_key=EMERGENT_KEY,
             session_id=f"questions-{uuid.uuid4()}",
-            system_message="""Tu es un expert en création de questions médicales pour étudiants en médecine (DFASM).
-Génère des questions variées à partir du cours. Retourne un JSON array avec chaque question ayant:
-- "type": "qcm" | "vrai_faux" | "flashcard" | "cas_clinique" | "qroc"
-- "question": l'énoncé
-- "options": array d'options (OBLIGATOIRE pour tous les types)
-  - Pour QCM: 5 options avec "text" et "is_correct" (1-2 correctes)
-  - Pour vrai_faux: [{"text": "Vrai", "is_correct": true/false}, {"text": "Faux", "is_correct": false/true}]
-  - Pour flashcard: [{"text": "la réponse", "is_correct": true}]
-  - Pour cas_clinique: 5 options diagnostiques/thérapeutiques
-  - Pour qroc: [{"text": "réponse attendue", "is_correct": true}]
-- "answer": réponse correcte textuelle
-- "explanation": explication détaillée de la réponse
-- "difficulty": 1-3 (1=facile, 2=moyen, 3=difficile)
-- "concepts": notions liées du cours
+            system_message="""Tu es un expert en création de questions pour les EDN (Épreuves Dématérialisées Nationales) en France pour les étudiants en médecine.
 
-Génère 12-15 questions variées avec au moins 2 de chaque type.
-Pour les cas cliniques, crée un scénario patient réaliste et détaillé.
+Génère des questions strictement alignées sur le format EDN officiel. Retourne un JSON array avec ces types EXCLUSIVEMENT :
+
+1. **QI (Question Isolée)** - une seule bonne réponse parmi 5 propositions
+   - "type": "qi"
+   - "options": 5 propositions, EXACTEMENT 1 avec is_correct: true
+
+2. **QRM (Question à Réponses Multiples)** - plusieurs bonnes réponses parmi 5
+   - "type": "qrm"
+   - "options": 5 propositions, 2 à 4 avec is_correct: true
+
+3. **QROC (Question à Réponse Ouverte Courte)** - réponse textuelle courte
+   - "type": "qroc"
+   - "options": [{"text": "réponse attendue concise (max 5 mots)", "is_correct": true}]
+   - "answer": réponse complète détaillée
+
+4. **DP (Dossier Progressif)** - série de QI/QRM autour d'un cas clinique
+   - "type": "dp"
+   - "vignette": scénario clinique détaillé (anamnèse, examen, biologie)
+   - "sub_questions": array de 3-5 QI/QRM avec leur "question", "options", "explanation"
+   - "options": [] (au niveau parent)
+   - "answer": "Voir sous-questions"
+
+Pour CHAQUE question :
+- "question": énoncé clair et précis
+- "explanation": explication détaillée référençant les notions du cours (3-5 phrases)
+- "difficulty": 1 (DFASM1), 2 (DFASM2), 3 (DFASM3/internat)
+- "concepts": tableau de 2-4 notions liées du cours
+- "rang": "A" (connaissances minimales) ou "B" (avancé)
+
+Génère 12-15 questions variées :
+- 5-6 QI
+- 4-5 QRM
+- 2-3 QROC
+- 1 DP avec 3-5 sous-questions
+
 Retourne UNIQUEMENT le JSON array, sans texte avant ou après."""
         ).with_model("openai", "gpt-5.2")
         
@@ -159,18 +179,16 @@ Retourne UNIQUEMENT le JSON array, sans texte avant ou après."""
             json_match = re.search(r'\[[\s\S]*\]', response)
             if json_match:
                 questions = json.loads(json_match.group())
-                # Ensure vrai_faux questions have proper options
+                # Normalize and validate
                 for q in questions:
-                    if q.get("type") == "vrai_faux" and (not q.get("options") or len(q.get("options", [])) < 2):
-                        # Determine correct answer based on the question
-                        is_true = "vrai" in q.get("answer", "").lower()
-                        q["options"] = [
-                            {"text": "Vrai", "is_correct": is_true},
-                            {"text": "Faux", "is_correct": not is_true}
-                        ]
+                    qtype = q.get("type", "qi")
+                    if qtype == "qi" and (not q.get("options") or len(q.get("options", [])) != 5):
+                        q["type"] = "qi"
+                    if qtype not in ["qi", "qrm", "qroc", "dp"]:
+                        q["type"] = "qi"
                 return questions
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"JSON parse error: {e}")
         
         return []
     except Exception as e:
@@ -269,6 +287,23 @@ class QuizAnswer(BaseModel):
 class FlashcardReview(BaseModel):
     quality: int  # 0-5 for spaced repetition
 
+class QuestionProgressUpdate(BaseModel):
+    is_correct: bool
+    quality: Optional[int] = None  # 0-5 self-assessment quality
+    time_spent: int = 0
+
+class SnoozeRequest(BaseModel):
+    days: int = 1  # 1, 7, or 30
+
+class ExamStart(BaseModel):
+    subject_id: Optional[str] = None
+    question_count: int = 30
+    duration_minutes: int = 60
+    question_types: Optional[List[str]] = None
+
+class ExamSubmit(BaseModel):
+    answers: List[dict]  # [{question_id, selected_options, time_spent}]
+
 # Lifespan context
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -282,6 +317,10 @@ async def lifespan(app: FastAPI):
     await db.questions.create_index([("user_id", 1), ("course_id", 1)])
     await db.quiz_sessions.create_index([("user_id", 1), ("created_at", -1)])
     await db.flashcard_progress.create_index([("user_id", 1), ("next_review", 1)])
+    await db.question_progress.create_index([("user_id", 1), ("question_id", 1)], unique=True)
+    await db.question_progress.create_index([("user_id", 1), ("next_review", 1)])
+    await db.question_progress.create_index([("user_id", 1), ("status", 1)])
+    await db.exam_sessions.create_index([("user_id", 1), ("created_at", -1)])
     
     # Seed admin
     await seed_admin()
@@ -698,13 +737,16 @@ async def process_course_ai(course_id: str, content: str, subject_name: str, use
                     "user_id": user_id,
                     "course_id": course_id,
                     "subject_id": subject_id,
-                    "type": q.get("type", "qcm"),
+                    "type": q.get("type", "qi"),
                     "question": q.get("question", ""),
                     "options": q.get("options", []),
                     "answer": q.get("answer", ""),
                     "explanation": q.get("explanation", ""),
                     "difficulty": q.get("difficulty", 2),
                     "concepts": q.get("concepts", []),
+                    "rang": q.get("rang", "A"),
+                    "vignette": q.get("vignette", ""),
+                    "sub_questions": q.get("sub_questions", []),
                     "created_at": datetime.now(timezone.utc).isoformat()
                 })
             
@@ -1054,7 +1096,10 @@ async def get_questions(
         "answer": q["answer"],
         "explanation": q["explanation"],
         "difficulty": q.get("difficulty", 2),
-        "concepts": q.get("concepts", [])
+        "concepts": q.get("concepts", []),
+        "rang": q.get("rang", "A"),
+        "vignette": q.get("vignette", ""),
+        "sub_questions": q.get("sub_questions", [])
     } for q in questions]
 
 # ==================== QUIZ ROUTES ====================
@@ -1074,6 +1119,31 @@ async def start_quiz(data: QuizStart, user: dict = Depends(get_current_user)):
             "is_correct": False
         }).distinct("question_id")
         query["_id"] = {"$in": [ObjectId(qid) for qid in wrong_questions]}
+    elif data.mode == "due":
+        # Questions due for review (ancrage)
+        now = datetime.now(timezone.utc).isoformat()
+        progress_list = await db.question_progress.find({
+            "user_id": user["id"],
+            "next_review": {"$lte": now},
+            "status": {"$ne": "anchored"},
+            "$or": [{"snoozed_until": None}, {"snoozed_until": {"$lte": now}}]
+        }).to_list(200)
+        ids = [ObjectId(p["question_id"]) for p in progress_list]
+        if not ids:
+            raise HTTPException(status_code=404, detail="Aucune question à réviser aujourd'hui")
+        query["_id"] = {"$in": ids}
+    elif data.mode == "bookmarked":
+        progress_list = await db.question_progress.find({
+            "user_id": user["id"],
+            "bookmarked": True
+        }).to_list(200)
+        ids = [ObjectId(p["question_id"]) for p in progress_list]
+        if not ids:
+            raise HTTPException(status_code=404, detail="Aucune question favorite")
+        query["_id"] = {"$in": ids}
+    elif data.mode == "new":
+        answered_ids = await db.question_progress.find({"user_id": user["id"]}).distinct("question_id")
+        query["_id"] = {"$nin": [ObjectId(qid) for qid in answered_ids]}
     
     if data.question_types:
         query["type"] = {"$in": data.question_types}
@@ -1087,7 +1157,7 @@ async def start_quiz(data: QuizStart, user: dict = Depends(get_current_user)):
     questions = await db.questions.aggregate(pipeline).to_list(data.question_count)
     
     if not questions:
-        raise HTTPException(status_code=404, detail="No questions found for this criteria")
+        raise HTTPException(status_code=404, detail="Aucune question trouvée pour ces critères")
     
     # Create quiz session
     session_doc = {
@@ -1112,7 +1182,12 @@ async def start_quiz(data: QuizStart, user: dict = Depends(get_current_user)):
             "type": q["type"],
             "question": q["question"],
             "options": q.get("options", []),
-            "difficulty": q.get("difficulty", 2)
+            "vignette": q.get("vignette", ""),
+            "sub_questions": q.get("sub_questions", []),
+            "course_id": q.get("course_id", ""),
+            "subject_id": q.get("subject_id", ""),
+            "difficulty": q.get("difficulty", 2),
+            "rang": q.get("rang", "A")
         } for q in questions],
         "total": len(questions)
     }
@@ -1156,6 +1231,13 @@ async def submit_answer(session_id: str, data: QuizAnswer, user: dict = Depends(
             "$push": {"answers": answer_doc},
             "$inc": {"score": 1 if is_correct else 0}
         }
+    )
+    
+    # Update question progress (ancrage)
+    await update_question_progress(
+        data.question_id,
+        QuestionProgressUpdate(is_correct=is_correct, time_spent=data.time_spent),
+        user
     )
     
     return {
@@ -1304,6 +1386,431 @@ async def review_flashcard(card_id: str, data: FlashcardReview, user: dict = Dep
         "next_review": progress["next_review"],
         "ease_factor": progress["ease_factor"]
     }
+
+# ==================== QUESTION PROGRESS / ANCRAGE ROUTES ====================
+
+def calculate_next_review(progress: dict, is_correct: bool, quality: int = None) -> dict:
+    """Hybrid algorithm: SM-2 + EDN-style (3 consecutive correct = anchored)"""
+    if quality is None:
+        quality = 5 if is_correct else 1
+    
+    progress.setdefault("interval", 1)
+    progress.setdefault("ease_factor", 2.5)
+    progress.setdefault("repetitions", 0)
+    progress.setdefault("consecutive_correct", 0)
+    progress.setdefault("anchor_count", 0)
+    
+    if is_correct:
+        progress["consecutive_correct"] = progress.get("consecutive_correct", 0) + 1
+        # EDN-style: 3 consecutive correct = anchored
+        if progress["consecutive_correct"] >= 3:
+            progress["status"] = "anchored"
+            progress["anchor_count"] = progress.get("anchor_count", 0) + 1
+        elif progress["consecutive_correct"] >= 1:
+            progress["status"] = "acquired"
+        
+        # SM-2 interval
+        if quality < 3:
+            progress["repetitions"] = 0
+            progress["interval"] = 1
+        else:
+            if progress["repetitions"] == 0:
+                progress["interval"] = 1
+            elif progress["repetitions"] == 1:
+                progress["interval"] = 6
+            else:
+                progress["interval"] = round(progress["interval"] * progress["ease_factor"])
+            progress["repetitions"] += 1
+    else:
+        progress["consecutive_correct"] = 0
+        progress["repetitions"] = 0
+        progress["interval"] = 1
+        progress["status"] = "to_review"
+    
+    # Update ease factor (SM-2)
+    progress["ease_factor"] = max(1.3, progress["ease_factor"] + 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
+    
+    next_review = datetime.now(timezone.utc) + timedelta(days=progress["interval"])
+    progress["next_review"] = next_review.isoformat()
+    progress["last_review"] = datetime.now(timezone.utc).isoformat()
+    
+    return progress
+
+
+@api_router.post("/questions/{question_id}/progress")
+async def update_question_progress(question_id: str, data: QuestionProgressUpdate, user: dict = Depends(get_current_user)):
+    """Update question progress with hybrid SM-2 + EDN ancrage algorithm"""
+    question = await db.questions.find_one({"_id": ObjectId(question_id), "user_id": user["id"]})
+    if not question:
+        raise HTTPException(status_code=404, detail="Question not found")
+    
+    progress = await db.question_progress.find_one({
+        "user_id": user["id"],
+        "question_id": question_id
+    }) or {
+        "user_id": user["id"],
+        "question_id": question_id,
+        "subject_id": question.get("subject_id"),
+        "course_id": question.get("course_id"),
+        "status": "new",
+        "bookmarked": False,
+        "snoozed_until": None,
+        "interval": 1,
+        "ease_factor": 2.5,
+        "repetitions": 0,
+        "consecutive_correct": 0,
+        "anchor_count": 0,
+        "total_attempts": 0,
+        "correct_attempts": 0
+    }
+    
+    progress["total_attempts"] = progress.get("total_attempts", 0) + 1
+    if data.is_correct:
+        progress["correct_attempts"] = progress.get("correct_attempts", 0) + 1
+    
+    progress = calculate_next_review(progress, data.is_correct, data.quality)
+    progress["snoozed_until"] = None  # Reset snooze on actual review
+    
+    await db.question_progress.update_one(
+        {"user_id": user["id"], "question_id": question_id},
+        {"$set": {k: v for k, v in progress.items() if k not in ["_id"]}},
+        upsert=True
+    )
+    
+    return {
+        "status": progress.get("status"),
+        "next_review": progress.get("next_review"),
+        "consecutive_correct": progress.get("consecutive_correct"),
+        "anchor_count": progress.get("anchor_count")
+    }
+
+
+@api_router.post("/questions/{question_id}/snooze")
+async def snooze_question(question_id: str, data: SnoozeRequest, user: dict = Depends(get_current_user)):
+    """Snooze a question for N days (1, 7, or 30)"""
+    days = max(1, min(data.days, 90))
+    snooze_until = (datetime.now(timezone.utc) + timedelta(days=days)).isoformat()
+    
+    await db.question_progress.update_one(
+        {"user_id": user["id"], "question_id": question_id},
+        {
+            "$set": {
+                "snoozed_until": snooze_until,
+                "status": "snoozed",
+                "user_id": user["id"],
+                "question_id": question_id
+            }
+        },
+        upsert=True
+    )
+    
+    return {"snoozed_until": snooze_until, "days": days}
+
+
+@api_router.post("/questions/{question_id}/bookmark")
+async def toggle_bookmark(question_id: str, user: dict = Depends(get_current_user)):
+    """Toggle bookmark on a question"""
+    progress = await db.question_progress.find_one({
+        "user_id": user["id"],
+        "question_id": question_id
+    })
+    
+    new_state = not (progress or {}).get("bookmarked", False)
+    
+    await db.question_progress.update_one(
+        {"user_id": user["id"], "question_id": question_id},
+        {
+            "$set": {
+                "bookmarked": new_state,
+                "user_id": user["id"],
+                "question_id": question_id
+            }
+        },
+        upsert=True
+    )
+    
+    return {"bookmarked": new_state}
+
+
+@api_router.get("/questions/due")
+async def get_due_questions(
+    user: dict = Depends(get_current_user),
+    subject_id: Optional[str] = None,
+    limit: int = 20
+):
+    """Get questions due for review today (ancrage)"""
+    now = datetime.now(timezone.utc).isoformat()
+    
+    progress_query = {
+        "user_id": user["id"],
+        "$or": [
+            {"next_review": {"$lte": now}, "status": {"$ne": "anchored"}},
+        ]
+    }
+    
+    due_progress = await db.question_progress.find(progress_query).limit(limit).to_list(limit)
+    
+    # Filter out snoozed
+    due_progress = [
+        p for p in due_progress
+        if not p.get("snoozed_until") or p.get("snoozed_until") <= now
+    ]
+    
+    question_ids = [ObjectId(p["question_id"]) for p in due_progress]
+    
+    q_query = {"_id": {"$in": question_ids}, "user_id": user["id"]}
+    if subject_id:
+        q_query["subject_id"] = subject_id
+    
+    questions = await db.questions.find(q_query).limit(limit).to_list(limit)
+    
+    progress_map = {p["question_id"]: p for p in due_progress}
+    
+    result = []
+    for q in questions:
+        p = progress_map.get(str(q["_id"]), {})
+        result.append({
+            "id": str(q["_id"]),
+            "type": q["type"],
+            "question": q["question"],
+            "options": q.get("options", []),
+            "subject_id": q["subject_id"],
+            "course_id": q["course_id"],
+            "difficulty": q.get("difficulty", 2),
+            "vignette": q.get("vignette", ""),
+            "sub_questions": q.get("sub_questions", []),
+            "status": p.get("status", "new"),
+            "consecutive_correct": p.get("consecutive_correct", 0),
+        })
+    
+    return result
+
+
+@api_router.get("/questions/by-status")
+async def get_questions_by_status(
+    user: dict = Depends(get_current_user),
+    status: str = "new",
+    subject_id: Optional[str] = None,
+    limit: int = 50
+):
+    """Get questions filtered by status: new, acquired, anchored, to_review, snoozed, bookmarked"""
+    if status == "new":
+        # Questions never answered
+        answered_ids = await db.question_progress.find({"user_id": user["id"]}).distinct("question_id")
+        q_query = {
+            "user_id": user["id"],
+            "_id": {"$nin": [ObjectId(qid) for qid in answered_ids]}
+        }
+        if subject_id:
+            q_query["subject_id"] = subject_id
+        questions = await db.questions.find(q_query).limit(limit).to_list(limit)
+        return [_serialize_question(q, {}) for q in questions]
+    
+    if status == "bookmarked":
+        progress_query = {"user_id": user["id"], "bookmarked": True}
+    elif status in ["acquired", "anchored", "to_review", "snoozed"]:
+        progress_query = {"user_id": user["id"], "status": status}
+    else:
+        raise HTTPException(status_code=400, detail="Invalid status")
+    
+    progress_list = await db.question_progress.find(progress_query).limit(limit).to_list(limit)
+    progress_map = {p["question_id"]: p for p in progress_list}
+    question_ids = [ObjectId(qid) for qid in progress_map.keys()]
+    
+    q_query = {"_id": {"$in": question_ids}, "user_id": user["id"]}
+    if subject_id:
+        q_query["subject_id"] = subject_id
+    
+    questions = await db.questions.find(q_query).to_list(limit)
+    return [_serialize_question(q, progress_map.get(str(q["_id"]), {})) for q in questions]
+
+
+def _serialize_question(q: dict, p: dict) -> dict:
+    return {
+        "id": str(q["_id"]),
+        "type": q["type"],
+        "question": q["question"],
+        "options": q.get("options", []),
+        "subject_id": q["subject_id"],
+        "course_id": q["course_id"],
+        "difficulty": q.get("difficulty", 2),
+        "vignette": q.get("vignette", ""),
+        "sub_questions": q.get("sub_questions", []),
+        "status": p.get("status", "new"),
+        "bookmarked": p.get("bookmarked", False),
+        "snoozed_until": p.get("snoozed_until"),
+        "consecutive_correct": p.get("consecutive_correct", 0),
+        "anchor_count": p.get("anchor_count", 0),
+    }
+
+
+@api_router.get("/questions/progress-summary")
+async def get_progress_summary(user: dict = Depends(get_current_user)):
+    """Get summary counts of questions by status"""
+    total = await db.questions.count_documents({"user_id": user["id"]})
+    progress_counts = await db.question_progress.aggregate([
+        {"$match": {"user_id": user["id"]}},
+        {"$group": {"_id": "$status", "count": {"$sum": 1}}}
+    ]).to_list(20)
+    
+    counts = {p["_id"]: p["count"] for p in progress_counts}
+    answered = sum(counts.values())
+    
+    bookmarked_count = await db.question_progress.count_documents({"user_id": user["id"], "bookmarked": True})
+    
+    now = datetime.now(timezone.utc).isoformat()
+    due_count = await db.question_progress.count_documents({
+        "user_id": user["id"],
+        "next_review": {"$lte": now},
+        "status": {"$ne": "anchored"},
+        "$or": [{"snoozed_until": None}, {"snoozed_until": {"$lte": now}}]
+    })
+    
+    return {
+        "total": total,
+        "new": max(0, total - answered),
+        "acquired": counts.get("acquired", 0),
+        "anchored": counts.get("anchored", 0),
+        "to_review": counts.get("to_review", 0),
+        "snoozed": counts.get("snoozed", 0),
+        "bookmarked": bookmarked_count,
+        "due_today": due_count
+    }
+
+
+# ==================== EXAM MODE ROUTES ====================
+
+@api_router.post("/exam/start")
+async def start_exam(data: ExamStart, user: dict = Depends(get_current_user)):
+    """Start a timed exam session (ECN/EDN style)"""
+    query = {"user_id": user["id"]}
+    if data.subject_id:
+        query["subject_id"] = data.subject_id
+    if data.question_types:
+        query["type"] = {"$in": data.question_types}
+    
+    pipeline = [
+        {"$match": query},
+        {"$sample": {"size": data.question_count}}
+    ]
+    questions = await db.questions.aggregate(pipeline).to_list(data.question_count)
+    
+    if not questions:
+        raise HTTPException(status_code=404, detail="Aucune question disponible pour ces critères")
+    
+    started_at = datetime.now(timezone.utc)
+    ends_at = started_at + timedelta(minutes=data.duration_minutes)
+    
+    session_doc = {
+        "user_id": user["id"],
+        "type": "exam",
+        "subject_id": data.subject_id,
+        "question_ids": [str(q["_id"]) for q in questions],
+        "duration_minutes": data.duration_minutes,
+        "started_at": started_at.isoformat(),
+        "ends_at": ends_at.isoformat(),
+        "submitted": False,
+        "score": 0,
+        "total": len(questions),
+        "created_at": started_at.isoformat()
+    }
+    
+    result = await db.exam_sessions.insert_one(session_doc)
+    
+    return {
+        "session_id": str(result.inserted_id),
+        "questions": [{
+            "id": str(q["_id"]),
+            "type": q["type"],
+            "question": q["question"],
+            "options": [{"text": o.get("text", "")} for o in q.get("options", [])],  # No is_correct exposed
+            "vignette": q.get("vignette", ""),
+            "sub_questions": q.get("sub_questions", []),
+            "difficulty": q.get("difficulty", 2),
+        } for q in questions],
+        "duration_minutes": data.duration_minutes,
+        "ends_at": ends_at.isoformat(),
+        "total": len(questions)
+    }
+
+
+@api_router.post("/exam/{session_id}/submit")
+async def submit_exam(session_id: str, data: ExamSubmit, user: dict = Depends(get_current_user)):
+    """Submit all exam answers at the end and get final scoring"""
+    session = await db.exam_sessions.find_one({"_id": ObjectId(session_id), "user_id": user["id"]})
+    if not session:
+        raise HTTPException(status_code=404, detail="Exam session not found")
+    if session.get("submitted"):
+        raise HTTPException(status_code=400, detail="Exam already submitted")
+    
+    score = 0
+    detailed = []
+    for ans in data.answers:
+        qid = ans.get("question_id")
+        selected = ans.get("selected_options", [])
+        question = await db.questions.find_one({"_id": ObjectId(qid)})
+        if not question:
+            continue
+        correct_indices = [i for i, opt in enumerate(question.get("options", [])) if opt.get("is_correct")]
+        is_correct = sorted(selected) == sorted(correct_indices)
+        if is_correct:
+            score += 1
+        
+        # Update progress
+        await update_question_progress(qid, QuestionProgressUpdate(is_correct=is_correct, time_spent=ans.get("time_spent", 0)), user)
+        
+        detailed.append({
+            "question_id": qid,
+            "question": question["question"],
+            "selected": selected,
+            "correct_options": correct_indices,
+            "is_correct": is_correct,
+            "explanation": question.get("explanation", ""),
+            "options": question.get("options", [])
+        })
+    
+    total = session["total"]
+    percentage = round((score / total) * 100, 1) if total else 0
+    
+    completed_at = datetime.now(timezone.utc).isoformat()
+    await db.exam_sessions.update_one(
+        {"_id": ObjectId(session_id)},
+        {"$set": {
+            "submitted": True,
+            "completed_at": completed_at,
+            "score": score,
+            "percentage": percentage,
+            "detailed": detailed
+        }}
+    )
+    
+    return {
+        "score": score,
+        "total": total,
+        "percentage": percentage,
+        "detailed": detailed,
+        "completed_at": completed_at
+    }
+
+
+@api_router.get("/exam/history")
+async def get_exam_history(user: dict = Depends(get_current_user)):
+    """Get user's past exam sessions"""
+    sessions = await db.exam_sessions.find(
+        {"user_id": user["id"], "submitted": True}
+    ).sort("completed_at", -1).limit(20).to_list(20)
+    
+    return [{
+        "id": str(s["_id"]),
+        "subject_id": s.get("subject_id"),
+        "score": s.get("score", 0),
+        "total": s.get("total", 0),
+        "percentage": s.get("percentage", 0),
+        "duration_minutes": s.get("duration_minutes", 0),
+        "started_at": s.get("started_at", ""),
+        "completed_at": s.get("completed_at", "")
+    } for s in sessions]
+
 
 # ==================== STATISTICS ROUTES ====================
 
@@ -1480,12 +1987,29 @@ async def get_dashboard(user: dict = Depends(get_current_user)):
     reviewed_count = await db.flashcard_progress.count_documents({"user_id": user["id"]})
     new_flashcards = all_flashcard_count - reviewed_count
     
+    # Question progress summary (ancrage)
+    progress_summary = await get_progress_summary(user)
+    
+    # Activity heatmap (last 30 days)
+    thirty_days_ago = (datetime.now(timezone.utc) - timedelta(days=30)).isoformat()
+    activity_pipeline = [
+        {"$match": {"user_id": user["id"], "created_at": {"$gte": thirty_days_ago}}},
+        {"$project": {"date": {"$substr": ["$created_at", 0, 10]}, "is_correct": 1}},
+        {"$group": {"_id": "$date", "count": {"$sum": 1}, "correct": {"$sum": {"$cond": ["$is_correct", 1, 0]}}}},
+        {"$sort": {"_id": 1}}
+    ]
+    activity_data = await db.quiz_answers.aggregate(activity_pipeline).to_list(30)
+    heatmap = [{"date": a["_id"], "count": a["count"], "correct": a["correct"]} for a in activity_data]
+    
     # Stats
     stats = await get_stats_overview(user)
     
     return {
         "recent_courses": recent,
         "due_flashcards": due_count + max(0, new_flashcards),
+        "due_questions": progress_summary["due_today"],
+        "progress_summary": progress_summary,
+        "heatmap": heatmap,
         "stats": stats
     }
 

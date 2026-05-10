@@ -1,0 +1,43 @@
+{
+  "summary": "Validated EDN-style upgrade of MedRevision: backend (21 pytest cases - all PASS), frontend e2e via Playwright (login, dashboard new fields, sidebar logo navigation, Ancrage page with 6 status cards + due-today, Examen blanc setup→start→submit→results, Quiz with 7 modes + 4 EDN types, bookmark + snooze 1d/7d/30d, view-course-link, courses page). All new endpoints work, exam options correctly hide is_correct, ancrage 3-correct→anchored verified, snooze sets status='snoozed', dashboard returns due_questions/progress_summary/heatmap.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/quiz/start mode=subject", "issue": "Default frontend questionTypes=['qi','qrm','qroc'] filters out legacy types (qcm/vrai_faux/cas_clinique). Result: 404 'Aucune question trouvée' when user starts a subject quiz with default types because most existing 28 questions are legacy. This is a frontend default-value choice; backend behaves correctly. Recommend frontend to default-include all types or backend to fall back when filter empty."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "Quiz par matière (default types)", "issue": "Defaults to QI/QRM/QROC only, but 19/28 existing questions are legacy (qcm/vrai_faux/cas_clinique). User gets 404. Workaround works (transversal mode + adjust types).", "affected_selectors": ["[data-testid=\"start-quiz-btn\"]", "[data-testid=\"type-qi\"]", "[data-testid=\"type-qrm\"]", "[data-testid=\"type-qroc\"]", "[data-testid=\"type-dp\"]"]}
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_medrevision.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "QuizPage.js line 55: Change default questionTypes to include legacy types ['qi','qrm','qroc','qcm','vrai_faux','cas_clinique'] OR show all legacy questions when filter not explicitly set, so that existing 28 questions remain usable in subject mode.",
+    "Optional: Add UI hint on Quiz setup explaining that toggling all types may exclude legacy content."
+  ],
+  "critical_code_review_comments": [
+    "/app/backend/server.py is 2037 lines - exceeds the 700-line guideline. Split into modules: routes/{auth, courses, questions, quiz, exam, dashboard, stats}.py for maintainability.",
+    "calculate_next_review (server.py:1392) sets status='acquired' even after the 1st correct answer; UX-wise 'acquired' should normally require >=2 correct. Minor logic concern but tests still pass per spec (3 consecutive = anchored).",
+    "Hardcoded CORS origin in server.py:2025-2028. Should come from CORS_ORIGINS env var (which exists and is set to '*').",
+    "/api/exam/{id}/submit: invokes update_question_progress with QuestionProgressUpdate object positionally as user dict — works but is fragile if signature evolves; consider extracting core logic into helper function.",
+    "Mongo aggregation in /api/dashboard heatmap uses string substr on created_at which assumes ISO format — OK for now but document this invariant.",
+    "Frontend QuizPage default type filter excludes legacy questions (see action items)."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_medrevision.py (NEW)",
+    "/app/backend/tests/__init__.py (NEW)"
+  ],
+  "success_rate": {"backend": "100% (21/21)", "frontend": "100% of tested flows (login, dashboard, ancrage, exam full cycle, quiz transversal-qroc with bookmark+snooze+view-course)"},
+  "test_credentials": "admin@medrevision.com / admin123 (verified working via /api/auth/login and frontend AuthPage)",
+  "seed_data_creation": "Used existing seed: 28 questions (8 qcm, 7 vrai_faux, 4 cas_clinique, 4 qroc, 5 flashcard), 4 courses, 2 subjects (Cardiologie, Pneumologie). No new seed created.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend test file at /app/backend/tests/test_medrevision.py is reusable as regression suite. Run: pytest /app/backend/tests/ -v. Known minor: Quiz subject mode + default EDN types returns 404 with current legacy seed. Existing UI flows (auth, dashboard, ancrage, exam, quiz transversal/qroc, courses list) all work with proper data-testid coverage.",
+  "rca of the issue": "Quiz 404 in subject mode RCA: frontend QuizPage.js useState(['qi','qrm','qroc']) -> POST /api/quiz/start with question_types=['qi','qrm','qroc'] -> backend filters {type:{$in:['qi','qrm','qroc']}} -> only 4 qroc match -> when also filtered by subject_id (Cardiologie has 0 qroc), result is empty -> 404. Mitigation: include legacy types in default OR omit type filter by default."
+}

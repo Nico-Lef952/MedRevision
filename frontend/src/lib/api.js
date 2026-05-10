@@ -66,7 +66,20 @@ export const coursesApi = {
 
 // Questions API
 export const questionsApi = {
-  getAll: (params) => api.get(`/api/questions`, { params })
+  getAll: (params) => api.get(`/api/questions`, { params }),
+  byStatus: (status, params) => api.get(`/api/questions/by-status`, { params: { status, ...params } }),
+  due: (params) => api.get(`/api/questions/due`, { params }),
+  progressSummary: () => api.get(`/api/questions/progress-summary`),
+  updateProgress: (id, data) => api.post(`/api/questions/${id}/progress`, data),
+  snooze: (id, days) => api.post(`/api/questions/${id}/snooze`, { days }),
+  bookmark: (id) => api.post(`/api/questions/${id}/bookmark`)
+};
+
+// Exam API
+export const examApi = {
+  start: (data) => api.post(`/api/exam/start`, data),
+  submit: (sessionId, data) => api.post(`/api/exam/${sessionId}/submit`, data),
+  history: () => api.get(`/api/exam/history`)
 };
 
 // Quiz API

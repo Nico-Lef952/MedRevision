@@ -11,6 +11,8 @@ import QuizPage from './pages/QuizPage';
 import FlashcardsPage from './pages/FlashcardsPage';
 import StatsPage from './pages/StatsPage';
 import KnowledgeGraphPage from './pages/KnowledgeGraphPage';
+import AncragePage from './pages/AncragePage';
+import ExamPage from './pages/ExamPage';
 import './App.css';
 
 function ProtectedRoute({ children }) {
@@ -132,6 +134,22 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <KnowledgeGraphPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/ancrage"
+        element={
+          <ProtectedRoute>
+            <AncragePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/exam"
+        element={
+          <ProtectedRoute>
+            <ExamPage />
           </ProtectedRoute>
         }
       />

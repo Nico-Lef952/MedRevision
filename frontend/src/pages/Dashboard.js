@@ -12,7 +12,8 @@ import {
   Plus,
   Sparkles,
   Zap,
-  Target
+  Target,
+  Trophy
 } from 'lucide-react';
 
 export default function Dashboard() {
@@ -73,7 +74,7 @@ export default function Dashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <StatCard
           icon={BookOpen}
           label="Matières"
@@ -96,13 +97,51 @@ export default function Dashboard() {
           testId="stat-questions"
         />
         <StatCard
+          icon={Sparkles}
+          label="Ancrées"
+          value={data?.progress_summary?.anchored || 0}
+          gradient="from-[#22C55E] to-[#16A34A]"
+          testId="stat-anchored"
+        />
+        <StatCard
           icon={Target}
-          label="Taux de réussite"
+          label="Réussite"
           value={`${stats.success_rate || 0}%`}
           gradient="from-[#10B981] to-[#059669]"
           testId="stat-success"
         />
       </div>
+
+      {/* Ancrage Banner */}
+      {(data?.due_questions > 0 || data?.progress_summary?.to_review > 0) && (
+        <div className="relative overflow-hidden rounded-2xl p-6 text-white bg-gradient-to-br from-[#F59E0B] via-[#EF4444] to-[#EC4899] shadow-xl" data-testid="ancrage-banner">
+          <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full" />
+          <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-white/10 rounded-full" />
+          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center">
+                <Brain className="w-9 h-9" />
+              </div>
+              <div>
+                <p className="text-sm text-white/80 font-medium">Ancrage du jour</p>
+                <p className="text-3xl font-bold">{data?.due_questions || 0} questions à réviser</p>
+                <p className="text-sm text-white/80 mt-1">
+                  {data?.progress_summary?.to_review > 0 && `${data.progress_summary.to_review} à retravailler · `}
+                  {data?.progress_summary?.acquired > 0 && `${data.progress_summary.acquired} acquises`}
+                </p>
+              </div>
+            </div>
+            <Link
+              to="/ancrage"
+              className="bg-white text-[#EF4444] px-6 py-3 rounded-xl font-semibold hover:bg-white/90 transition-colors shadow-lg flex items-center gap-2 whitespace-nowrap"
+              data-testid="ancrage-cta"
+            >
+              <Zap className="w-5 h-5" />
+              Ancrer maintenant
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -207,6 +246,26 @@ export default function Dashboard() {
               data-testid="quiz-cta"
             >
               Lancer un quiz
+            </Link>
+          </div>
+
+          {/* Exam Mode */}
+          <div className="bg-gradient-to-br from-[#1E293B] to-[#0F172A] rounded-2xl p-6 text-white shadow-xl border border-[#334155]">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
+                <Trophy className="w-6 h-6 text-[#F59E0B]" />
+              </div>
+              <div>
+                <h3 className="font-bold">Examen blanc</h3>
+                <p className="text-sm text-white/70">Conditions ECN/EDN</p>
+              </div>
+            </div>
+            <Link
+              to="/exam"
+              className="block w-full bg-[#F59E0B] text-[#1E293B] text-center py-3 rounded-xl font-semibold hover:bg-[#EAB308] transition-colors"
+              data-testid="exam-cta"
+            >
+              Démarrer l'examen
             </Link>
           </div>
         </div>

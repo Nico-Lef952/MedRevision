@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { quizApi, subjectsApi, coursesApi, formatApiError } from '../lib/api';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
+import { quizApi, subjectsApi, coursesApi, questionsApi, formatApiError } from '../lib/api';
 import {
   Play,
   CheckCircle,
@@ -10,31 +10,63 @@ import {
   Trophy,
   Clock,
   Target,
-  ChevronDown
+  Bookmark,
+  BookmarkCheck,
+  AlarmClockOff,
+  BookOpen,
+  Sparkles,
+  Brain,
+  AlertCircle,
+  Star
 } from 'lucide-react';
+
+const MODE_META = {
+  subject: { label: 'Par matière', icon: BookOpen },
+  course: { label: 'Par cours', icon: BookOpen },
+  transversal: { label: 'Transversal', icon: Target },
+  errors: { label: 'Mes erreurs', icon: AlertCircle },
+  due: { label: 'À ancrer', icon: Brain },
+  bookmarked: { label: 'Mes favoris', icon: Star },
+  new: { label: 'Nouvelles', icon: Sparkles }
+};
+
+const TYPE_LABEL = {
+  qi: 'QI',
+  qrm: 'QRM',
+  qroc: 'QROC',
+  dp: 'DP',
+  qcm: 'QCM',
+  vrai_faux: 'V/F',
+  flashcard: 'Flashcard',
+  cas_clinique: 'Cas clinique'
+};
 
 export default function QuizPage() {
   const [searchParams] = useSearchParams();
   const [subjects, setSubjects] = useState([]);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   // Quiz config
-  const [mode, setMode] = useState('subject');
+  const [mode, setMode] = useState(searchParams.get('auto_mode') || 'subject');
   const [selectedSubject, setSelectedSubject] = useState(searchParams.get('subject_id') || '');
   const [selectedCourse, setSelectedCourse] = useState(searchParams.get('course_id') || '');
-  const [questionCount, setQuestionCount] = useState(10);
-  const [questionTypes, setQuestionTypes] = useState(['qcm', 'vrai_faux', 'flashcard']);
-  
+  const [questionCount, setQuestionCount] = useState(parseInt(searchParams.get('auto_count')) || 10);
+  const [questionTypes, setQuestionTypes] = useState(['qi', 'qrm', 'qroc']);
+
   // Quiz state
   const [session, setSession] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [qrocText, setQrocText] = useState('');
   const [answered, setAnswered] = useState(false);
   const [result, setResult] = useState(null);
   const [finalResult, setFinalResult] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [answering, setAnswering] = useState(false);
+  const [bookmarked, setBookmarked] = useState({});
+  const [snoozeMenu, setSnoozeMenu] = useState(false);
+  const autoStartedRef = useRef(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,11 +77,8 @@ export default function QuizPage() {
         ]);
         setSubjects(subRes.data);
         setCourses(courseRes.data);
-        
-        // Auto-set mode based on URL params
-        if (searchParams.get('course_id')) {
-          setMode('course');
-        }
+
+        if (searchParams.get('course_id')) setMode('course');
       } catch (err) {
         console.error(err);
       } finally {
@@ -59,22 +88,33 @@ export default function QuizPage() {
     fetchData();
   }, []);
 
-  const startQuiz = async () => {
+  // Auto-start quiz from query params (after navigation from Ancrage page)
+  useEffect(() => {
+    const autoMode = searchParams.get('auto_mode');
+    if (autoMode && !loading && !session && !autoStartedRef.current) {
+      autoStartedRef.current = true;
+      startQuiz(autoMode, parseInt(searchParams.get('auto_count')) || 10);
+    }
+  }, [loading]);
+
+  const startQuiz = async (overrideMode, overrideCount) => {
     try {
       const res = await quizApi.start({
-        mode,
-        subject_id: mode === 'subject' ? selectedSubject : undefined,
-        course_id: mode === 'course' ? selectedCourse : undefined,
-        question_count: questionCount,
+        mode: overrideMode || mode,
+        subject_id: (overrideMode || mode) === 'subject' ? selectedSubject : undefined,
+        course_id: (overrideMode || mode) === 'course' ? selectedCourse : undefined,
+        question_count: overrideCount || questionCount,
         question_types: questionTypes.length > 0 ? questionTypes : undefined
       });
       setSession(res.data);
       setCurrentIndex(0);
       setSelectedOptions([]);
+      setQrocText('');
       setAnswered(false);
       setResult(null);
       setFinalResult(null);
       setStartTime(Date.now());
+      setBookmarked({});
     } catch (err) {
       alert(formatApiError(err));
     }
@@ -82,18 +122,46 @@ export default function QuizPage() {
 
   const submitAnswer = async () => {
     if (answering) return;
+    const question = session.questions[currentIndex];
+
+    // For QROC, compare text loosely (case insensitive includes)
+    if (question.type === 'qroc' && qrocText.trim()) {
+      const expected = (question.options?.[0]?.text || '').toLowerCase().trim();
+      const given = qrocText.toLowerCase().trim();
+      const isCorrect = given.includes(expected) || expected.includes(given);
+
+      setAnswering(true);
+      try {
+        const timeSpent = Math.round((Date.now() - startTime) / 1000);
+        // Use selected_options [0] if matches expected, else []
+        await quizApi.answer(session.session_id, {
+          question_id: question.id,
+          selected_options: isCorrect ? [0] : [],
+          time_spent: timeSpent
+        });
+        setResult({
+          is_correct: isCorrect,
+          correct_options: [0],
+          explanation: question.explanation || `Réponse attendue : ${expected}`,
+          answer: expected
+        });
+        setAnswered(true);
+      } catch (err) {
+        alert(formatApiError(err));
+      } finally {
+        setAnswering(false);
+      }
+      return;
+    }
+
     setAnswering(true);
-    
     try {
       const timeSpent = Math.round((Date.now() - startTime) / 1000);
-      const question = session.questions[currentIndex];
-      
       const res = await quizApi.answer(session.session_id, {
         question_id: question.id,
         selected_options: selectedOptions,
         time_spent: timeSpent
       });
-      
       setResult(res.data);
       setAnswered(true);
     } catch (err) {
@@ -107,11 +175,12 @@ export default function QuizPage() {
     if (currentIndex < session.questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setSelectedOptions([]);
+      setQrocText('');
       setAnswered(false);
       setResult(null);
       setStartTime(Date.now());
+      setSnoozeMenu(false);
     } else {
-      // Complete quiz
       try {
         const res = await quizApi.complete(session.session_id);
         setFinalResult(res.data);
@@ -128,200 +197,257 @@ export default function QuizPage() {
     setAnswered(false);
     setResult(null);
     setFinalResult(null);
+    autoStartedRef.current = false;
   };
 
   const toggleOption = (index) => {
     if (answered) return;
-    
     const question = session.questions[currentIndex];
-    if (question.type === 'vrai_faux') {
+    if (question.type === 'qi' || question.type === 'vrai_faux') {
       setSelectedOptions([index]);
     } else {
-      if (selectedOptions.includes(index)) {
-        setSelectedOptions(selectedOptions.filter(i => i !== index));
-      } else {
-        setSelectedOptions([...selectedOptions, index]);
-      }
+      // QRM, QCM allow multiple
+      setSelectedOptions(prev =>
+        prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
+      );
     }
   };
 
   const toggleQuestionType = (type) => {
-    if (questionTypes.includes(type)) {
-      setQuestionTypes(questionTypes.filter(t => t !== type));
-    } else {
-      setQuestionTypes([...questionTypes, type]);
+    setQuestionTypes(prev =>
+      prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]
+    );
+  };
+
+  const handleBookmark = async () => {
+    const q = session.questions[currentIndex];
+    try {
+      const res = await questionsApi.bookmark(q.id);
+      setBookmarked(prev => ({ ...prev, [q.id]: res.data.bookmarked }));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSnooze = async (days) => {
+    const q = session.questions[currentIndex];
+    try {
+      await questionsApi.snooze(q.id, days);
+      setSnoozeMenu(false);
+      // Auto-skip to next
+      setTimeout(nextQuestion, 300);
+    } catch (err) {
+      alert(formatApiError(err));
     }
   };
 
   if (loading) {
     return (
-      <div className="animate-pulse space-y-6">
-        <div className="h-8 w-48 bg-[#E2E8F0] rounded" />
-        <div className="h-64 bg-[#E2E8F0] rounded-xl" />
+      <div className="space-y-6">
+        <div className="h-10 w-64 skeleton rounded-lg" />
+        <div className="h-96 skeleton rounded-2xl" />
       </div>
     );
   }
 
-  // Final Results Screen
+  // ============= FINAL RESULTS =============
   if (finalResult) {
     const percentage = finalResult.percentage;
     const isGood = percentage >= 70;
-    
     return (
       <div className="max-w-2xl mx-auto" data-testid="quiz-results">
-        <div className="bg-white rounded-xl border border-[#E2E8F0] p-8 text-center">
-          <div className={`w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6 ${
-            isGood ? 'bg-[#D1FAE5]' : 'bg-[#FEF3C7]'
-          }`}>
-            <Trophy className={`w-12 h-12 ${isGood ? 'text-[#059669]' : 'text-[#D97706]'}`} />
+        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-8 text-center shadow-lg">
+          <div className={`w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6 ${isGood ? 'bg-gradient-to-br from-[#22C55E] to-[#16A34A]' : 'bg-gradient-to-br from-[#F59E0B] to-[#EF4444]'}`}>
+            <Trophy className="w-12 h-12 text-white" />
           </div>
-          
-          <h2 className="text-2xl font-bold text-[#0F172A] mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>
+          <h2 className="text-3xl font-bold text-[#1E293B] mb-2" style={{ fontFamily: 'Outfit, sans-serif' }}>
             Quiz terminé !
           </h2>
-          
-          <div className="text-5xl font-bold my-6" style={{ color: isGood ? '#059669' : '#D97706' }}>
+          <div className={`text-7xl font-black my-6 ${isGood ? 'text-[#22C55E]' : 'text-[#EF4444]'}`}>
             {percentage}%
           </div>
-          
-          <p className="text-[#64748B] mb-6">
-            Vous avez obtenu {finalResult.score} / {finalResult.total} bonnes réponses
+          <p className="text-[#64748B] mb-6 text-lg">
+            {finalResult.score} / {finalResult.total} bonnes réponses
           </p>
-          
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-3 justify-center flex-wrap">
             <button
               onClick={resetQuiz}
-              className="flex items-center gap-2 px-6 py-3 border border-[#E2E8F0] rounded-lg hover:bg-[#F1F5F9] transition-colors"
+              className="flex items-center gap-2 px-6 py-3 bg-[#1E293B] text-white rounded-xl font-semibold hover:bg-[#0F172A] transition-colors"
               data-testid="new-quiz-btn"
             >
               <RotateCcw className="w-5 h-5" />
               Nouveau quiz
             </button>
+            <Link
+              to="/ancrage"
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] text-white rounded-xl font-semibold hover:opacity-90"
+            >
+              <Brain className="w-5 h-5" />
+              Voir mon ancrage
+            </Link>
           </div>
         </div>
       </div>
     );
   }
 
-  // Quiz In Progress
+  // ============= QUIZ IN PROGRESS =============
   if (session) {
     const question = session.questions[currentIndex];
     const progress = ((currentIndex + 1) / session.total) * 100;
-    
+    const isMulti = question.type === 'qrm' || question.type === 'qcm' || question.type === 'cas_clinique';
+    const isQroc = question.type === 'qroc';
+    const isBookmarked = bookmarked[question.id];
+
     return (
       <div className="max-w-3xl mx-auto space-y-6" data-testid="quiz-in-progress">
-        {/* Progress */}
-        <div className="flex items-center justify-between text-sm text-[#64748B]">
-          <span>Question {currentIndex + 1} / {session.total}</span>
-          <span className="badge badge-accent">{question.type}</span>
+        {/* Progress + actions */}
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-[#64748B]">Question {currentIndex + 1} / {session.total}</span>
+            <span className="badge badge-primary uppercase">{TYPE_LABEL[question.type] || question.type}</span>
+            {question.rang && <span className={`badge ${question.rang === 'A' ? 'badge-success' : 'badge-warning'}`}>Rang {question.rang}</span>}
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleBookmark}
+              className={`p-2 rounded-xl transition-colors ${isBookmarked ? 'bg-[#FEF3C7] text-[#F59E0B]' : 'text-[#64748B] hover:bg-[#F1F5F9]'}`}
+              title="Marquer comme favori"
+              data-testid="bookmark-btn"
+            >
+              {isBookmarked ? <BookmarkCheck className="w-5 h-5" /> : <Bookmark className="w-5 h-5" />}
+            </button>
+            <div className="relative">
+              <button
+                onClick={() => setSnoozeMenu(!snoozeMenu)}
+                className="flex items-center gap-1 px-3 py-2 text-[#64748B] hover:bg-[#F1F5F9] rounded-xl text-sm font-medium"
+                data-testid="snooze-btn"
+              >
+                <AlarmClockOff className="w-4 h-4" />
+                Reporter
+              </button>
+              {snoozeMenu && (
+                <div className="absolute right-0 top-full mt-2 bg-white border border-[#E2E8F0] rounded-xl shadow-lg z-10 overflow-hidden">
+                  <button onClick={() => handleSnooze(1)} className="block w-full text-left px-4 py-2 hover:bg-[#F1F5F9] text-sm" data-testid="snooze-1d">1 jour</button>
+                  <button onClick={() => handleSnooze(7)} className="block w-full text-left px-4 py-2 hover:bg-[#F1F5F9] text-sm" data-testid="snooze-7d">1 semaine</button>
+                  <button onClick={() => handleSnooze(30)} className="block w-full text-left px-4 py-2 hover:bg-[#F1F5F9] text-sm" data-testid="snooze-30d">1 mois</button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
+
         <div className="w-full h-2 bg-[#E2E8F0] rounded-full overflow-hidden">
           <div
-            className="h-full bg-[#2563EB] transition-all duration-300"
+            className="h-full bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
 
-        {/* Question */}
-        <div className="bg-white rounded-xl border border-[#E2E8F0] p-6">
-          <h3 className="text-xl font-semibold text-[#0F172A] mb-6">
+        {/* Question Card */}
+        <div className="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
+          {question.vignette && (
+            <div className="mb-5 p-4 bg-[#F0F4FF] rounded-xl border-l-4 border-[#4F46E5]">
+              <p className="text-xs uppercase font-bold text-[#4F46E5] mb-2">Vignette clinique</p>
+              <p className="text-sm text-[#334155] whitespace-pre-line">{question.vignette}</p>
+            </div>
+          )}
+
+          <h3 className="text-xl font-semibold text-[#1E293B] mb-6" data-testid="question-text">
             {question.question}
           </h3>
 
-          {/* Options */}
-          <div className="space-y-3">
-            {/* For vrai_faux questions without options, show default Vrai/Faux */}
-            {(question.type === 'vrai_faux' && (!question.options || question.options.length === 0)) ? (
-              <>
-                {[{ text: 'Vrai', is_correct: true }, { text: 'Faux', is_correct: false }].map((opt, idx) => {
-                  let optionClass = 'quiz-option';
-                  if (answered) {
-                    if (result.correct_options.includes(idx)) {
-                      optionClass += ' correct';
-                    } else if (selectedOptions.includes(idx)) {
-                      optionClass += ' incorrect';
-                    }
-                    optionClass += ' disabled';
-                  } else if (selectedOptions.includes(idx)) {
-                    optionClass += ' selected';
-                  }
-                  
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => toggleOption(idx)}
-                      disabled={answered}
-                      className={`w-full p-4 text-left border border-[#E2E8F0] rounded-lg flex items-center gap-4 ${optionClass}`}
-                      data-testid={`option-${idx}`}
-                    >
-                      <span className="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-sm font-medium shrink-0">
-                        {idx === 0 ? 'V' : 'F'}
-                      </span>
-                      <span className="flex-1">{opt.text}</span>
-                      {answered && result.correct_options.includes(idx) && (
-                        <CheckCircle className="w-5 h-5 text-[#059669] shrink-0" />
-                      )}
-                      {answered && selectedOptions.includes(idx) && !result.correct_options.includes(idx) && (
-                        <XCircle className="w-5 h-5 text-[#E11D48] shrink-0" />
-                      )}
-                    </button>
-                  );
-                })}
-              </>
-            ) : (
-              question.options?.map((opt, idx) => {
-                let optionClass = 'quiz-option';
-                if (answered) {
+          {isQroc ? (
+            <div>
+              <textarea
+                value={qrocText}
+                onChange={(e) => !answered && setQrocText(e.target.value)}
+                disabled={answered}
+                placeholder="Tapez votre réponse..."
+                rows={3}
+                className={`w-full px-4 py-3 border-2 rounded-xl outline-none ${
+                  answered
+                    ? result?.is_correct
+                      ? 'border-[#22C55E] bg-[#F0FDF4]'
+                      : 'border-[#EF4444] bg-[#FEF2F2]'
+                    : 'border-[#E2E8F0] focus:border-[#4F46E5]'
+                }`}
+                data-testid="qroc-input"
+              />
+              {answered && (
+                <p className="mt-2 text-sm">
+                  <span className="text-[#64748B]">Réponse attendue : </span>
+                  <span className="font-semibold text-[#22C55E]">{result?.answer}</span>
+                </p>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {question.options?.map((opt, idx) => {
+                let optClass = 'border-[#E2E8F0] hover:border-[#94A3B8] hover:bg-[#F8FAFC]';
+                if (answered && result) {
                   if (result.correct_options.includes(idx)) {
-                    optionClass += ' correct';
+                    optClass = 'border-[#22C55E] bg-[#F0FDF4]';
                   } else if (selectedOptions.includes(idx)) {
-                    optionClass += ' incorrect';
+                    optClass = 'border-[#EF4444] bg-[#FEF2F2]';
+                  } else {
+                    optClass = 'border-[#E2E8F0]';
                   }
-                  optionClass += ' disabled';
                 } else if (selectedOptions.includes(idx)) {
-                  optionClass += ' selected';
+                  optClass = 'border-[#4F46E5] bg-[#EFF6FF]';
                 }
-                
+
                 return (
                   <button
                     key={idx}
                     onClick={() => toggleOption(idx)}
                     disabled={answered}
-                    className={`w-full p-4 text-left border border-[#E2E8F0] rounded-lg flex items-center gap-4 ${optionClass}`}
+                    className={`w-full p-4 text-left border-2 rounded-xl flex items-center gap-4 transition-all ${optClass} ${answered ? 'cursor-default' : 'cursor-pointer'}`}
                     data-testid={`option-${idx}`}
                   >
-                    <span className="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center text-sm font-medium shrink-0">
+                    <span className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+                      answered && result?.correct_options.includes(idx) ? 'bg-[#22C55E] text-white' :
+                      answered && selectedOptions.includes(idx) ? 'bg-[#EF4444] text-white' :
+                      selectedOptions.includes(idx) ? 'bg-[#4F46E5] text-white' :
+                      'bg-[#F1F5F9] text-[#64748B]'
+                    }`}>
                       {String.fromCharCode(65 + idx)}
                     </span>
-                    <span className="flex-1">{opt.text}</span>
-                    {answered && result.correct_options.includes(idx) && (
-                      <CheckCircle className="w-5 h-5 text-[#059669] shrink-0" />
-                    )}
-                    {answered && selectedOptions.includes(idx) && !result.correct_options.includes(idx) && (
-                      <XCircle className="w-5 h-5 text-[#E11D48] shrink-0" />
-                    )}
+                    <span className="flex-1 text-[#1E293B]">{opt.text}</span>
+                    {answered && result?.correct_options.includes(idx) && <CheckCircle className="w-5 h-5 text-[#22C55E]" />}
+                    {answered && selectedOptions.includes(idx) && !result?.correct_options.includes(idx) && <XCircle className="w-5 h-5 text-[#EF4444]" />}
                   </button>
                 );
-              })
-            )}
-          </div>
+              })}
+            </div>
+          )}
 
           {/* Explanation */}
           {answered && result && (
-            <div className={`mt-6 p-4 rounded-lg ${
-              result.is_correct ? 'bg-[#D1FAE5] border border-[#059669]' : 'bg-[#FFE4E6] border border-[#E11D48]'
-            }`}>
+            <div className={`mt-6 p-4 rounded-xl border-l-4 ${
+              result.is_correct ? 'bg-[#F0FDF4] border-[#22C55E]' : 'bg-[#FEF2F2] border-[#EF4444]'
+            }`} data-testid="explanation-box">
               <div className="flex items-center gap-2 mb-2">
                 {result.is_correct ? (
-                  <CheckCircle className="w-5 h-5 text-[#059669]" />
+                  <CheckCircle className="w-5 h-5 text-[#22C55E]" />
                 ) : (
-                  <XCircle className="w-5 h-5 text-[#E11D48]" />
+                  <XCircle className="w-5 h-5 text-[#EF4444]" />
                 )}
-                <span className="font-semibold">
+                <span className={`font-bold ${result.is_correct ? 'text-[#16A34A]' : 'text-[#DC2626]'}`}>
                   {result.is_correct ? 'Bonne réponse !' : 'Mauvaise réponse'}
                 </span>
               </div>
-              <p className="text-sm text-[#334155]">{result.explanation}</p>
+              <p className="text-sm text-[#334155] whitespace-pre-line">{result.explanation}</p>
+              {question.course_id && (
+                <Link
+                  to={`/courses/${question.course_id}`}
+                  className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-[#4F46E5] hover:text-[#4338CA]"
+                  data-testid="view-course-link"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  Voir le cours
+                </Link>
+              )}
             </div>
           )}
 
@@ -330,8 +456,8 @@ export default function QuizPage() {
             {!answered ? (
               <button
                 onClick={submitAnswer}
-                disabled={selectedOptions.length === 0 || answering}
-                className="flex items-center gap-2 bg-[#0F172A] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#1E293B] transition-colors disabled:opacity-50"
+                disabled={(isQroc ? !qrocText.trim() : selectedOptions.length === 0) || answering}
+                className="flex items-center gap-2 bg-[#1E293B] text-white px-6 py-3 rounded-xl font-medium hover:bg-[#0F172A] transition-colors disabled:opacity-50"
                 data-testid="submit-answer-btn"
               >
                 {answering ? (
@@ -346,7 +472,7 @@ export default function QuizPage() {
             ) : (
               <button
                 onClick={nextQuestion}
-                className="flex items-center gap-2 bg-[#2563EB] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#1D4ED8] transition-colors"
+                className="flex items-center gap-2 bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] text-white px-6 py-3 rounded-xl font-medium hover:opacity-90 transition-opacity"
                 data-testid="next-question-btn"
               >
                 {currentIndex < session.questions.length - 1 ? 'Suivant' : 'Terminer'}
@@ -359,85 +485,80 @@ export default function QuizPage() {
     );
   }
 
-  // Quiz Setup
+  // ============= QUIZ SETUP =============
   return (
     <div className="max-w-2xl mx-auto space-y-6" data-testid="quiz-setup">
       <div>
-        <h1 className="text-3xl font-bold text-[#0F172A]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+        <h1 className="text-4xl font-bold text-[#1E293B]" style={{ fontFamily: 'Outfit, sans-serif' }}>
           Quiz
         </h1>
-        <p className="text-[#64748B] mt-1">
-          Testez vos connaissances
+        <p className="text-[#64748B] mt-2 text-lg">
+          Testez vos connaissances et progressez
         </p>
       </div>
 
-      <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 space-y-6">
+      <div className="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm space-y-6">
         {/* Mode */}
         <div>
-          <label className="block text-sm font-medium text-[#334155] mb-3">Mode</label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {[
-              { value: 'subject', label: 'Par matière', icon: Target },
-              { value: 'course', label: 'Par cours', icon: Target },
-              { value: 'transversal', label: 'Transversal', icon: Target },
-              { value: 'errors', label: 'Mes erreurs', icon: Target }
-            ].map(({ value, label }) => (
-              <button
-                key={value}
-                onClick={() => setMode(value)}
-                className={`p-3 border rounded-lg text-sm font-medium transition-colors ${
-                  mode === value
-                    ? 'border-[#2563EB] bg-[#EFF6FF] text-[#2563EB]'
-                    : 'border-[#E2E8F0] hover:bg-[#F1F5F9]'
-                }`}
-                data-testid={`mode-${value}`}
-              >
-                {label}
-              </button>
-            ))}
+          <label className="block text-sm font-semibold text-[#334155] mb-3">Mode de quiz</label>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {Object.entries(MODE_META).map(([value, meta]) => {
+              const Icon = meta.icon;
+              return (
+                <button
+                  key={value}
+                  onClick={() => setMode(value)}
+                  className={`p-3 border-2 rounded-xl text-sm font-medium transition-colors flex items-center gap-2 ${
+                    mode === value
+                      ? 'border-[#4F46E5] bg-[#EFF6FF] text-[#4F46E5]'
+                      : 'border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                  }`}
+                  data-testid={`mode-${value}`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {meta.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Subject Selection */}
+        {/* Subject */}
         {mode === 'subject' && (
           <div>
-            <label className="block text-sm font-medium text-[#334155] mb-2">Matière</label>
+            <label className="block text-sm font-semibold text-[#334155] mb-2">Matière</label>
             <select
               value={selectedSubject}
               onChange={(e) => setSelectedSubject(e.target.value)}
-              className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB] outline-none bg-white"
+              className="w-full px-4 py-3 border-2 border-[#E2E8F0] rounded-xl focus:border-[#4F46E5] outline-none bg-white"
               data-testid="subject-select"
             >
               <option value="">Toutes les matières</option>
-              {subjects.map(s => (
-                <option key={s.id} value={s.id}>{s.name}</option>
-              ))}
+              {subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
             </select>
           </div>
         )}
 
-        {/* Course Selection */}
+        {/* Course */}
         {mode === 'course' && (
           <div>
-            <label className="block text-sm font-medium text-[#334155] mb-2">Cours</label>
+            <label className="block text-sm font-semibold text-[#334155] mb-2">Cours</label>
             <select
               value={selectedCourse}
               onChange={(e) => setSelectedCourse(e.target.value)}
-              className="w-full px-4 py-2 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB] outline-none bg-white"
+              className="w-full px-4 py-3 border-2 border-[#E2E8F0] rounded-xl focus:border-[#4F46E5] outline-none bg-white"
               data-testid="course-select"
             >
               <option value="">Sélectionner un cours</option>
-              {courses.map(c => (
-                <option key={c.id} value={c.id}>{c.title}</option>
-              ))}
+              {courses.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
             </select>
           </div>
         )}
 
-        {/* Question Count */}
+        {/* Count */}
         <div>
-          <label className="block text-sm font-medium text-[#334155] mb-2">
-            Nombre de questions: {questionCount}
+          <label className="block text-sm font-semibold text-[#334155] mb-2">
+            Nombre de questions : <span className="text-[#4F46E5]">{questionCount}</span>
           </label>
           <input
             type="range"
@@ -450,23 +571,22 @@ export default function QuizPage() {
           />
         </div>
 
-        {/* Question Types */}
+        {/* Types */}
         <div>
-          <label className="block text-sm font-medium text-[#334155] mb-3">Types de questions</label>
+          <label className="block text-sm font-semibold text-[#334155] mb-3">Types de questions</label>
           <div className="flex flex-wrap gap-2">
             {[
-              { value: 'qcm', label: 'QCM' },
-              { value: 'vrai_faux', label: 'Vrai/Faux' },
-              { value: 'flashcard', label: 'Flashcard' },
-              { value: 'cas_clinique', label: 'Cas clinique' },
-              { value: 'qroc', label: 'QROC' }
+              { value: 'qi', label: 'QI' },
+              { value: 'qrm', label: 'QRM' },
+              { value: 'qroc', label: 'QROC' },
+              { value: 'dp', label: 'Dossier progressif' }
             ].map(({ value, label }) => (
               <button
                 key={value}
                 onClick={() => toggleQuestionType(value)}
-                className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
                   questionTypes.includes(value)
-                    ? 'bg-[#0F172A] text-white'
+                    ? 'bg-[#1E293B] text-white'
                     : 'bg-[#F1F5F9] text-[#64748B] hover:bg-[#E2E8F0]'
                 }`}
                 data-testid={`type-${value}`}
@@ -477,14 +597,13 @@ export default function QuizPage() {
           </div>
         </div>
 
-        {/* Start Button */}
         <button
-          onClick={startQuiz}
+          onClick={() => startQuiz()}
           disabled={(mode === 'course' && !selectedCourse)}
-          className="w-full flex items-center justify-center gap-2 bg-[#2563EB] text-white py-3 rounded-lg font-medium hover:bg-[#1D4ED8] transition-colors disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] text-white py-4 rounded-xl font-bold text-lg hover:opacity-90 transition-opacity disabled:opacity-50 shadow-lg"
           data-testid="start-quiz-btn"
         >
-          <Play className="w-5 h-5" />
+          <Play className="w-6 h-6" />
           Commencer le quiz
         </button>
       </div>

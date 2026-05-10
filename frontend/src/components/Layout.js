@@ -12,7 +12,9 @@ import {
   LogOut,
   Menu,
   X,
-  Sparkles
+  Sparkles,
+  Trophy,
+  Zap
 } from 'lucide-react';
 
 const navItems = [
@@ -20,7 +22,9 @@ const navItems = [
   { path: '/subjects', icon: BookOpen, label: 'Matières', color: '#8B5CF6' },
   { path: '/courses', icon: FileText, label: 'Cours', color: '#06B6D4' },
   { path: '/quiz', icon: HelpCircle, label: 'Quiz', color: '#F59E0B' },
-  { path: '/flashcards', icon: Brain, label: 'Flashcards', color: '#EC4899' },
+  { path: '/ancrage', icon: Zap, label: 'Ancrage', color: '#EC4899' },
+  { path: '/exam', icon: Trophy, label: 'Examen blanc', color: '#DC2626' },
+  { path: '/flashcards', icon: Brain, label: 'Flashcards', color: '#A855F7' },
   { path: '/stats', icon: BarChart3, label: 'Statistiques', color: '#10B981' },
   { path: '/knowledge-graph', icon: Network, label: 'Carte des savoirs', color: '#EF4444' },
 ];
@@ -86,11 +90,12 @@ export default function Layout({ children }) {
         </Link>
 
         {/* Navigation */}
-        <nav className="p-4 space-y-2">
+        <nav className="p-4 space-y-2 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 80px - 140px)' }}>
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
+              end={item.path === '/'}
               onClick={() => setSidebarOpen(false)}
               className={({ isActive }) =>
                 `sidebar-link ${isActive ? 'active' : ''}`

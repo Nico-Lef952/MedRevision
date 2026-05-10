@@ -59,12 +59,25 @@ export default function CoursesPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    
+    // Validation
+    if (!formData.subject_id) {
+      setError('Veuillez sélectionner une matière');
+      return;
+    }
+    
+    if (modalMode === 'upload' && !file) {
+      setError('Veuillez sélectionner un fichier');
+      return;
+    }
+    
     setSubmitting(true);
 
     try {
       if (modalMode === 'upload' && file) {
         const fd = new FormData();
         fd.append('file', file);
+        console.log('Uploading file:', file.name, 'to subject:', formData.subject_id);
         await coursesApi.upload(fd, formData.subject_id);
       } else {
         await coursesApi.create({
@@ -75,6 +88,7 @@ export default function CoursesPage() {
       setShowModal(false);
       fetchData();
     } catch (err) {
+      console.error('Upload error:', err);
       setError(formatApiError(err));
     } finally {
       setSubmitting(false);
@@ -297,25 +311,49 @@ export default function CoursesPage() {
                   <label className="block text-sm font-semibold text-[#1E293B] mb-2">
                     Fichier (PDF, Word, Markdown) *
                   </label>
-                  <div className="border-2 border-dashed border-[#E2E8F0] rounded-2xl p-8 text-center hover:border-[#4F46E5] transition-colors cursor-pointer">
+                  <div 
+                    className={`border-2 border-dashed rounded-2xl p-8 text-center transition-colors cursor-pointer ${
+                      file ? 'border-[#10B981] bg-[#F0FDF4]' : 'border-[#E2E8F0] hover:border-[#4F46E5]'
+                    }`}
+                    onClick={() => document.getElementById('file-upload').click()}
+                  >
                     <input
                       type="file"
                       accept=".pdf,.docx,.doc,.md,.markdown,.txt"
-                      onChange={(e) => setFile(e.target.files[0])}
+                      onChange={(e) => {
+                        const selectedFile = e.target.files[0];
+                        console.log('File selected:', selectedFile?.name);
+                        setFile(selectedFile);
+                      }}
                       className="hidden"
                       id="file-upload"
                       data-testid="file-input"
                     />
-                    <label htmlFor="file-upload" className="cursor-pointer">
-                      <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] flex items-center justify-center">
+                    <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center ${
+                      file ? 'bg-[#10B981]' : 'bg-gradient-to-br from-[#4F46E5] to-[#7C3AED]'
+                    }`}>
+                      {file ? (
+                        <Check className="w-8 h-8 text-white" />
+                      ) : (
                         <Upload className="w-8 h-8 text-white" />
-                      </div>
-                      <p className="text-[#1E293B] font-semibold text-lg">
-                        {file ? file.name : 'Cliquez pour sélectionner'}
-                      </p>
-                      <p className="text-sm text-[#64748B] mt-2">PDF, Word (.docx), Markdown (.md) ou texte</p>
-                    </label>
+                      )}
+                    </div>
+                    <p className={`font-semibold text-lg ${file ? 'text-[#10B981]' : 'text-[#1E293B]'}`}>
+                      {file ? `✓ ${file.name}` : 'Cliquez pour sélectionner'}
+                    </p>
+                    <p className="text-sm text-[#64748B] mt-2">
+                      {file ? `${(file.size / 1024).toFixed(1)} KB` : 'PDF, Word (.docx), Markdown (.md) ou texte'}
+                    </p>
                   </div>
+                  {file && (
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); setFile(null); }}
+                      className="mt-2 text-sm text-[#EF4444] hover:underline"
+                    >
+                      ✕ Supprimer le fichier
+                    </button>
+                  )}
                 </div>
               ) : (
                 <>
@@ -396,8 +434,8 @@ export default function CoursesPage() {
                 </button>
                 <button
                   type="submit"
-                  disabled={submitting || (modalMode === 'upload' && !file) || !formData.subject_id}
-                  className="flex-1 btn-gradient flex items-center justify-center gap-2 disabled:opacity-50"
+                  disabled={submitting || subjects.length === 0}
+                  className="flex-1 btn-gradient flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   data-testid="course-submit-btn"
                 >
                   {submitting ? (
@@ -410,6 +448,20 @@ export default function CoursesPage() {
                   )}
                 </button>
               </div>
+              
+              {subjects.length === 0 && (
+                <div className="mt-4 p-4 bg-[#FEF3C7] border border-[#F59E0B] rounded-xl text-center">
+                  <p className="text-[#92400E] font-medium">
+                    ⚠️ Vous devez d'abord créer une matière avant d'ajouter des cours
+                  </p>
+                  <a 
+                    href="/subjects" 
+                    className="inline-block mt-2 text-[#4F46E5] font-semibold hover:underline"
+                  >
+                    → Créer une matière
+                  </a>
+                </div>
+              )}
             </form>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
   LayoutDashboard,
@@ -39,14 +39,18 @@ export default function Layout({ children }) {
     <div className="min-h-screen bg-[#FAFBFF]">
       {/* Mobile header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-lg border-b border-[#E2E8F0] z-40 flex items-center justify-between px-4">
-        <div className="flex items-center gap-3">
+        <Link
+          to="/"
+          className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+          data-testid="mobile-logo-link"
+        >
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] flex items-center justify-center shadow-lg">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <span className="font-bold text-[#1E293B] text-lg" style={{ fontFamily: 'Outfit, sans-serif' }}>
             MedRevision
           </span>
-        </div>
+        </Link>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="p-2 hover:bg-[#F0F4FF] rounded-xl transition-colors"
@@ -64,7 +68,12 @@ export default function Layout({ children }) {
         data-testid="sidebar"
       >
         {/* Logo */}
-        <div className="h-20 flex items-center gap-3 px-6 border-b border-[#E2E8F0]">
+        <Link
+          to="/"
+          onClick={() => setSidebarOpen(false)}
+          className="h-20 flex items-center gap-3 px-6 border-b border-[#E2E8F0] hover:bg-[#FAFBFF] transition-colors"
+          data-testid="sidebar-logo-link"
+        >
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] flex items-center justify-center shadow-lg shadow-indigo-500/30">
             <Sparkles className="w-6 h-6 text-white" />
           </div>
@@ -74,7 +83,7 @@ export default function Layout({ children }) {
             </h1>
             <p className="text-xs text-[#64748B]">Révision intelligente</p>
           </div>
-        </div>
+        </Link>
 
         {/* Navigation */}
         <nav className="p-4 space-y-2">

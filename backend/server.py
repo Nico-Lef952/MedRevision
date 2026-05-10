@@ -6,7 +6,7 @@ load_dotenv(ROOT_DIR / '.env')
 
 from fastapi import FastAPI, APIRouter, HTTPException, Request, UploadFile, File, Depends, BackgroundTasks
 from starlette.middleware.cors import CORSMiddleware
-from starlette.responses import JSONResponse
+from starlette.responses import JSONResponse, FileResponse
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 import os
@@ -24,6 +24,7 @@ from contextlib import asynccontextmanager
 import PyPDF2
 import io
 from docx import Document as DocxDocument
+import mammoth
 
 # JWT Configuration
 JWT_ALGORITHM = "HS256"
@@ -733,41 +734,68 @@ async def upload_course(
     filename = file.filename or "Untitled"
     file_lower = filename.lower()
     
-    # Extract content based on file type
+    # Read file content
+    file_bytes = await file.read()
+    
+    # Determine file type and extension
     if file_lower.endswith(".pdf"):
-        pdf_content = await file.read()
-        pdf_reader = PyPDF2.PdfReader(io.BytesIO(pdf_content))
-        content = "\n".join([page.extract_text() or "" for page in pdf_reader.pages])
+        file_type = "pdf"
+        file_ext = ".pdf"
     elif file_lower.endswith((".docx", ".doc")):
-        # Word document
-        docx_content = await file.read()
-        doc = DocxDocument(io.BytesIO(docx_content))
+        file_type = "docx"
+        file_ext = ".docx"
+    elif file_lower.endswith((".md", ".markdown")):
+        file_type = "markdown"
+        file_ext = ".md"
+    elif file_lower.endswith(".txt"):
+        file_type = "text"
+        file_ext = ".txt"
+    else:
+        raise HTTPException(status_code=400, detail="Format non supporté. Utilisez PDF, Word (.docx), Markdown (.md) ou texte (.txt)")
+    
+    # Extract text content based on file type
+    if file_type == "pdf":
+        pdf_reader = PyPDF2.PdfReader(io.BytesIO(file_bytes))
+        content = "\n".join([page.extract_text() or "" for page in pdf_reader.pages])
+    elif file_type == "docx":
+        doc = DocxDocument(io.BytesIO(file_bytes))
         paragraphs = []
         for para in doc.paragraphs:
             if para.text.strip():
                 paragraphs.append(para.text)
-        # Also extract tables
         for table in doc.tables:
             for row in table.rows:
                 row_text = " | ".join([cell.text.strip() for cell in row.cells if cell.text.strip()])
                 if row_text:
                     paragraphs.append(row_text)
         content = "\n\n".join(paragraphs)
-    elif file_lower.endswith((".md", ".txt", ".markdown")):
-        content = (await file.read()).decode("utf-8")
     else:
-        raise HTTPException(status_code=400, detail="Format non supporté. Utilisez PDF, Word (.docx), Markdown (.md) ou texte (.txt)")
+        content = file_bytes.decode("utf-8")
     
     if not content.strip():
         raise HTTPException(status_code=400, detail="Impossible d'extraire le contenu du fichier")
     
-    # Create course
+    # Generate unique file ID and save original file
+    file_id = str(uuid.uuid4())
+    file_path = f"/app/backend/uploads/{file_id}{file_ext}"
+    
+    with open(file_path, "wb") as f:
+        f.write(file_bytes)
+    
+    # Create course with file reference
     title = filename.rsplit(".", 1)[0]
     course_doc = {
         "user_id": user["id"],
         "subject_id": subject_id,
         "title": title,
         "content": content,
+        "original_file": {
+            "filename": filename,
+            "file_id": file_id,
+            "file_type": file_type,
+            "file_ext": file_ext,
+            "file_path": file_path
+        },
         "tags": [],
         "chapter": "",
         "analysis": {},
@@ -806,6 +834,14 @@ async def get_course(course_id: str, user: dict = Depends(get_current_user)):
         "chapter": course.get("chapter", ""),
         "analysis": course.get("analysis", {}),
         "cross_references": course.get("cross_references", []),
+        "original_file": (
+            {
+                "filename": course["original_file"].get("filename"),
+                "file_type": course["original_file"].get("file_type"),
+                "file_ext": course["original_file"].get("file_ext"),
+            }
+            if course.get("original_file") else None
+        ),
         "question_count": question_count,
         "created_at": course.get("created_at", ""),
         "updated_at": course.get("updated_at", "")
@@ -865,6 +901,128 @@ async def regenerate_questions(course_id: str, background_tasks: BackgroundTasks
     background_tasks.add_task(process_course_ai, course_id, course["content"], subject_name, user["id"])
     
     return {"message": "Question regeneration started"}
+
+
+@api_router.get("/courses/{course_id}/file")
+async def get_course_file(course_id: str, user: dict = Depends(get_current_user)):
+    """Serve the original uploaded file"""
+    course = await db.courses.find_one({"_id": ObjectId(course_id), "user_id": user["id"]})
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+    
+    original_file = course.get("original_file")
+    if not original_file:
+        raise HTTPException(status_code=404, detail="No original file available")
+    
+    file_path = original_file.get("file_path")
+    if not file_path or not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="File not found on server")
+    
+    # Determine media type
+    file_type = original_file.get("file_type", "text")
+    media_types = {
+        "pdf": "application/pdf",
+        "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "markdown": "text/markdown",
+        "text": "text/plain"
+    }
+    media_type = media_types.get(file_type, "application/octet-stream")
+    
+    return FileResponse(
+        path=file_path,
+        filename=original_file.get("filename", "document"),
+        media_type=media_type
+    )
+
+
+@api_router.get("/courses/{course_id}/file/html")
+async def get_course_file_html(course_id: str, user: dict = Depends(get_current_user)):
+    """Convert DOCX file to formatted HTML using mammoth (preserves headings, lists, tables, bold, italic)"""
+    course = await db.courses.find_one({"_id": ObjectId(course_id), "user_id": user["id"]})
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+
+    original_file = course.get("original_file")
+    if not original_file:
+        raise HTTPException(status_code=404, detail="No original file available")
+
+    file_path = original_file.get("file_path")
+    file_type = original_file.get("file_type")
+
+    if not file_path or not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="File not found on server")
+
+    if file_type != "docx":
+        raise HTTPException(status_code=400, detail="HTML conversion only available for DOCX files")
+
+    try:
+        with open(file_path, "rb") as f:
+            result = mammoth.convert_to_html(f)
+            html_body = result.value
+    except Exception as e:
+        logger.error(f"DOCX to HTML conversion failed: {e}")
+        raise HTTPException(status_code=500, detail="Erreur de conversion du document")
+
+    # Wrap with styling to mimic Word document look
+    full_html = f"""<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>{original_file.get("filename", "Document")}</title>
+<style>
+  body {{
+    font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #1f1f1f;
+    background: #f3f3f3;
+    margin: 0;
+    padding: 32px 16px;
+  }}
+  .doc-page {{
+    max-width: 816px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 72px 96px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-radius: 4px;
+    min-height: 600px;
+  }}
+  h1 {{ font-size: 28pt; color: #2F5496; font-weight: 400; margin-top: 24px; margin-bottom: 12px; }}
+  h2 {{ font-size: 18pt; color: #2F5496; font-weight: 400; margin-top: 20px; margin-bottom: 10px; }}
+  h3 {{ font-size: 14pt; color: #1F3864; font-weight: 600; margin-top: 16px; margin-bottom: 8px; }}
+  h4 {{ font-size: 12pt; color: #2F5496; font-style: italic; font-weight: 600; margin-top: 14px; margin-bottom: 6px; }}
+  h5, h6 {{ font-size: 11pt; color: #2F5496; font-weight: 600; margin-top: 12px; margin-bottom: 4px; }}
+  p {{ margin: 0 0 8pt 0; }}
+  ul, ol {{ margin: 0 0 12pt 0; padding-left: 36px; }}
+  li {{ margin-bottom: 4pt; }}
+  table {{ border-collapse: collapse; margin: 12pt 0; width: 100%; }}
+  table td, table th {{ border: 1px solid #BFBFBF; padding: 6pt 8pt; vertical-align: top; }}
+  table th {{ background: #F2F2F2; font-weight: 600; }}
+  strong, b {{ font-weight: 700; }}
+  em, i {{ font-style: italic; }}
+  a {{ color: #0563C1; text-decoration: underline; }}
+  img {{ max-width: 100%; height: auto; }}
+  blockquote {{
+    border-left: 3px solid #2F5496;
+    margin-left: 0;
+    padding-left: 16px;
+    color: #595959;
+  }}
+  code, pre {{ font-family: 'Consolas', monospace; background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }}
+  pre {{ padding: 12px; overflow-x: auto; }}
+</style>
+</head>
+<body>
+<div class="doc-page">
+{html_body}
+</div>
+</body>
+</html>"""
+
+    from starlette.responses import HTMLResponse
+    return HTMLResponse(content=full_html)
+
 
 # ==================== QUESTIONS ROUTES ====================
 

@@ -1,6 +1,6 @@
 # MedRevision - PRD (Product Requirements Document)
 
-## Date: 2026-04-06
+## Date: 2026-05-10 (last update)
 
 ## Problème original
 Créer une plateforme de révision intelligente pour étudiants en médecine (1ère, 2ème, 3ème année) inspirée d'EDNi.
@@ -90,9 +90,11 @@ Créer une plateforme de révision intelligente pour étudiants en médecine (1�
 - [x] Graph interactif avec zoom
 
 ## Ce qui est implémenté (100%)
-- Authentification complète avec JWT
+- Authentification complète avec JWT (Bearer token + cookies fallback)
 - CRUD matières et cours
-- Import de fichiers PDF/MD/TXT
+- Import de fichiers PDF / DOCX / Word / Markdown / TXT
+- **Affichage du document original avec mise en page préservée** (PDF natif + DOCX → HTML via mammoth)
+- Logo MedRevision cliquable (renvoie vers le tableau de bord)
 - Analyse IA avec GPT-5.2
 - Génération automatique de questions
 - Quiz avec correction détaillée
@@ -100,6 +102,10 @@ Créer une plateforme de révision intelligente pour étudiants en médecine (1�
 - Statistiques avec graphiques
 - Carte des savoirs
 - Interface responsive
+
+## Changelog récent
+- **2026-05-10** : DOCX rendu fidèle (titres, listes, tables, images) via `mammoth` + endpoint `/api/courses/{id}/file/html`. Logo cliquable → Dashboard.
+- **2026-04-06** : Affichage du document original (iframe) dans la page de détail du cours.
 
 ## Backlog / Futures améliorations
 

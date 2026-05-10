@@ -59,7 +59,9 @@ export const coursesApi = {
     formData,
     { headers: { 'Content-Type': 'multipart/form-data' } }
   ),
-  regenerateQuestions: (id) => api.post(`/api/courses/${id}/regenerate-questions`)
+  regenerateQuestions: (id) => api.post(`/api/courses/${id}/regenerate-questions`),
+  getFileUrl: (id) => `${API_URL}/api/courses/${id}/file`,
+  getFileHtml: (id) => api.get(`/api/courses/${id}/file/html`, { responseType: 'text' })
 };
 
 // Questions API

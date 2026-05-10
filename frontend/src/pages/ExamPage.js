@@ -68,9 +68,18 @@ export default function ExamPage() {
       setCurrentIdx(0);
       setPhase('exam');
     } catch (err) {
-      alert(formatApiError(err));
+      const msg = formatApiError(err);
+      if (msg.toLowerCase().includes('aucune question') || msg.toLowerCase().includes('not found')) {
+        alert("Aucune question disponible pour ces critères.\n\nAstuce : importez d'abord un cours sur cette matière, ou choisissez 'Toutes matières'. L'IA générera automatiquement les questions après l'import (~30s).");
+      } else {
+        alert(msg);
+      }
     }
   };
+
+  const totalAvailableQuestions = (config.subject_id
+    ? subjects.find(s => s.id === config.subject_id)?.question_count || 0
+    : subjects.reduce((acc, s) => acc + (s.question_count || 0), 0));
 
   const toggleOption = (qIdx, optIdx, isMulti) => {
     setAnswers(prev => {
@@ -200,7 +209,7 @@ export default function ExamPage() {
   // ============== EXAM PHASE ==============
   if (phase === 'exam' && session) {
     const q = session.questions[currentIdx];
-    const isQrm = q.type === 'qrm';
+    const isQrm = q.type === 'qrm' || q.type === 'qcm' || q.type === 'cas_clinique';
     const isQroc = q.type === 'qroc';
     const answered = Object.keys(answers).length;
     const timeWarning = timeLeft < 300; // 5 min
@@ -392,9 +401,24 @@ export default function ExamPage() {
             className="w-full px-4 py-3 border-2 border-[#E2E8F0] rounded-xl focus:border-[#4F46E5] outline-none bg-white"
             data-testid="exam-subject-select"
           >
-            <option value="">Toutes matières</option>
-            {subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+            <option value="">Toutes matières ({subjects.reduce((a, s) => a + (s.question_count || 0), 0)} questions)</option>
+            {subjects.map(s => (
+              <option key={s.id} value={s.id} disabled={s.question_count === 0}>
+                {s.name} ({s.question_count || 0} questions{s.question_count === 0 ? ' — indisponible' : ''})
+              </option>
+            ))}
           </select>
+          {totalAvailableQuestions === 0 && (
+            <p className="mt-2 text-sm text-[#EF4444] flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4" />
+              Aucune question dans cette matière. Importez d'abord un cours.
+            </p>
+          )}
+          {totalAvailableQuestions > 0 && totalAvailableQuestions < config.question_count && (
+            <p className="mt-2 text-sm text-[#F59E0B]">
+              Seulement {totalAvailableQuestions} question{totalAvailableQuestions > 1 ? 's' : ''} disponible{totalAvailableQuestions > 1 ? 's' : ''}. Réduisez le nombre demandé ou choisissez une autre matière.
+            </p>
+          )}
         </div>
 
         <div>
@@ -468,8 +492,8 @@ export default function ExamPage() {
 
         <button
           onClick={startExam}
-          disabled={config.question_types.length === 0}
-          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#1E293B] to-[#0F172A] text-white py-4 rounded-xl font-bold text-lg hover:opacity-90 transition-opacity disabled:opacity-50 shadow-lg"
+          disabled={config.question_types.length === 0 || totalAvailableQuestions === 0}
+          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#1E293B] to-[#0F172A] text-white py-4 rounded-xl font-bold text-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
           data-testid="start-exam-btn"
         >
           <Play className="w-6 h-6" />

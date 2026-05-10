@@ -14,7 +14,8 @@ import {
   X,
   Sparkles,
   Trophy,
-  Zap
+  Zap,
+  Library
 } from 'lucide-react';
 
 const navItems = [
@@ -25,6 +26,7 @@ const navItems = [
   { path: '/ancrage', icon: Zap, label: 'Ancrage', color: '#EC4899' },
   { path: '/exam', icon: Trophy, label: 'Examen blanc', color: '#DC2626' },
   { path: '/flashcards', icon: Brain, label: 'Flashcards', color: '#A855F7' },
+  { path: '/references', icon: Library, label: 'Référentiels', color: '#0EA5E9' },
   { path: '/stats', icon: BarChart3, label: 'Statistiques', color: '#10B981' },
   { path: '/knowledge-graph', icon: Network, label: 'Carte des savoirs', color: '#EF4444' },
 ];

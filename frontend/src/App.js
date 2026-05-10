@@ -13,6 +13,7 @@ import StatsPage from './pages/StatsPage';
 import KnowledgeGraphPage from './pages/KnowledgeGraphPage';
 import AncragePage from './pages/AncragePage';
 import ExamPage from './pages/ExamPage';
+import ReferencesPage from './pages/ReferencesPage';
 import './App.css';
 
 function ProtectedRoute({ children }) {
@@ -150,6 +151,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <ExamPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/references"
+        element={
+          <ProtectedRoute>
+            <ReferencesPage />
           </ProtectedRoute>
         }
       />

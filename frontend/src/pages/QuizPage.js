@@ -203,10 +203,10 @@ export default function QuizPage() {
   const toggleOption = (index) => {
     if (answered) return;
     const question = session.questions[currentIndex];
+    // Single-select: QI and Vrai/Faux. All others (QRM, QCM, cas_clinique) allow multi-select
     if (question.type === 'qi' || question.type === 'vrai_faux') {
       setSelectedOptions([index]);
     } else {
-      // QRM, QCM allow multiple
       setSelectedOptions(prev =>
         prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
       );

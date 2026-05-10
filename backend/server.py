@@ -74,10 +74,13 @@ EMERGENT_KEY = os.environ.get("EMERGENT_LLM_KEY", "")
 async def analyze_course_with_ai(content: str, subject_name: str) -> dict:
     """Analyze course content with GPT-5.2 to extract concepts and generate questions"""
     try:
+        # Find relevant referentials (auxiliary context)
+        ref_context = await find_relevant_references(content, subject_name, limit=2)
+        
         chat = LlmChat(
             api_key=EMERGENT_KEY,
             session_id=f"analysis-{uuid.uuid4()}",
-            system_message="""Tu es un expert en pédagogie médicale. Analyse le cours fourni et retourne un JSON structuré avec:
+            system_message="""Tu es un expert en pédagogie médicale. Analyse le COURS principal et retourne un JSON structuré avec:
 1. "concepts": liste des notions clés (max 20)
 2. "definitions": liste des définitions importantes avec {"term": "...", "definition": "..."}
 3. "mechanisms": liste des mécanismes physiologiques/pathologiques
@@ -87,10 +90,16 @@ async def analyze_course_with_ai(content: str, subject_name: str) -> dict:
 7. "summary": résumé en 3-5 phrases
 8. "keywords": mots-clés pour la recherche (max 15)
 
+IMPORTANT: Tu peux recevoir des RÉFÉRENTIELS médicaux en CONTEXTE auxiliaire. Tu dois RESTER STRICTEMENT dans le cadre du COURS principal. Les référentiels servent uniquement à PRÉCISER ou COMPLÉTER les notions du cours, JAMAIS à introduire de notions absentes du cours.
+
 Retourne UNIQUEMENT le JSON, sans texte avant ou après."""
         ).with_model("openai", "gpt-5.2")
         
-        message = UserMessage(text=f"Matière: {subject_name}\n\nContenu du cours:\n{content[:15000]}")
+        user_msg = f"COURS PRINCIPAL — Matière: {subject_name}\n\n{content[:15000]}"
+        if ref_context:
+            user_msg += f"\n\n--- CONTEXTE AUXILIAIRE (référentiels — NE PAS introduire de notions hors-cours) ---\n{ref_context[:8000]}"
+        
+        message = UserMessage(text=user_msg)
         response = await chat.send_message(message)
         
         # Parse JSON from response
@@ -128,6 +137,8 @@ Retourne UNIQUEMENT le JSON, sans texte avant ou après."""
 async def generate_questions_with_ai(content: str, subject_name: str, analysis: dict) -> list:
     """Generate EDN-style questions: QI (1 correct), QRM (multiple correct), QROC (open short), DP (clinical case series)"""
     try:
+        ref_context = await find_relevant_references(content, subject_name, limit=2)
+        
         chat = LlmChat(
             api_key=EMERGENT_KEY,
             session_id=f"questions-{uuid.uuid4()}",
@@ -162,6 +173,8 @@ Pour CHAQUE question :
 - "concepts": tableau de 2-4 notions liées du cours
 - "rang": "A" (connaissances minimales) ou "B" (avancé)
 
+⚠️ RÈGLE ABSOLUE : Tes questions DOIVENT porter UNIQUEMENT sur le contenu du COURS PRINCIPAL fourni. Si des RÉFÉRENTIELS sont fournis en contexte auxiliaire, tu peux les utiliser pour PRÉCISER les notions ou ENRICHIR les explications, MAIS JAMAIS pour générer des questions sur des sujets ABSENTS du cours. Si une notion n'est pas dans le cours, ne la teste pas.
+
 Génère 12-15 questions variées :
 - 5-6 QI
 - 4-5 QRM
@@ -172,7 +185,11 @@ Retourne UNIQUEMENT le JSON array, sans texte avant ou après."""
         ).with_model("openai", "gpt-5.2")
         
         concepts_str = ", ".join(analysis.get("concepts", [])[:10])
-        message = UserMessage(text=f"Matière: {subject_name}\nNotions clés: {concepts_str}\n\nContenu:\n{content[:12000]}")
+        user_msg = f"COURS PRINCIPAL — Matière: {subject_name}\nNotions clés: {concepts_str}\n\nContenu:\n{content[:12000]}"
+        if ref_context:
+            user_msg += f"\n\n--- CONTEXTE AUXILIAIRE (référentiels — uniquement pour préciser, pas pour ajouter des sujets) ---\n{ref_context[:8000]}"
+        
+        message = UserMessage(text=user_msg)
         response = await chat.send_message(message)
         
         try:
@@ -303,6 +320,12 @@ class ExamStart(BaseModel):
 
 class ExamSubmit(BaseModel):
     answers: List[dict]  # [{question_id, selected_options, time_spent}]
+
+class ReferenceCreate(BaseModel):
+    title: str
+    description: Optional[str] = ""
+    keywords: Optional[List[str]] = []
+    subject_hint: Optional[str] = ""  # e.g. "Cardiologie"
 
 # Lifespan context
 @asynccontextmanager
@@ -2012,6 +2035,187 @@ async def get_dashboard(user: dict = Depends(get_current_user)):
         "heatmap": heatmap,
         "stats": stats
     }
+
+# ==================== REFERENCES (Admin Knowledge Base) ====================
+
+async def require_admin(user: dict = Depends(get_current_user)) -> dict:
+    if user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    return user
+
+
+def _extract_text_from_bytes(file_bytes: bytes, filename: str) -> tuple[str, str, str]:
+    """Returns (text, file_type, file_ext)"""
+    fl = filename.lower()
+    if fl.endswith(".pdf"):
+        reader = PyPDF2.PdfReader(io.BytesIO(file_bytes))
+        text = "\n".join([p.extract_text() or "" for p in reader.pages])
+        return text, "pdf", ".pdf"
+    if fl.endswith((".docx", ".doc")):
+        doc = DocxDocument(io.BytesIO(file_bytes))
+        parts = [p.text for p in doc.paragraphs if p.text.strip()]
+        for table in doc.tables:
+            for row in table.rows:
+                row_text = " | ".join([c.text.strip() for c in row.cells if c.text.strip()])
+                if row_text:
+                    parts.append(row_text)
+        return "\n\n".join(parts), "docx", ".docx"
+    if fl.endswith((".md", ".markdown")):
+        return file_bytes.decode("utf-8", errors="ignore"), "markdown", ".md"
+    if fl.endswith(".txt"):
+        return file_bytes.decode("utf-8", errors="ignore"), "text", ".txt"
+    raise HTTPException(status_code=400, detail="Format non supporté (PDF, DOCX, MD, TXT)")
+
+
+@api_router.post("/references/upload")
+async def upload_reference(
+    file: UploadFile = File(...),
+    title: Optional[str] = None,
+    subject_hint: Optional[str] = "",
+    keywords: Optional[str] = "",  # comma separated
+    user: dict = Depends(require_admin)
+):
+    """Admin: upload a reference PDF/DOCX/MD/TXT used as auxiliary RAG context for question generation"""
+    file_bytes = await file.read()
+    text, file_type, file_ext = _extract_text_from_bytes(file_bytes, file.filename or "ref")
+    if not text.strip():
+        raise HTTPException(status_code=400, detail="Impossible d'extraire le contenu")
+    
+    file_id = str(uuid.uuid4())
+    file_path = f"/app/backend/uploads/refs/{file_id}{file_ext}"
+    os.makedirs("/app/backend/uploads/refs", exist_ok=True)
+    with open(file_path, "wb") as f:
+        f.write(file_bytes)
+    
+    keyword_list = [k.strip().lower() for k in (keywords or "").split(",") if k.strip()]
+    
+    doc = {
+        "title": title or (file.filename or "Référentiel").rsplit(".", 1)[0],
+        "description": "",
+        "subject_hint": subject_hint or "",
+        "keywords": keyword_list,
+        "filename": file.filename,
+        "file_id": file_id,
+        "file_type": file_type,
+        "file_ext": file_ext,
+        "file_path": file_path,
+        "content": text,
+        "content_length": len(text),
+        "uploaded_by": user["id"],
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
+    result = await db.references.insert_one(doc)
+    
+    return {
+        "id": str(result.inserted_id),
+        "title": doc["title"],
+        "filename": doc["filename"],
+        "file_type": file_type,
+        "subject_hint": subject_hint,
+        "keywords": keyword_list,
+        "content_length": len(text)
+    }
+
+
+@api_router.get("/references")
+async def list_references(user: dict = Depends(get_current_user)):
+    """List all references (visible to all logged users for transparency, admin can manage)"""
+    refs = await db.references.find(
+        {},
+        {"_id": 1, "title": 1, "filename": 1, "file_type": 1, "subject_hint": 1, "keywords": 1, "content_length": 1, "created_at": 1}
+    ).sort("created_at", -1).to_list(500)
+    
+    return [{
+        "id": str(r["_id"]),
+        "title": r.get("title", ""),
+        "filename": r.get("filename", ""),
+        "file_type": r.get("file_type", ""),
+        "subject_hint": r.get("subject_hint", ""),
+        "keywords": r.get("keywords", []),
+        "content_length": r.get("content_length", 0),
+        "created_at": r.get("created_at", "")
+    } for r in refs]
+
+
+@api_router.delete("/references/{ref_id}")
+async def delete_reference(ref_id: str, user: dict = Depends(require_admin)):
+    ref = await db.references.find_one({"_id": ObjectId(ref_id)})
+    if not ref:
+        raise HTTPException(status_code=404, detail="Référentiel introuvable")
+    
+    # Delete file
+    fp = ref.get("file_path")
+    if fp and os.path.exists(fp):
+        try:
+            os.remove(fp)
+        except Exception:
+            pass
+    
+    await db.references.delete_one({"_id": ObjectId(ref_id)})
+    return {"message": "Référentiel supprimé"}
+
+
+@api_router.put("/references/{ref_id}")
+async def update_reference(ref_id: str, data: ReferenceCreate, user: dict = Depends(require_admin)):
+    update_data = {}
+    if data.title:
+        update_data["title"] = data.title
+    if data.description is not None:
+        update_data["description"] = data.description
+    if data.keywords is not None:
+        update_data["keywords"] = [k.lower().strip() for k in data.keywords]
+    if data.subject_hint is not None:
+        update_data["subject_hint"] = data.subject_hint
+    
+    result = await db.references.update_one({"_id": ObjectId(ref_id)}, {"$set": update_data})
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Référentiel introuvable")
+    return {"message": "Updated"}
+
+
+async def find_relevant_references(course_content: str, subject_name: str, limit: int = 3) -> str:
+    """Find references most relevant to a course based on keyword overlap and subject hint"""
+    try:
+        course_lower = course_content.lower()[:5000]
+        subject_lower = (subject_name or "").lower()
+        
+        all_refs = await db.references.find(
+            {},
+            {"title": 1, "subject_hint": 1, "keywords": 1, "content": 1}
+        ).to_list(200)
+        
+        scored = []
+        for r in all_refs:
+            score = 0
+            sh = (r.get("subject_hint") or "").lower()
+            if sh and (sh in subject_lower or subject_lower in sh):
+                score += 10
+            for kw in r.get("keywords", []):
+                if kw and kw in course_lower:
+                    score += 3
+            # Title match
+            title_words = (r.get("title") or "").lower().split()
+            for w in title_words:
+                if len(w) > 4 and w in course_lower:
+                    score += 1
+            if score > 0:
+                scored.append((score, r))
+        
+        scored.sort(key=lambda x: x[0], reverse=True)
+        top = scored[:limit]
+        
+        if not top:
+            return ""
+        
+        context_parts = []
+        for score, r in top:
+            content = (r.get("content") or "")[:3000]
+            context_parts.append(f"--- Référentiel: {r.get('title', '')} ---\n{content}")
+        return "\n\n".join(context_parts)
+    except Exception as e:
+        logger.error(f"Reference lookup error: {e}")
+        return ""
+
 
 # Root endpoint
 @api_router.get("/")

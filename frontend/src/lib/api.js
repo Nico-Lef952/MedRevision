@@ -82,6 +82,23 @@ export const examApi = {
   history: () => api.get(`/api/exam/history`)
 };
 
+// References API (admin)
+export const referencesApi = {
+  list: () => api.get(`/api/references`),
+  upload: (formData, params) => {
+    const search = new URLSearchParams();
+    if (params?.title) search.append('title', params.title);
+    if (params?.subject_hint) search.append('subject_hint', params.subject_hint);
+    if (params?.keywords) search.append('keywords', params.keywords);
+    const qs = search.toString();
+    return api.post(`/api/references/upload${qs ? '?' + qs : ''}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+  update: (id, data) => api.put(`/api/references/${id}`, data),
+  delete: (id) => api.delete(`/api/references/${id}`)
+};
+
 // Quiz API
 export const quizApi = {
   start: (data) => api.post(`/api/quiz/start`, data),

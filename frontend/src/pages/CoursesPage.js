@@ -12,7 +12,8 @@ import {
   Check,
   Sparkles,
   BookOpen,
-  Zap
+  Zap,
+  Trash2
 } from 'lucide-react';
 
 export default function CoursesPage() {
@@ -179,31 +180,32 @@ export default function CoursesPage() {
       {courses.length > 0 ? (
         <div className="space-y-4">
           {courses.map((course, idx) => (
-            <Link
+            <div
               key={course.id}
-              to={`/courses/${course.id}`}
               className="flex items-center gap-5 p-5 bg-white border border-[#E2E8F0] rounded-2xl hover:shadow-lg hover:border-[#4F46E5]/30 transition-all group"
               data-testid={`course-${idx}`}
             >
-              <div
-                className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-lg"
-                style={{ background: `linear-gradient(135deg, ${getSubjectColor(course.subject_id)}, ${getSubjectColor(course.subject_id)}CC)` }}
-              >
-                <FileText className="w-7 h-7 text-white" />
-              </div>
-              
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-lg text-[#1E293B] group-hover:text-[#4F46E5] transition-colors truncate">
-                  {course.title}
-                </h3>
-                <p className="text-[#64748B] truncate">
-                  {getSubjectName(course.subject_id)}
-                  {course.chapter && ` · ${course.chapter}`}
-                </p>
-                {course.summary && (
-                  <p className="text-sm text-[#94A3B8] mt-1 line-clamp-1">{course.summary}</p>
-                )}
-              </div>
+              <Link to={`/courses/${course.id}`} className="flex items-center gap-5 flex-1 min-w-0">
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-lg"
+                  style={{ background: `linear-gradient(135deg, ${getSubjectColor(course.subject_id)}, ${getSubjectColor(course.subject_id)}CC)` }}
+                >
+                  <FileText className="w-7 h-7 text-white" />
+                </div>
+                
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-lg text-[#1E293B] group-hover:text-[#4F46E5] transition-colors truncate">
+                    {course.title}
+                  </h3>
+                  <p className="text-[#64748B] truncate">
+                    {getSubjectName(course.subject_id)}
+                    {course.chapter && ` · ${course.chapter}`}
+                  </p>
+                  {course.summary && (
+                    <p className="text-sm text-[#94A3B8] mt-1 line-clamp-1">{course.summary}</p>
+                  )}
+                </div>
+              </Link>
 
               <div className="hidden sm:flex items-center gap-4 shrink-0">
                 <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FDF4FF] text-[#A855F7] font-medium text-sm">
@@ -223,7 +225,26 @@ export default function CoursesPage() {
                   ))}
                 </div>
               )}
-            </Link>
+
+              <button
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  if (!window.confirm(`Supprimer le cours "${course.title}" ? Toutes ses questions seront perdues.`)) return;
+                  try {
+                    await coursesApi.delete(course.id);
+                    fetchData();
+                  } catch (err) {
+                    alert(formatApiError(err));
+                  }
+                }}
+                className="p-2.5 text-[#94A3B8] hover:text-[#EF4444] hover:bg-[#FEE2E2] rounded-xl transition-colors shrink-0"
+                title="Supprimer le cours"
+                data-testid={`delete-course-${idx}`}
+              >
+                <Trash2 className="w-5 h-5" />
+              </button>
+            </div>
           ))}
         </div>
       ) : (

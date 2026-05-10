@@ -23,6 +23,7 @@ from pydantic import BaseModel, Field, ConfigDict, EmailStr
 from contextlib import asynccontextmanager
 import PyPDF2
 import io
+from docx import Document as DocxDocument
 
 # JWT Configuration
 JWT_ALGORITHM = "HS256"
@@ -730,19 +731,35 @@ async def upload_course(
     
     content = ""
     filename = file.filename or "Untitled"
+    file_lower = filename.lower()
     
     # Extract content based on file type
-    if filename.endswith(".pdf"):
+    if file_lower.endswith(".pdf"):
         pdf_content = await file.read()
         pdf_reader = PyPDF2.PdfReader(io.BytesIO(pdf_content))
         content = "\n".join([page.extract_text() or "" for page in pdf_reader.pages])
-    elif filename.endswith((".md", ".txt")):
+    elif file_lower.endswith((".docx", ".doc")):
+        # Word document
+        docx_content = await file.read()
+        doc = DocxDocument(io.BytesIO(docx_content))
+        paragraphs = []
+        for para in doc.paragraphs:
+            if para.text.strip():
+                paragraphs.append(para.text)
+        # Also extract tables
+        for table in doc.tables:
+            for row in table.rows:
+                row_text = " | ".join([cell.text.strip() for cell in row.cells if cell.text.strip()])
+                if row_text:
+                    paragraphs.append(row_text)
+        content = "\n\n".join(paragraphs)
+    elif file_lower.endswith((".md", ".txt", ".markdown")):
         content = (await file.read()).decode("utf-8")
     else:
-        raise HTTPException(status_code=400, detail="Unsupported file type. Use PDF, MD or TXT")
+        raise HTTPException(status_code=400, detail="Format non supporté. Utilisez PDF, Word (.docx), Markdown (.md) ou texte (.txt)")
     
     if not content.strip():
-        raise HTTPException(status_code=400, detail="Could not extract content from file")
+        raise HTTPException(status_code=400, detail="Impossible d'extraire le contenu du fichier")
     
     # Create course
     title = filename.rsplit(".", 1)[0]

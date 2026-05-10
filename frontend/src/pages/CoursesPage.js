@@ -232,7 +232,7 @@ export default function CoursesPage() {
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-[#4F46E5] text-[#4F46E5] rounded-xl font-semibold hover:bg-[#4F46E5] hover:text-white transition-all"
               >
                 <Upload className="w-5 h-5" />
-                Importer un PDF
+                Importer (PDF, Word, MD)
               </button>
               <button
                 onClick={() => openModal('create')}
@@ -295,12 +295,12 @@ export default function CoursesPage() {
               {modalMode === 'upload' ? (
                 <div>
                   <label className="block text-sm font-semibold text-[#1E293B] mb-2">
-                    Fichier (PDF, MD, TXT) *
+                    Fichier (PDF, Word, Markdown) *
                   </label>
                   <div className="border-2 border-dashed border-[#E2E8F0] rounded-2xl p-8 text-center hover:border-[#4F46E5] transition-colors cursor-pointer">
                     <input
                       type="file"
-                      accept=".pdf,.md,.txt"
+                      accept=".pdf,.docx,.doc,.md,.markdown,.txt"
                       onChange={(e) => setFile(e.target.files[0])}
                       className="hidden"
                       id="file-upload"
@@ -313,7 +313,7 @@ export default function CoursesPage() {
                       <p className="text-[#1E293B] font-semibold text-lg">
                         {file ? file.name : 'Cliquez pour sélectionner'}
                       </p>
-                      <p className="text-sm text-[#64748B] mt-2">PDF, Markdown ou texte</p>
+                      <p className="text-sm text-[#64748B] mt-2">PDF, Word (.docx), Markdown (.md) ou texte</p>
                     </label>
                   </div>
                 </div>

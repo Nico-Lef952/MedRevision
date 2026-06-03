@@ -1,0 +1,538 @@
+[
+  {
+    "id": "6a06d7381646c8c48fb6473f",
+    "course_id": "6a0506b5eb8b2aa107c72d7c",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Définissez l'hypertension portale par le gradient porto-cave.",
+    "answer": "L'hypertension portale est définie par un gradient de pression porto-cave (P. portale - P. cave) supérieur à 5 mmHg. Cette augmentation de pression freine l'écoulement du sang de la veine porte vers le système cave, entraînant diverses complications.",
+    "word_count": 37
+  },
+  {
+    "id": "6a06d7381646c8c48fb64740",
+    "course_id": "6a0506b5eb8b2aa107c72d7c",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle est l'enzyme limitante de la synthèse hépatique du cholestérol ?",
+    "answer": "L'enzyme limitante et donc régulatrice de la synthèse de novo du cholestérol par l'hépatocyte est l'HMG-CoA réductase. Cette enzyme est la cible des statines, les médicaments les plus couramment utilisés pour abaisser le taux de cholestérol plasmatique.",
+    "word_count": 37
+  },
+  {
+    "id": "6a06d7381646c8c48fb64741",
+    "course_id": "6a0506b5eb8b2aa107c72d7c",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle est la principale conséquence digestive d'une résection étendue de l'iléon distal ?",
+    "answer": "La principale conséquence d'une résection étendue de l'iléon distal est l'apparition de diarrhées. En effet, l'iléon distal est le site majeur de la réabsorption active des acides biliaires dans le cadre du cycle entéro-hépatique. Leur non-réabsorption et leur accumulation dans le côlon exercent un pouvoir laxatif, provoquant des diarrhées.",
+    "word_count": 49
+  },
+  {
+    "id": "6a06d7c41646c8c48fb64745",
+    "course_id": "6a0506b7eb8b2aa107c72d7d",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le symptôme digestif le plus fréquent de l'action des opioïdes sur le tube digestif ?",
+    "answer": "L'action des opioïdes, en se fixant sur les récepteurs µ, inhibe les neurones myentériques du système nerveux entérique. Cela entraîne une diminution des contractions et un ralentissement du transit intestinal, se manifestant cliniquement par une constipation, qui est le symptôme le plus fréquent de la morphine et d'autres opioïdes.",
+    "word_count": 49
+  },
+  {
+    "id": "6a06d7c41646c8c48fb6474a",
+    "course_id": "6a0506b7eb8b2aa107c72d7d",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel type de cellules joue le rôle de pacemaker dans la motricité gastrique ?",
+    "answer": "Les cellules interstitielles de Cajal sont des cellules spécialisées, situées dans la paroi gastro-intestinale, qui génèrent des ondes lentes électriques spontanées. Ces ondes lentes agissent comme des pacemakers, régulant la fréquence des contractions des muscles lisses de l'estomac (environ 3/min) et de l'intestin grêle (environ 12/min), et initiant la motricité digestive.",
+    "word_count": 53
+  },
+  {
+    "id": "6a06d7c41646c8c48fb6474e",
+    "course_id": "6a0506b7eb8b2aa107c72d7d",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel organe est la principale source de ghréline, l'unique hormone orexigène ?",
+    "answer": "L'estomac est le principal organe responsable de la sécrétion de ghréline. La ghréline est la seule hormone connue pour stimuler l'appétit (orexigène) et atteint son pic de concentration avant les repas, signalant la faim au cerveau.",
+    "word_count": 36
+  },
+  {
+    "id": "6a06d8401646c8c48fb64753",
+    "course_id": "6a0506b8eb8b2aa107c72d7e",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le mécanisme principal de l'efficacité d'une solution de réhydratation orale sucrée-salée ?",
+    "answer": "L'efficacité de la réhydratation par une solution eau salée sucrée repose sur le mécanisme du co-transporteur Na/glucose, couplé à la pompe Na/K ATPase. Ce système permet une absorption active du sodium et de l'eau, même en cas de diarrhée, rendant cette solution plus efficace que l'eau seule ou l'eau salée.",
+    "word_count": 52
+  },
+  {
+    "id": "6a06d8401646c8c48fb64757",
+    "course_id": "6a0506b8eb8b2aa107c72d7e",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle est la cause bactérienne la plus fréquente des toxi-infections alimentaires collectives (TIAC) en France ?",
+    "answer": "La Salmonella est la cause la plus fréquente des toxi-infections alimentaires collectives (TIAC) en France. Une TIAC est définie par au moins 2 cas similaires rapportés à une même origine alimentaire et est une maladie à déclaration obligatoire.",
+    "word_count": 38
+  },
+  {
+    "id": "6a06d93f13da924206027512",
+    "course_id": "6a0506baeb8b2aa107c72d7f",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle condition de pH intragastrique est impérative pour l'activation des inhibiteurs de la pompe à protons (IPP), expliquant leur prise à jeun ?",
+    "answer": "Les IPP nécessitent un pH inférieur à 2 pour être activés et pouvoir exercer leur action inhibitrice sur la pompe à protons. C'est pourquoi ils doivent être pris à jeun, 30 minutes avant le repas, moment où le pH gastrique est suffisamment acide pour permettre leur activation efficace avant que le repas ne tamponne l'acidité.",
+    "word_count": 55
+  },
+  {
+    "id": "6a06d93f13da924206027513",
+    "course_id": "6a0506baeb8b2aa107c72d7f",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle enzyme clé, sécrétée par le pancréas exocrine, nécessite un pH optimal de 8 pour son activité, soulignant l'importance de l'alcalinisation du bol alimentaire dans le duodénum ?",
+    "answer": "La trypsine est une enzyme protéolytique pancréatique essentielle dont le pH optimal d'activité est de 8. Cela implique que le bol alimentaire, très acide à la sortie de l'estomac (pH 1), doit être rapidement alcalinisé dans le duodénum par les bicarbonates pancréatiques afin de permettre l'action optimale de la trypsine et, par extension, une digestion protéique efficace.",
+    "word_count": 57
+  },
+  {
+    "id": "6a06de289b4f5bf230345e6b",
+    "course_id": "6a0506bbeb8b2aa107c72d80",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom de l'inhibiteur de trypsine sécrété par les cellules ductulaires pancréatiques, qui bloque la trypsine intra-pancréatique ?",
+    "answer": "Le PSTI (Pancreatic Secretory Trypsin Inhibitor) est une protéine sécrétée par les cellules ductulaires du pancréas. Son rôle est de se fixer sur le site catalytique de la trypsine et de l'inactiver, prévenant ainsi une activation accidentelle et l'autodigestion du pancréas.",
+    "word_count": 41
+  },
+  {
+    "id": "6a06de289b4f5bf230345e72",
+    "course_id": "6a0506bbeb8b2aa107c72d80",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom du centre régulateur du vomissement, situé dans le tronc cérébral ?",
+    "answer": "Le NTS (Noyau du Tractus Solitaire) est le centre régulateur principal du vomissement, situé dans le tronc cérébral. Il reçoit des afférences de différentes voies, y compris le tube digestif (via des récepteurs 5HT3) et la zone chémoréceptrice gâchette.",
+    "word_count": 39
+  },
+  {
+    "id": "6a06deff9b4f5bf230345e79",
+    "course_id": "6a0506bdeb8b2aa107c72d81",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le signe le plus spécifique d'une occlusion intestinale ?",
+    "answer": "Le signe le plus spécifique d'une occlusion intestinale est l'arrêt des gaz. Bien que l'arrêt des matières puisse également survenir, l'arrêt des gaz est un indicateur plus fiable et précoce de l'interruption du transit intestinal.",
+    "word_count": 35
+  },
+  {
+    "id": "6a06deff9b4f5bf230345e7d",
+    "course_id": "6a0506bdeb8b2aa107c72d81",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel organe est principalement concerné par une douleur exacerbée lors de la manœuvre de Murphy positive ?",
+    "answer": "Une manœuvre de Murphy positive, où la douleur en hypochondre droit lors de l'inspiration profonde empêche le patient de terminer son inspiration, est un signe clinique d'atteinte de la vésicule biliaire, le plus souvent dans le contexte d'une cholécystite aiguë.",
+    "word_count": 40
+  },
+  {
+    "id": "6a06deff9b4f5bf230345e83",
+    "course_id": "6a0506bdeb8b2aa107c72d81",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel terme désigne une contraction abdominale involontaire, invincible et permanente, signe d'une péritonite ?",
+    "answer": "La 'contracture' est une contraction abdominale involontaire, invincible et permanente. C'est un signe clinique majeur et de gravité, typique d'une péritonite généralisée, souvent décrite comme un 'ventre de bois'. Elle se distingue de la défense qui est vincible et localisée.",
+    "word_count": 40
+  },
+  {
+    "id": "6a06f11b12f1646258bebf61",
+    "course_id": "6a0506bfeb8b2aa107c72d82",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le risque majeur associé à l'Endobrachyoesophage (EBO) ?",
+    "answer": "L'Endobrachyoesophage (EBO), également appelé œsophage de Barrett, est caractérisé par une métaplasie de l'épithélium malpighien de l'œsophage en épithélium gastrique ou intestinal glandulaire. Cette modification histologique est considérée comme une lésion précancéreuse majeure, augmentant significativement le risque de développer un adénocarcinome de l'œsophage. D'où l'importance d'une surveillance endoscopique régulière.",
+    "word_count": 49
+  },
+  {
+    "id": "6a06f11b12f1646258bebf67",
+    "course_id": "6a0506bfeb8b2aa107c72d82",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom du symptôme caractérisé par une sensation de brûlure acide épigastrique, rétrosternale et ascendante ?",
+    "answer": "Le pyrosis est le symptôme cardinal et pathognomonique du Reflux Gastro-Œsophagien (RGO). Il est défini par trois critères obligatoires : un point de départ épigastrique, un caractère rétrosternal, et une progression ascendante vers la gorge. Sa présence seule peut suffire au diagnostic de RGO chez un sujet jeune sans signes d'alarme.",
+    "word_count": 50
+  },
+  {
+    "id": "6a06f1f212f1646258bebf6d",
+    "course_id": "6a0506c0eb8b2aa107c72d83",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Nommez les deux conséquences majeures de la cirrhose hépatique selon le cours.",
+    "answer": "La cirrhose, caractérisée par une fibrose importante du foie, entraîne principalement deux conséquences : l'insuffisance hépatocellulaire (diminution des fonctions de synthèse et de détoxification du foie) et l'hypertension portale (augmentation de la pression dans le système porte due à la rigidité du foie cirrhotique).",
+    "word_count": 43
+  },
+  {
+    "id": "6a06f1f212f1646258bebf71",
+    "course_id": "6a0506c0eb8b2aa107c72d83",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Citez les trois éléments composant la triade portale, visible à l'espace porte.",
+    "answer": "La triade portale est une structure anatomique microscopique essentielle du lobule hépatique, située dans l'espace porte. Elle est composée d'une branche de l'artère hépatique, d'une branche de la veine porte et d'un canal biliaire, entourés de tissu conjonctif.",
+    "word_count": 38
+  },
+  {
+    "id": "6a06f37838a96672fa8fcffb",
+    "course_id": "6a0506c2eb8b2aa107c72d84",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le type de laxatifs à privilégier pour une constipation de transit, objectivée par des marqueurs radio-opaques dans le cadre colique ?",
+    "answer": "Pour une constipation de transit, où les marqueurs radio-opaques sont localisés dans le cadre colique, indiquant un transit colique lent, le traitement de choix repose sur les laxatifs oraux. Ceux-ci agissent en augmentant le volume ou la teneur en eau des selles, ou en stimulant la motilité colique, facilitant ainsi leur progression jusqu'au rectum.",
+    "word_count": 54
+  },
+  {
+    "id": "6a06f37838a96672fa8fcffe",
+    "course_id": "6a0506c2eb8b2aa107c72d84",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le mécanisme physiologique sous-jacent à l'anisme lors d'un effort de poussée ?",
+    "answer": "L'anisme, ou dyssynergie ano-sphinctérienne, est caractérisé par une contraction paradoxale des sphincters anaux interne (SI) et externe (SE) au lieu de leur relâchement normal lors d'un effort de poussée pour déféquer. Cette contraction simultanée bloque la sortie des selles, conduisant à une constipation distale. Sa prise en charge spécifique repose sur la rééducation par biofeedback.",
+    "word_count": 55
+  },
+  {
+    "id": "6a06f5dbba4a1bdffc0d3261",
+    "course_id": "6a0506b8eb8b2aa107c72d7e",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom de la dilatation aiguë du côlon pouvant compliquer une diarrhée infectieuse sévère ?",
+    "answer": "Il s'agit de la colectasie, qui nécessite une prise en charge urgente (ASP, scanner, avis chirurgical).",
+    "word_count": 16
+  },
+  {
+    "id": "6a06f5dbba4a1bdffc0d3262",
+    "course_id": "6a0506b8eb8b2aa107c72d7e",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel examen permet de mesurer le temps de transit oro-anal en pathologie motrice ?",
+    "answer": "Le test au rouge carmin, qui mesure le temps entre l'ingestion du colorant et son apparition dans les selles (normalement 24h).",
+    "word_count": 21
+  },
+  {
+    "id": "6a06f8e08d9b27cd40a9b8a9",
+    "course_id": "6a0506bfeb8b2aa107c72d82",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom de la déchirure longitudinale du cardia provoquant une hématémèse après des vomissements violents ?",
+    "answer": "Syndrome de Mallory-Weiss.",
+    "word_count": 3
+  },
+  {
+    "id": "6a06f8e08d9b27cd40a9b8aa",
+    "course_id": "6a0506bfeb8b2aa107c72d82",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le risque vital majeur lié à une hernie hiatale par roulement ?",
+    "answer": "L'étranglement et la nécrose gastrique (urgence vitale).",
+    "word_count": 7
+  },
+  {
+    "id": "6a06f90a8d9b27cd40a9b8b4",
+    "course_id": "6a0506c0eb8b2aa107c72d83",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Comment nomme-t-on le signe clinique associant un ictère progressif et une vésicule biliaire palpable et indolore ?",
+    "answer": "Signe de Courvoisier-Terrier. Il est évocateur d'un cancer de la tête du pancréas obstruant la voie biliaire principale.",
+    "word_count": 18
+  },
+  {
+    "id": "6a06f90a8d9b27cd40a9b8b5",
+    "course_id": "6a0506c0eb8b2aa107c72d83",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom du signe neurologique, caractérisé par un tremblement battant lors de l'extension des mains, observé dans l'encéphalopathie hépatique ?",
+    "answer": "L'astérixis ou 'flapping tremor'.",
+    "word_count": 4
+  },
+  {
+    "id": "6a06f9408d9b27cd40a9b8bf",
+    "course_id": "6a0506c2eb8b2aa107c72d84",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Citez une cause endocrinienne majeure de constipation chronique.",
+    "answer": "L'hypothyroïdie (ou le diabète).",
+    "word_count": 4
+  },
+  {
+    "id": "6a06fae24d323c08d02eea1d",
+    "course_id": "6a0506b7eb8b2aa107c72d7d",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel nom porte le réflexe de contraction colique propulsive après un repas ?",
+    "answer": "Il s'agit du réflexe gastro-colique qui stimule les HAPC (contractions de haute amplitude) au niveau du côlon suite à l'ingestion d'aliments.",
+    "word_count": 21
+  },
+  {
+    "id": "6a06fae24d323c08d02eea1e",
+    "course_id": "6a0506b7eb8b2aa107c72d7d",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle structure hypothalamique est l'intégrateur principal des signaux de faim et de satiété avec une BHE poreuse ?",
+    "answer": "Le noyau arqué (ARC) de l'hypothalamus.",
+    "word_count": 6
+  },
+  {
+    "id": "6a06fb144d323c08d02eea28",
+    "course_id": "6a0506baeb8b2aa107c72d7f",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle enzyme pancréatique nécessite un pH optimal de 8 pour agir, rendant indispensable l'alcalinisation du bol alimentaire ?",
+    "answer": "La trypsine. Elle nécessite un milieu alcalin pour activer les autres pro-enzymes et dégrader les protéines.",
+    "word_count": 16
+  },
+  {
+    "id": "6a06fb3e4d323c08d02eea33",
+    "course_id": "6a0506bdeb8b2aa107c72d81",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom du signe pathognomonique de l'appendicite défini par une douleur en fosse iliaque droite lors de la palpation de la fosse iliaque gauche ?",
+    "answer": "Le signe de Rovsing, qui traduit l'irritation péritonéale localisée au niveau de l'appendice par déplacement des gaz coliques vers la droite.",
+    "word_count": 21
+  },
+  {
+    "id": "6a06fb3e4d323c08d02eea34",
+    "course_id": "6a0506bdeb8b2aa107c72d81",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel examen est systématique chez toute femme en âge de procréer présentant une douleur abdominale aiguë ?",
+    "answer": "Le dosage des β-HCG est impératif pour éliminer une Grossesse Extra-Utérine (GEU), qui peut mimer de nombreuses pathologies abdominales chirurgicales.",
+    "word_count": 20
+  },
+  {
+    "id": "6a06fd604d323c08d02eea99",
+    "course_id": "6a0506bbeb8b2aa107c72d80",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle est la mutation génétique la plus fréquente responsable de la mucoviscidose (CFTR) ?",
+    "answer": "La mutation la plus fréquente est la mutation ΔF508 située sur le chromosome 7, empêchant la fixation de l'ATP et l'activation du canal chlore.",
+    "word_count": 24
+  },
+  {
+    "id": "6a06fd604d323c08d02eea9f",
+    "course_id": "6a0506bbeb8b2aa107c72d80",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Dans quelle partie du tube digestif a lieu l'absorption de la vitamine B12 ?",
+    "answer": "La vitamine B12 est absorbée dans l'iléon terminal après avoir été liée au facteur intrinsèque.",
+    "word_count": 15
+  },
+  {
+    "id": "6a06fe074d323c08d02eeac1",
+    "course_id": "6a0506b5eb8b2aa107c72d7c",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle structure anatomique est le siège de la réabsorption active majoritaire des acides biliaires ?",
+    "answer": "L'iléon distal est le site principal de la réabsorption active des acides biliaires dans le cadre du cycle entéro-hépatique.",
+    "word_count": 19
+  },
+  {
+    "id": "6a06fe074d323c08d02eeac2",
+    "course_id": "6a0506b5eb8b2aa107c72d7c",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel nom donne-t-on à la bilirubine liée à l'albumine, hydrophobe et non filtrée par le rein ?",
+    "answer": "La bilirubine libre (ou non conjuguée) est hydrophobe, neurotoxique, liée à l'albumine et ne peut pas être filtrée par le rein.",
+    "word_count": 21
+  },
+  {
+    "id": "6a0701cf94ce87b2e9968d51",
+    "course_id": "6a0506d5eb8b2aa107c72d85",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom du signe clinique déclenché à l'échographie lors d'une cholécystite ?",
+    "answer": "Signe de Murphy échographique.",
+    "word_count": 4
+  },
+  {
+    "id": "6a0701cf94ce87b2e9968d52",
+    "course_id": "6a0506d5eb8b2aa107c72d85",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le seuil de longueur du grand axe de la rate définissant une splénomégalie ?",
+    "answer": "La splénomégalie est définie par un grand axe supérieur à 12 cm.",
+    "word_count": 12
+  },
+  {
+    "id": "6a0701f794ce87b2e9968d5d",
+    "course_id": "6a0506d6eb8b2aa107c72d86",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel terme désigne la présence d'air dans les structures portales hépatiques, signe de gravité extrême lors d'une occlusion ?",
+    "answer": "Il s'agit de l'aéroportie, qui témoigne d'une souffrance pariétale digestive sévère.",
+    "word_count": 11
+  },
+  {
+    "id": "6a0701f794ce87b2e9968d5e",
+    "course_id": "6a0506d6eb8b2aa107c72d86",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel signe radiologique spécifique, évoquant un grain de café, est associé au volvulus du sigmoïde chez le sujet âgé ?",
+    "answer": "Le signe du grain de café est l'aspect classique du sigmoïde très dilaté en arceau lors d'un volvulus sigmoïdien.",
+    "word_count": 19
+  },
+  {
+    "id": "6a0763b653bfa4766f5a112f",
+    "course_id": "6a0506b5eb8b2aa107c72d7c",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle est la conséquence principale de la résection iléale sur le transit digestif ?",
+    "answer": "La résection iléale entraîne une diminution de la réabsorption des acides biliaires dans l'iléon distal. Ces acides biliaires non réabsorbés atteignent le côlon où ils exercent un pouvoir laxatif, provoquant des diarrhées.",
+    "word_count": 32
+  },
+  {
+    "id": "6a0763b653bfa4766f5a1133",
+    "course_id": "6a0506b5eb8b2aa107c72d7c",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le principal mécanisme par lequel le foie concentre la bile à jeun ?",
+    "answer": "À jeun, le sphincter d'Oddi étant fermé, la bile s'accumule dans la vésicule biliaire. La vésicule concentre la bile en réabsorbant activement environ 90% de son contenu en eau.",
+    "word_count": 29
+  },
+  {
+    "id": "6a0763b653bfa4766f5a1138",
+    "course_id": "6a0506b5eb8b2aa107c72d7c",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel terme désigne la synthèse de glucose à partir de composés non glucidiques ?",
+    "answer": "La néoglucogenèse est la voie métabolique par laquelle le foie (principalement) synthétise du glucose à partir de précurseurs non glucidiques tels que les acides aminés, le glycérol ou le lactate. Elle est essentielle en période de jeûne ou de stress.",
+    "word_count": 40
+  },
+  {
+    "id": "6a07a7f57524c16253bc0df7",
+    "course_id": "6a0506bbeb8b2aa107c72d80",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle enzyme située à la surface des entérocytes est responsable du clivage du trypsinogène en trypsine ?",
+    "answer": "L'entérokinase duodénale est l'enzyme clé située sur la bordure en brosse des entérocytes qui active le trypsinogène en trypsine, initiant la cascade d'activation des autres proenzymes.",
+    "word_count": 26
+  },
+  {
+    "id": "6a07a7f57524c16253bc0dfd",
+    "course_id": "6a0506bbeb8b2aa107c72d80",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Dans quel segment intestinal se produit l'absorption de la vitamine B12 liée au facteur intrinsèque ?",
+    "answer": "La vitamine B12, après s'être liée au facteur intrinsèque dans le duodénum, est absorbée spécifiquement au niveau de l'iléon terminal.",
+    "word_count": 20
+  },
+  {
+    "id": "6a07aa0f7524c16253bc0e24",
+    "course_id": "6a0506d6eb8b2aa107c72d86",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel terme radiologique désigne une image de manque de produit de contraste lors d'un lavement colique ?",
+    "answer": "Une image de soustraction (ou lacune) correspond à une tumeur ou un obstacle endoluminal qui empêche la progression du produit de contraste, créant un manque de produit sur l'image.",
+    "word_count": 29
+  },
+  {
+    "id": "6a07aa0f7524c16253bc0e25",
+    "course_id": "6a0506d6eb8b2aa107c72d86",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le signe de gravité extrême en imagerie lors d'une occlusion intestinale ?",
+    "answer": "L'aéroportie (présence d'air dans le système porte hépatique) est un signe de gravité extrême lors d'une occlusion, témoignant d'une souffrance de la paroi digestive.",
+    "word_count": 24
+  },
+  {
+    "id": "6a07aaec7524c16253bc0e4f",
+    "course_id": "6a0506d5eb8b2aa107c72d85",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle est la structure liquidienne qui, en échographie, présente un cône d'ombre postérieur ?",
+    "answer": "Calcul biliaire (ou lithiase). Il est hyperéchogène et absorbe les ultrasons, créant un cône d'ombre.",
+    "word_count": 15
+  },
+  {
+    "id": "6a07aaec7524c16253bc0e50",
+    "course_id": "6a0506d5eb8b2aa107c72d85",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Comment appelle-t-on le signe radiologique de la perte du produit de contraste au temps portal par une tumeur hypervasculaire ?",
+    "answer": "Wash-out (ou lavage).",
+    "word_count": 3
+  },
+  {
+    "id": "6a07ae4f7524c16253bc0eb0",
+    "course_id": "6a0506bdeb8b2aa107c72d81",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom de la douleur à la décompression brutale de la paroi abdominale témoignant d'une irritation péritonéale ?",
+    "answer": "Il s'agit du signe de Blumberg, déclenché en appuyant doucement puis en relâchant brusquement la pression.",
+    "word_count": 16
+  },
+  {
+    "id": "6a07ae4f7524c16253bc0eb1",
+    "course_id": "6a0506bdeb8b2aa107c72d81",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle est la cause la plus fréquente d'occlusion du grêle chez un patient ayant des antécédents de laparotomie ?",
+    "answer": "La bride post-opératoire est la cause la plus fréquente d'occlusion du grêle, favorisée par tout antécédent de chirurgie abdominale.",
+    "word_count": 19
+  },
+  {
+    "id": "6a07b16f7524c16253bc0ece",
+    "course_id": "6a0506bbeb8b2aa107c72d80",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le diagnostic gold standard pour une pullulation bactérienne du grêle (SIBO) ?",
+    "answer": "Le test respiratoire à l'hydrogène (H2) après ingestion de glucose est le test de référence pour diagnostiquer une pullulation bactérienne dans le grêle.",
+    "word_count": 23
+  },
+  {
+    "id": "6a07b16f7524c16253bc0ecf",
+    "course_id": "6a0506bbeb8b2aa107c72d80",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle protéine, sécrétée dans l'estomac, est essentielle pour protéger la vitamine B12 avant son transfert au facteur intrinsèque ?",
+    "answer": "La protéine R (ou haptocorrine) protège la vitamine B12 dans l'estomac.",
+    "word_count": 11
+  },
+  {
+    "id": "6a07b4e37524c16253bc0ef7",
+    "course_id": "6a0506c0eb8b2aa107c72d83",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom du signe clinique associant douleur biliaire, fièvre et ictère ?",
+    "answer": "La triade de Charcot, qui définit une angiocholite.",
+    "word_count": 8
+  },
+  {
+    "id": "6a07b4e37524c16253bc0ef8",
+    "course_id": "6a0506c0eb8b2aa107c72d83",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel signe clinique est défini par une vésicule biliaire palpable et indolore chez un patient ictérique ?",
+    "answer": "Le signe de Courvoisier-Terrier, évocateur d'un cancer de la tête du pancréas.",
+    "word_count": 12
+  },
+  {
+    "id": "6a07b51b7524c16253bc0f00",
+    "course_id": "6a0506bfeb8b2aa107c72d82",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Comment appelle-t-on le sang digéré noir, nauséabond et collant évacué par les selles lors d'une hémorragie digestive haute ?",
+    "answer": "Le méléna est défini par des selles noires, nauséabondes et collantes, témoignant d'une hémorragie digestive située en amont de l'angle de Treitz.",
+    "word_count": 22
+  },
+  {
+    "id": "6a07b51b7524c16253bc0f01",
+    "course_id": "6a0506bfeb8b2aa107c72d82",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel trouble moteur de l'œsophage se définit par un défaut d'ouverture du SIO et une absence de péristaltisme ?",
+    "answer": "L'achalasie (ou méga-œsophage) est un trouble moteur caractérisé par une non-relaxation du sphincter inférieur de l'œsophage et une disparition du péristaltisme du corps œsophagien.",
+    "word_count": 24
+  },
+  {
+    "id": "6a07b6bc7524c16253bc0f40",
+    "course_id": "6a0506baeb8b2aa107c72d7f",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom de la protéine du canal chlore (Cl-) des cellules ductulaires pancréatiques dont la mutation cause la mucoviscidose ?",
+    "answer": "Le canal CFTR (Cystic Fibrosis Transmembrane conductance Regulator).",
+    "word_count": 8
+  },
+  {
+    "id": "6a07b7bf7524c16253bc0f6b",
+    "course_id": "6a0506b7eb8b2aa107c72d7d",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle hormone est sécrétée par le tissu adipeux et renseigne l'hypothalamus sur les réserves énergétiques ?",
+    "answer": "La leptine, sécrétée par le tissu adipeux en proportion de la masse grasse.",
+    "word_count": 13
+  },
+  {
+    "id": "6a08214b33bbefe928344975",
+    "course_id": "6a0506d5eb8b2aa107c72d85",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "En imagerie par résonance magnétique (IRM), quel type de séquence spécifique permet de diagnostiquer une stéatose hépatique en mettant en évidence une perte de signal du foie ?",
+    "answer": "Séquences en opposition de phase",
+    "word_count": 5
+  },
+  {
+    "id": "6a08214b33bbefe928344979",
+    "course_id": "6a0506d5eb8b2aa107c72d85",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le premier signe radiologique scanographique, le plus précoce, témoignant d'une inflammation pancréatique aiguë ?",
+    "answer": "Infiltration de la graisse péripancréatique",
+    "word_count": 5
+  },
+  {
+    "id": "6a10bcaad3d1c8bcad090887",
+    "course_id": "6a0506b8eb8b2aa107c72d7e",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le seuil pondéral des lipides fécaux, au-delà duquel on affirme une stéatorrhée ?",
+    "answer": "5 g/j",
+    "word_count": 3
+  },
+  {
+    "id": "6a10d247d3d1c8bcad090a17",
+    "course_id": "6a0506b8eb8b2aa107c72d7e",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quelle est la valeur seuil (en g/j) des lipides fécaux au-delà de laquelle on définit une stéatorrhée ?",
+    "answer": "5 g/j",
+    "word_count": 3
+  },
+  {
+    "id": "6a10ec7bd3d1c8bcad090b17",
+    "course_id": "6a0506baeb8b2aa107c72d7f",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom de la pompe située au pôle basal de la cellule pariétale qui assure le maintien du pool de K+ intracellulaire ?",
+    "answer": "Na+/K+ ATPase",
+    "word_count": 3
+  },
+  {
+    "id": "6a111a30d3d1c8bcad090d2a",
+    "course_id": "6a0506baeb8b2aa107c72d7f",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom de la pompe ionique située au pôle basal de la cellule pariétale qui assure le maintien du pool de K+ intracellulaire ?",
+    "answer": "Na+/K+ ATPase",
+    "word_count": 3
+  },
+  {
+    "id": "6a111ccfd3d1c8bcad090d6b",
+    "course_id": "6a0506baeb8b2aa107c72d7f",
+    "subject_id": "6a0506b5eb8b2aa107c72d7b",
+    "question": "Quel est le nom de la pompe située au pôle basal des cellules ductulaires pancréatiques responsable de l'exportation des H+ pour prévenir l'acidose intracellulaire ?",
+    "answer": "Pompe Na+/H+",
+    "word_count": 3
+  }
+]

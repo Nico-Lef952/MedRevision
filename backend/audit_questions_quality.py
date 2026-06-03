@@ -1,0 +1,410 @@
+# -*- coding: utf-8 -*-
+
+import argparse
+import asyncio
+import json
+import os
+import re
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+from bson import ObjectId
+from google import genai
+
+from server import db
+
+
+def load_env():
+    env_path = Path(".env")
+    if not env_path.exists():
+        return
+
+    for line in env_path.read_text(encoding="utf-8", errors="ignore").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip())
+
+
+def count_words(text):
+    text = text or ""
+    return len(re.findall(r"\b[\w'-]+\b", text))
+
+
+def compute_target_questions(content, min_questions, max_questions, words_per_question):
+    words = count_words(content)
+
+    if words <= 250:
+        target = min_questions
+    else:
+        target = round(words / words_per_question)
+
+    return max(min_questions, min(max_questions, target))
+
+
+def extract_json(text):
+    text = text.strip()
+
+    if text.startswith("```"):
+        text = re.sub(r"^```json", "", text.strip(), flags=re.I)
+        text = re.sub(r"^```", "", text.strip())
+        text = re.sub(r"```$", "", text.strip())
+
+    start = text.find("{")
+    end = text.rfind("}")
+
+    if start == -1 or end == -1:
+        raise ValueError("No JSON object found in model response")
+
+    return json.loads(text[start:end + 1])
+
+
+def sleep_msg(seconds, reason):
+    print("")
+    print(f"Pause {round(seconds / 60, 1)} min - {reason}")
+    print("")
+    time.sleep(seconds)
+
+
+def truncate(text, max_chars):
+    text = text or ""
+    if len(text) <= max_chars:
+        return text
+    return text[:max_chars] + "\n\n[CONTENT TRUNCATED]"
+
+
+async def get_user():
+    user = await db.users.find_one({"email": "admin@medrevision.com"})
+    if not user:
+        raise RuntimeError("User admin not found")
+    return user
+
+
+async def get_course_bundle(user_id, course):
+    course_id = str(course["_id"])
+    subject_id = course.get("subject_id")
+
+    subject = None
+    if subject_id:
+        try:
+            subject = await db.subjects.find_one({"_id": ObjectId(subject_id)})
+        except Exception:
+            subject = None
+
+    subject_name = subject.get("name", "Unknown subject") if subject else "Unknown subject"
+
+    questions = await db.questions.find({
+        "user_id": user_id,
+        "course_id": course_id
+    }).to_list(2000)
+
+    clean_questions = []
+
+    for q in questions:
+        clean_questions.append({
+            "id": str(q["_id"]),
+            "type": q.get("type", ""),
+            "question": q.get("question", ""),
+            "options": q.get("options", []),
+            "answer": q.get("answer", ""),
+            "explanation": q.get("explanation", ""),
+            "vignette": q.get("vignette", ""),
+            "sub_questions": q.get("sub_questions", [])
+        })
+
+    return {
+        "course_id": course_id,
+        "title": course.get("title", "Untitled"),
+        "subject_name": subject_name,
+        "chapter": course.get("chapter", ""),
+        "content": course.get("content", "") or "",
+        "questions": clean_questions
+    }
+
+
+def make_prompt(bundle, target):
+    questions_json = json.dumps(bundle["questions"], ensure_ascii=False)
+
+    return f"""
+You are auditing medical exam revision questions.
+
+Your task:
+- Compare the questions to the course content.
+- Detect questions that are irrelevant, false, ambiguous, badly written, duplicated, or too superficial.
+- Detect important notions from the course that are not covered by any question.
+- Do not penalize a high number of questions by itself.
+- A large question bank is positive if questions cover different notions and different angles.
+- Penalize volume only when it comes from duplicates, redundant questions, or repeated notions.
+- The goal is not a short quiz, but a dense training bank allowing random quizzes of 10, 30, or 60 questions.
+- Do not invent facts outside the course unless needed to identify a contradiction.
+- Answer only with valid JSON.
+
+COURSE METADATA:
+Subject: {bundle["subject_name"]}
+Chapter: {bundle["chapter"]}
+Title: {bundle["title"]}
+Target number of questions for this course: {target}
+Current number of questions: {len(bundle["questions"])}
+
+COURSE CONTENT:
+{bundle["content"]}
+
+QUESTIONS:
+{questions_json}
+
+Return exactly this JSON structure:
+{{
+  "global_score": 0,
+  "coverage_score": 0,
+  "relevance_score": 0,
+  "wording_score": 0,
+  "factual_score": 0,
+  "summary": "short audit summary in French",
+  "question_count_assessment": "too_low | ok | too_high",
+  "bad_questions": [
+    {{
+      "question_id": "id",
+      "severity": "low | medium | high",
+      "problem_type": "irrelevant | false | ambiguous | typo | duplicate | too_easy | incomplete",
+      "problem": "explain in French",
+      "suggested_fix": "suggest a better version in French"
+    }}
+  ],
+  "duplicates": [
+    {{
+      "question_ids": ["id1", "id2"],
+      "explanation": "why they duplicate each other"
+    }}
+  ],
+  "missing_notions": [
+    {{
+      "notion": "important notion missing from questions",
+      "importance": "low | medium | high",
+      "suggested_question": "a possible question in French"
+    }}
+  ],
+  "recommended_extra_questions": 0,
+  "priority": "low | medium | high"
+}}
+"""
+
+
+async def audit_course(client, model, bundle, args):
+    target = compute_target_questions(
+        bundle["content"],
+        args.min_questions,
+        args.max_questions,
+        args.words_per_question
+    )
+
+    prompt_bundle = dict(bundle)
+    prompt_bundle["content"] = truncate(bundle["content"], args.max_content_chars)
+
+    prompt = make_prompt(prompt_bundle, target)
+
+    response = client.models.generate_content(
+        model=model,
+        contents=prompt
+    )
+
+    text = response.text or ""
+    data = extract_json(text)
+
+    data["course_id"] = bundle["course_id"]
+    data["course_title"] = bundle["title"]
+    data["subject_name"] = bundle["subject_name"]
+    data["chapter"] = bundle["chapter"]
+    data["question_count"] = len(bundle["questions"])
+    data["target_questions"] = target
+    data["word_count"] = count_words(bundle["content"])
+    data["created_at"] = datetime.now(timezone.utc).isoformat()
+
+    return data
+
+
+def report_markdown(results):
+    lines = []
+    lines.append("# Audit qualite des questions")
+    lines.append("")
+    lines.append(f"Genere le : {datetime.now().strftime('%d/%m/%Y %H:%M')}")
+    lines.append("")
+
+    high = [r for r in results if r.get("priority") == "high"]
+    medium = [r for r in results if r.get("priority") == "medium"]
+
+    lines.append("## Resume")
+    lines.append("")
+    lines.append(f"- Cours audites : {len(results)}")
+    lines.append(f"- Priorite haute : {len(high)}")
+    lines.append(f"- Priorite moyenne : {len(medium)}")
+    lines.append("")
+
+    for r in sorted(results, key=lambda x: (x.get("priority") != "high", x.get("global_score", 100))):
+        lines.append("---")
+        lines.append("")
+        lines.append(f"## {r.get('subject_name')} - {r.get('course_title')}")
+        lines.append("")
+        lines.append(f"- Section : {r.get('chapter')}")
+        lines.append(f"- Questions : {r.get('question_count')} / cible {r.get('target_questions')}")
+        lines.append(f"- Mots du cours : {r.get('word_count')}")
+        lines.append(f"- Score global : {r.get('global_score')}/100")
+        lines.append(f"- Couverture : {r.get('coverage_score')}/100")
+        lines.append(f"- Pertinence : {r.get('relevance_score')}/100")
+        lines.append(f"- Formulation : {r.get('wording_score')}/100")
+        lines.append(f"- Exactitude : {r.get('factual_score')}/100")
+        lines.append(f"- Priorite : {r.get('priority')}")
+        lines.append("")
+        lines.append(r.get("summary", ""))
+        lines.append("")
+
+        bad = r.get("bad_questions", [])
+        if bad:
+            lines.append("### Questions a corriger")
+            lines.append("")
+            for b in bad:
+                lines.append(f"- `{b.get('question_id')}` - {b.get('severity')} - {b.get('problem_type')}")
+                lines.append(f"  - Probleme : {b.get('problem')}")
+                lines.append(f"  - Correction proposee : {b.get('suggested_fix')}")
+            lines.append("")
+
+        dups = r.get("duplicates", [])
+        if dups:
+            lines.append("### Doublons")
+            lines.append("")
+            for d in dups:
+                lines.append(f"- {', '.join(d.get('question_ids', []))} : {d.get('explanation')}")
+            lines.append("")
+
+        missing = r.get("missing_notions", [])
+        if missing:
+            lines.append("### Notions manquantes")
+            lines.append("")
+            for m in missing:
+                lines.append(f"- {m.get('importance')} - {m.get('notion')}")
+                lines.append(f"  - Question suggeree : {m.get('suggested_question')}")
+            lines.append("")
+
+    return "\n".join(lines)
+
+
+async def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", default=None)
+    parser.add_argument("--limit", type=int, default=9999)
+    parser.add_argument("--delay", type=int, default=60)
+    parser.add_argument("--quota-sleep", type=int, default=3600)
+    parser.add_argument("--overload-sleep", type=int, default=900)
+    parser.add_argument("--min-questions", type=int, default=20)
+    parser.add_argument("--max-questions", type=int, default=90)
+    parser.add_argument("--words-per-question", type=int, default=80)
+    parser.add_argument("--max-content-chars", type=int, default=45000)
+    parser.add_argument("--only-subject", default="")
+    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--course-contains", default="")
+
+    args = parser.parse_args()
+
+    load_env()
+
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    if not api_key:
+        raise RuntimeError("No GEMINI_API_KEY or GOOGLE_API_KEY found in .env")
+
+    model = args.model or os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite")
+    client = genai.Client(api_key=api_key)
+
+    user = await get_user()
+    user_id = str(user["_id"])
+
+    out_json = Path("audit_questions_results.json")
+    out_md = Path("audit_questions_report.md")
+
+    done_ids = set()
+    results = []
+
+    if args.resume and out_json.exists():
+        results = json.loads(out_json.read_text(encoding="utf-8"))
+        done_ids = {r.get("course_id") for r in results}
+        print(f"Resume mode: {len(done_ids)} courses already audited")
+
+    courses = await db.courses.find({"user_id": user_id}).sort("title", 1).to_list(5000)
+
+    count = 0
+
+    print("")
+    print("AUDIT QUALITE DES QUESTIONS")
+    print(f"Model: {model}")
+    print("Ctrl+C pour arreter")
+    print("")
+
+    for course in courses:
+        if count >= args.limit:
+            break
+
+        course_id = str(course["_id"])
+
+        if course_id in done_ids:
+            continue
+
+        bundle = await get_course_bundle(user_id, course)
+
+        if args.only_subject and args.only_subject.lower() not in bundle["subject_name"].lower():
+            continue
+
+        if args.course_contains and args.course_contains.lower() not in bundle["title"].lower():
+            continue
+
+        if len(bundle["questions"]) == 0:
+            continue
+
+        while True:
+            try:
+                print("=" * 90)
+                print(f"Audit: {bundle['subject_name']} -> {bundle['title']}")
+                print(f"Questions: {len(bundle['questions'])}")
+                print("=" * 90)
+
+                audit = await audit_course(client, model, bundle, args)
+
+                results.append(audit)
+                done_ids.add(course_id)
+
+                out_json.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
+                out_md.write_text(report_markdown(results), encoding="utf-8")
+
+                print(f"OK - score {audit.get('global_score')}/100 - priority {audit.get('priority')}")
+                print(f"Report updated: {out_md}")
+
+                count += 1
+                sleep_msg(args.delay, "pause normale")
+                break
+
+            except KeyboardInterrupt:
+                print("Arret manuel")
+                return
+
+            except Exception as err:
+                msg = str(err).lower()
+                print("")
+                print("Erreur audit:")
+                print(err)
+
+                if "429" in msg or "quota" in msg or "resource_exhausted" in msg:
+                    sleep_msg(args.quota_sleep, "quota atteint")
+                elif "503" in msg or "unavailable" in msg or "overload" in msg or "high demand" in msg:
+                    sleep_msg(args.overload_sleep, "Gemini surcharge")
+                else:
+                    sleep_msg(300, "erreur inconnue")
+
+    out_json.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
+    out_md.write_text(report_markdown(results), encoding="utf-8")
+
+    print("")
+    print("Audit termine.")
+    print(f"Rapport: {out_md}")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

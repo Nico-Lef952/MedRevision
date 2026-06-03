@@ -1,0 +1,300 @@
+{
+  "strategy": "Génération de questions variées couvrant la sémiologie digestive haute, incluant des points de physiopathologie, des diagnostics différentiels et des urgences cliniques, conformément au cours.",
+  "questions": [
+    {
+      "type": "qi",
+      "question": "Quel est le mécanisme électrophysiologique exact permettant à l'impédancemétrie œsophagienne de détecter le passage d'un reflux gazeux ?",
+      "options": [
+        {
+          "text": "Une chute de l'impédance rétro-propagée",
+          "is_correct": false
+        },
+        {
+          "text": "Une élévation importante de l'impédance rétro-propagée",
+          "is_correct": true
+        },
+        {
+          "text": "Une chute brutale de la conductivité électrique",
+          "is_correct": false
+        },
+        {
+          "text": "Une stabilisation du pH à 7",
+          "is_correct": false
+        }
+      ],
+      "answer": "Une élévation importante de l'impédance rétro-propagée",
+      "explanation": "L'air est un très mauvais conducteur électrique. Son passage dans la sonde provoque une augmentation de la résistance, donc une augmentation de l'impédance mesurée.",
+      "difficulty": 3,
+      "rang": "B",
+      "concepts": [
+        "Impédancemétrie",
+        "RGO",
+        "Physiologie"
+      ]
+    },
+    {
+      "type": "qroc",
+      "question": "Quel terme définit la sensation de 'boule dans la gorge' liée à l'anxiété sans trouble de la déglutition ?",
+      "options": [
+        {
+          "text": "Globus hystericus",
+          "is_correct": true
+        }
+      ],
+      "answer": "Globus hystericus",
+      "explanation": "Le globus hystericus est un diagnostic d'exclusion, lié au stress, où la déglutition est normale.",
+      "difficulty": 1,
+      "rang": "A",
+      "concepts": [
+        "Globus hystericus",
+        "Diagnostic différentiel"
+      ]
+    },
+    {
+      "type": "cas_clinique",
+      "question": "Un patient présente une hernie hiatale par roulement découverte fortuitement au scanner. Quelle est la particularité de cette hernie justifiant souvent une intervention ?",
+      "options": [
+        {
+          "text": "Elle favorise le RGO acide",
+          "is_correct": false
+        },
+        {
+          "text": "Elle expose au risque d'adénocarcinome",
+          "is_correct": false
+        },
+        {
+          "text": "Elle risque de s'étrangler et se nécroser",
+          "is_correct": true
+        },
+        {
+          "text": "Elle provoque une dysphagie aux liquides",
+          "is_correct": false
+        }
+      ],
+      "answer": "Elle risque de s'étrangler et se nécroser",
+      "explanation": "La hernie par roulement (para-œsophagienne) ne donne pas de RGO, mais son risque évolutif majeur est l'étranglement gastrique, une urgence vitale.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Hernie hiatale",
+        "Urgences"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Quelles anomalies hydro-électrolytiques sont classiquement retrouvées lors d'une sténose pylorique avec vomissements persistants ?",
+      "options": [
+        {
+          "text": "Hypokaliémie",
+          "is_correct": true
+        },
+        {
+          "text": "Alcalose métabolique",
+          "is_correct": true
+        },
+        {
+          "text": "Acidose métabolique",
+          "is_correct": false
+        },
+        {
+          "text": "Hypochlorémie",
+          "is_correct": true
+        }
+      ],
+      "answer": "Hypokaliémie, Alcalose métabolique, Hypochlorémie",
+      "explanation": "La perte de suc gastrique riche en HCl et en ions K+ entraîne une alcalose métabolique de contraction avec hypochlorémie et hypokaliémie.",
+      "difficulty": 3,
+      "rang": "B",
+      "concepts": [
+        "Sténose pylorique",
+        "Vomissements",
+        "Complications métaboliques"
+      ]
+    },
+    {
+      "type": "dp",
+      "question": "Patient de 45 ans, brûlures épigastriques chroniques. 1) Quel test permet de confirmer une infection active à H. pylori ? 2) Quel est le gold standard pour différencier une hernie hiatale par glissement d'une hernie par roulement ?",
+      "sub_questions": [
+        {
+          "question": "1) Quel test confirme l'infection active à H. pylori ?",
+          "options": [
+            {
+              "text": "Sérologie H. pylori",
+              "is_correct": false
+            },
+            {
+              "text": "Test respiratoire urée marquée C13",
+              "is_correct": true
+            },
+            {
+              "text": "Numération formule sanguine",
+              "is_correct": false
+            },
+            {
+              "text": "FOGD sans biopsie",
+              "is_correct": false
+            }
+          ],
+          "answer": "Test respiratoire urée marquée C13"
+        },
+        {
+          "question": "2) Quel est l'examen de référence pour visualiser la morphologie d'une hernie ?",
+          "options": [
+            {
+              "text": "Écho-endoscopie",
+              "is_correct": false
+            },
+            {
+              "text": "Manométrie",
+              "is_correct": false
+            },
+            {
+              "text": "Transit Œso-Gastro-Duodénal (TOGD)",
+              "is_correct": true
+            },
+            {
+              "text": "Vidéo-capsule",
+              "is_correct": false
+            }
+          ],
+          "answer": "Transit Œso-Gastro-Duodénal (TOGD)"
+        }
+      ],
+      "answer": "1: C13, 2: TOGD",
+      "explanation": "Le test C13 détecte l'activité uréase (infection active). Le TOGD permet une étude dynamique de la morphologie œso-gastrique.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "H. pylori",
+        "Explorations",
+        "Hernie hiatale"
+      ]
+    },
+    {
+      "type": "qi",
+      "question": "Quelle est la position physiologique pour réaliser une fibroscopie œsogastroduodénale (FOGD) afin de prévenir les fausses routes ?",
+      "options": [
+        {
+          "text": "Décubitus dorsal",
+          "is_correct": false
+        },
+        {
+          "text": "Décubitus latéral gauche",
+          "is_correct": true
+        },
+        {
+          "text": "Assis",
+          "is_correct": false
+        },
+        {
+          "text": "Trendelenburg",
+          "is_correct": false
+        }
+      ],
+      "answer": "Décubitus latéral gauche",
+      "explanation": "La position en décubitus latéral permet au liquide gastrique de s'écouler naturellement par la commissure labiale plutôt que dans les voies aériennes.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Explorations",
+        "FOGD"
+      ]
+    },
+    {
+      "type": "qroc",
+      "question": "Quel est le nom de la pneumopathie causée par l'inhalation de contenu gastrique lors de vomissements ?",
+      "options": [
+        {
+          "text": "Syndrome Mendelssohn",
+          "is_correct": true
+        }
+      ],
+      "answer": "Syndrome Mendelssohn",
+      "explanation": "Le syndrome de Mendelssohn est la pneumopathie d'inhalation acide, une complication grave des vomissements.",
+      "difficulty": 3,
+      "rang": "B",
+      "concepts": [
+        "Vomissements",
+        "Complications"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Parmi ces signes, lesquels constituent des signes d'alarme imposant une FOGD urgente ?",
+      "options": [
+        {
+          "text": "Amaigrissement",
+          "is_correct": true
+        },
+        {
+          "text": "Dysphagie",
+          "is_correct": true
+        },
+        {
+          "text": "Pyrosis occasionnel",
+          "is_correct": false
+        },
+        {
+          "text": "Hémorragie digestive",
+          "is_correct": true
+        }
+      ],
+      "answer": "Amaigrissement, Dysphagie, Hémorragie digestive",
+      "explanation": "Les signes d'alarme (dysphagie, hémorragie, amaigrissement, anémie, âge > 60 ans) imposent une exploration endoscopique pour éliminer une pathologie maligne.",
+      "difficulty": 1,
+      "rang": "A",
+      "concepts": [
+        "Signes d'alarme",
+        "Endoscopie"
+      ]
+    },
+    {
+      "type": "qi",
+      "question": "Pourquoi la biopsie d'un ulcère gastrique est-elle systématiquement obligatoire lors d'une endoscopie ?",
+      "options": [
+        {
+          "text": "Pour diagnostiquer l'infection à H. pylori",
+          "is_correct": false
+        },
+        {
+          "text": "Car il peut s'agir d'une lésion maligne",
+          "is_correct": true
+        },
+        {
+          "text": "Pour déterminer le traitement IPP",
+          "is_correct": false
+        },
+        {
+          "text": "Car le risque hémorragique est plus élevé",
+          "is_correct": false
+        }
+      ],
+      "answer": "Car il peut s'agir d'une lésion maligne",
+      "explanation": "Contrairement à l'ulcère duodénal, l'ulcère gastrique peut masquer un adénocarcinome gastrique. La biopsie est donc impérative.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Ulcère gastrique",
+        "Biopsies"
+      ]
+    },
+    {
+      "type": "qroc",
+      "question": "Quel est le nom de la déchirure longitudinale du cardia provoquant une hématémèse après des vomissements violents ?",
+      "options": [
+        {
+          "text": "Syndrome Mallory-Weiss",
+          "is_correct": true
+        }
+      ],
+      "answer": "Syndrome Mallory-Weiss",
+      "explanation": "Il s'agit d'une déchirure de la jonction œso-gastrique suite à des efforts de vomissements répétés.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Syndrome de Mallory-Weiss",
+        "Vomissements"
+      ]
+    }
+  ]
+}

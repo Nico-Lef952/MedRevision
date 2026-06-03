@@ -1,0 +1,641 @@
+# Rapport de doublons
+
+Doublons candidats à supprimer : 178
+
+## PHYSIOLOGIE DIGESTIVE — PARTIE 2
+
+- Questions avant : 132
+- Questions à supprimer : 12
+
+- Type : similar
+  - Gardée : `6a06d7381646c8c48fb6473c`
+  - Supprimées : 6a06fe074d323c08d02eeabd
+  - Question : Quels sont les composants principaux de la bile ?
+- Type : similar
+  - Gardée : `6a10e6edd3d1c8bcad090aea`
+  - Supprimées : 6a06fe074d323c08d02eeab8
+  - Question : Quelle est la part du débit sanguin hépatique fournie par la veine porte chez un sujet sain ?
+- Type : similar
+  - Gardée : `6a1113c9d3d1c8bcad090ca0`
+  - Supprimées : 6a10bd32d3d1c8bcad090897, 6a10f258d3d1c8bcad090b42, 6a11043fd3d1c8bcad090c46
+  - Question : Quelle est la durée de vie moyenne des érythrocytes permettant d'expliquer le pic de bilirubine tardive à J90 ?
+- Type : similar
+  - Gardée : `6a10d0a3d3d1c8bcad0909e4`
+  - Supprimées : 6a10c10cd3d1c8bcad090912
+  - Question : Quel est le nom de la structure formée par l'association d'acides biliaires, phospholipides et cholestérol pour assurer la solubilité de ce dernier ?
+- Type : similar
+  - Gardée : `6a10d0a3d3d1c8bcad0909de`
+  - Supprimées : 6a10d359d3d1c8bcad090a36
+  - Question : Quel est le devenir métabolique principal de l'hème des cytochromes hépatiques (CYP450) lors de leur dégradation ?
+- Type : similar
+  - Gardée : `6a10d0a3d3d1c8bcad0909e0`
+  - Supprimées : 6a11043fd3d1c8bcad090c42
+  - Question : Quels sont les effets de la stimulation du système nerveux sympathique sur le métabolisme glucidique hépatique ?
+- Type : similar
+  - Gardée : `6a10e6edd3d1c8bcad090ae7`
+  - Supprimées : 6a10d359d3d1c8bcad090a38
+  - Question : Parmi les propositions suivantes, quelle est la caractéristique physico-chimique permettant aux acides biliaires conjugués d'être efficaces dans la digestion des lipides ?
+- Type : similar
+  - Gardée : `6a10f57ed3d1c8bcad090b91`
+  - Supprimées : 6a10db33d3d1c8bcad090a8a
+  - Question : Quel est le nom de l'acide biliaire secondaire produit par déshydrogénation bactérienne de l'acide chénodésoxycholique dans le côlon ?
+- Type : similar
+  - Gardée : `6a10e6edd3d1c8bcad090aea`
+  - Supprimées : 6a10f57ed3d1c8bcad090b98
+  - Question : Quelle est la part du débit sanguin hépatique fournie par la veine porte chez un sujet sain ?
+- Type : similar
+  - Gardée : `6a1113c9d3d1c8bcad090c9d`
+  - Supprimées : 6a11043fd3d1c8bcad090c44
+  - Question : Quelle est la part d'apport en oxygène au foie assurée par la veine porte chez un sujet sain ?
+
+## 🍽️ PHYSIOLOGIE DIGESTIVE — PARTIE 1 (PASS)
+
+- Questions avant : 188
+- Questions à supprimer : 18
+
+- Type : similar
+  - Gardée : `6a06d7c41646c8c48fb6474b`
+  - Supprimées : 6a07b7bf7524c16253bc0f65
+  - Question : Quelle est la durée approximative du transit du bol alimentaire dans l'œsophage ?
+- Type : similar
+  - Gardée : `6a10bdffd3d1c8bcad0908b1`
+  - Supprimées : 6a111418d3d1c8bcad090ca6
+  - Question : Quel est le neurotransmetteur impliqué dans la contraction des fibres musculaires lisses du corps de l'œsophage ?
+- Type : similar
+  - Gardée : `6a10da5fd3d1c8bcad090a78`
+  - Supprimées : 6a10bdffd3d1c8bcad0908b4
+  - Question : Quelle hormone est sécrétée par le tissu adipeux pour renseigner l'hypothalamus sur les réserves énergétiques à long terme ?
+- Type : similar
+  - Gardée : `6a10c3d4d3d1c8bcad09095e`
+  - Supprimées : 6a10bdffd3d1c8bcad0908b6
+  - Question : Quels sont les facteurs qui augmentent la vitesse de vidange gastrique ?
+- Type : similar
+  - Gardée : `6a11253cd3d1c8bcad090dd8`
+  - Supprimées : 6a10c035d3d1c8bcad0908f6, 6a11172dd3d1c8bcad090ce4
+  - Question : Quelle est la fréquence typique des ondes lentes générées par les cellules de Cajal dans l'intestin grêle chez l'Homme ?
+- Type : similar
+  - Gardée : `6a112c83d3d1c8bcad090e15`
+  - Supprimées : 6a10c3d4d3d1c8bcad09095d
+  - Question : Quel est le neurotransmetteur impliqué dans la synapse nicotinique entre le nerf vague et les neurones du muscle lisse œsophagien ?
+- Type : similar
+  - Gardée : `6a10da5fd3d1c8bcad090a77`
+  - Supprimées : 6a10c3d4d3d1c8bcad09095f, 6a10cb79d3d1c8bcad0909b5
+  - Question : Quelle est la valeur du seuil d'inconfort gastrique mesuré lors d'un test au barostat chez un sujet sain ?
+- Type : similar
+  - Gardée : `6a10cb79d3d1c8bcad0909b7`
+  - Supprimées : 6a10f29cd3d1c8bcad090b49
+  - Question : Quels sont les facteurs déclenchant les HAPC (High Amplitude Propagative Contractions) au niveau du côlon ?
+- Type : similar
+  - Gardée : `6a111b69d3d1c8bcad090d4e`
+  - Supprimées : 6a10cb79d3d1c8bcad0909bd
+  - Question : Quels mécanismes assurent la continence anale quotidienne ?
+- Type : similar
+  - Gardée : `6a10d28ed3d1c8bcad090a1a`
+  - Supprimées : 6a11253cd3d1c8bcad090ddc
+  - Question : Quel est le seuil de volume de distension gastrique mesuré au barostat correspondant à l'apparition de l'inconfort chez un patient sain ?
+- Type : similar
+  - Gardée : `6a10e7cdd3d1c8bcad090b00`
+  - Supprimées : 6a11225bd3d1c8bcad090d97
+  - Question : Quelle est la durée maximale pendant laquelle le sphincter anal externe peut maintenir la continence volontaire avant fatigue ?
+- Type : similar
+  - Gardée : `6a11225bd3d1c8bcad090d98`
+  - Supprimées : 6a10f60ed3d1c8bcad090ba7
+  - Question : Quels sont les rôles des orexines produites par l'aire hypothalamique latérale (AHL) ?
+- Type : similar
+  - Gardée : `6a11225bd3d1c8bcad090d91`
+  - Supprimées : 6a110490d3d1c8bcad090c49
+  - Question : Quel nerf assure la modulation parasympathique accélératrice de la motricité digestive via des récepteurs nicotiniques ?
+- Type : similar
+  - Gardée : `6a11253cd3d1c8bcad090ddd`
+  - Supprimées : 6a110490d3d1c8bcad090c4a
+  - Question : Quels sont les effets de l'activation de la voie anorexigène (neurones à α-MSH) dans l'hypothalamus ?
+- Type : similar
+  - Gardée : `6a11253cd3d1c8bcad090dd7`
+  - Supprimées : 6a11172dd3d1c8bcad090ce3
+  - Question : Quel est le devenir des phases III du complexe moteur migrant (housekeeper) après l'ingestion d'un repas de 750 kcal ?
+- Type : similar
+  - Gardée : `6a111b69d3d1c8bcad090d4d`
+  - Supprimées : 6a11172dd3d1c8bcad090ce5
+  - Question : Quel est le neurotransmetteur responsable de la relaxation du sphincter inférieur de l'œsophage (SIO) ?
+
+## 💩 Diarrhée Aiguë — Diarrhée Chronique
+
+- Questions avant : 134
+- Questions à supprimer : 3
+
+- Type : similar
+  - Gardée : `6a10b85ed3d1c8bcad090875`
+  - Supprimées : 6a10ecbed3d1c8bcad090b24
+  - Question : Quelle protéine plasmatique voit sa clairance fécale augmenter significativement lors d'une entéropathie exsudative ?
+- Type : similar
+  - Gardée : `6a111340d3d1c8bcad090c8c`
+  - Supprimées : 6a10cbbdd3d1c8bcad0909c1, 6a10ecbed3d1c8bcad090b1d
+  - Question : Quelle est la valeur seuil du poids des selles sur 24 heures définissant une diarrhée chez l'adulte ?
+
+## 📋 PHYSIOLOGIE DIGESTIVE — PARTIE 3
+
+- Questions avant : 183
+- Questions à supprimer : 16
+
+- Type : similar
+  - Gardée : `6a07b6bc7524c16253bc0f38`
+  - Supprimées : 6a06fb144d323c08d02eea20
+  - Question : Quel est le mécanisme d'action des inhibiteurs de la pompe à protons (IPP) ?
+- Type : similar
+  - Gardée : `6a06fb144d323c08d02eea29`
+  - Supprimées : 6a10db78d3d1c8bcad090a98
+  - Question : Quel est le nom de la protéine sécrétée par le pancréas dont la carence, souvent liée à l'alcoolisme chronique, favorise la formation de calculs protéiques ?
+- Type : similar
+  - Gardée : `6a10bceed3d1c8bcad09088b`
+  - Supprimées : 6a10ec7bd3d1c8bcad090b19
+  - Question : Quel est le rôle du domaine transmembranaire de la pompe à protons (H+/K+ ATPase) dans le mécanisme d'action des IPP ?
+- Type : similar
+  - Gardée : `6a10bceed3d1c8bcad09088d`
+  - Supprimées : 6a10d170d3d1c8bcad0909fa, 6a110ddcd3d1c8bcad090c67
+  - Question : Quels sont les effets physiologiques des prostaglandines sur la muqueuse gastrique ?
+- Type : similar
+  - Gardée : `6a10bfebd3d1c8bcad0908ec`
+  - Supprimées : 6a10fb94d3d1c8bcad090bc4
+  - Question : Quel est le devenir métabolique des ions H+ produits par l'anhydrase carbonique dans la cellule ductulaire pancréatique, afin d'éviter une acidification intracellulaire ?
+- Type : similar
+  - Gardée : `6a10bfebd3d1c8bcad0908f3`
+  - Supprimées : 6a10c33ad3d1c8bcad090951
+  - Question : Quelle enzyme protéolytique pancréatique a un pH optimal d'action à 8 ?
+- Type : similar
+  - Gardée : `6a10c33ad3d1c8bcad09094d`
+  - Supprimées : 6a113862d3d1c8bcad090e65
+  - Question : Quel est le devenir métabolique des ions H+ produits par l'activité de l'anhydrase carbonique au pôle basal des cellules ductulaires pancréatiques afin d'éviter une acidification cellulaire ?
+- Type : similar
+  - Gardée : `6a10c33ad3d1c8bcad09094f`
+  - Supprimées : 6a10d170d3d1c8bcad0909fc
+  - Question : Quelle est la forme de stockage inactive des enzymes protéolytiques dans le pancréas ?
+- Type : similar
+  - Gardée : `6a10c600d3d1c8bcad0909a0`
+  - Supprimées : 6a11155cd3d1c8bcad090cc6
+  - Question : Quel est le nom de la forme inactive des enzymes pancréatiques stockée dans les cellules acineuses ?
+- Type : similar
+  - Gardée : `6a112329d3d1c8bcad090da8`
+  - Supprimées : 6a10ec7bd3d1c8bcad090b18
+  - Question : Parmi les propositions suivantes, lesquelles sont des conséquences directes de l'activation des récepteurs muscariniques M3 par l'acétylcholine sur la cellule pariétale ?
+- Type : similar
+  - Gardée : `6a113862d3d1c8bcad090e66`
+  - Supprimées : 6a10ec7bd3d1c8bcad090b1b
+  - Question : Quel est le nom de la protéine sécrétée par les cellules acineuses qui joue un rôle protecteur essentiel en prévenant la précipitation calcique dans les canalicules pancréatiques ?
+- Type : similar
+  - Gardée : `6a111a30d3d1c8bcad090d2f`
+  - Supprimées : 6a110ddcd3d1c8bcad090c69, 6a11155cd3d1c8bcad090cc4
+  - Question : Quelle est la valeur seuil du nombre de reflux sur 24h au-delà de laquelle un RGO est considéré comme pathologique ?
+- Type : similar
+  - Gardée : `6a112d5cd3d1c8bcad090e27`
+  - Supprimées : 6a1117b9d3d1c8bcad090cf4
+  - Question : Quelle est la fonction biologique de la pompe Na+/H+ située au pôle basal des cellules ductulaires pancréatiques ?
+- Type : similar
+  - Gardée : `6a112d5cd3d1c8bcad090e24`
+  - Supprimées : 6a111a30d3d1c8bcad090d2e
+  - Question : Quel est le rôle du site N de la pompe H+/K+ ATPase gastrique ?
+
+## 📋 PHYSIOLOGIE DIGESTIVE — PARTIE 4
+
+- Questions avant : 189
+- Questions à supprimer : 17
+
+- Type : similar
+  - Gardée : `6a06de289b4f5bf230345e6e`
+  - Supprimées : 6a112b55d3d1c8bcad090df8
+  - Question : Quelles sont les hormones impliquées dans le freinage de la sécrétion pancréatique exocrine ?
+- Type : similar
+  - Gardée : `6a07a7f57524c16253bc0df6`
+  - Supprimées : 6a06fd604d323c08d02eea9e
+  - Question : Quels éléments sont indispensables au fonctionnement de la lipase pancréatique dans le duodénum ?
+- Type : similar
+  - Gardée : `6a10dc4bd3d1c8bcad090aad`
+  - Supprimées : 6a06fd604d323c08d02eeaa0
+  - Question : Quel transporteur apical permet l'entrée du fructose dans l'entérocyte ?
+- Type : similar
+  - Gardée : `6a111acad3d1c8bcad090d40`
+  - Supprimées : 6a07a7f57524c16253bc0df5
+  - Question : Quelle enzyme pancréatique est sécrétée sous forme active sans passer par une proenzyme ?
+- Type : similar
+  - Gardée : `6a10e786d3d1c8bcad090afb`
+  - Supprimées : 6a07a7f57524c16253bc0df8
+  - Question : Quelle est la fonction principale du PSTI (Pancreatic Secretory Trypsin Inhibitor) ?
+- Type : similar
+  - Gardée : `6a10e786d3d1c8bcad090afa`
+  - Supprimées : 6a10bfa6d3d1c8bcad0908e8, 6a111acad3d1c8bcad090d42
+  - Question : Quel est le nom de la zone du tronc cérébral sans barrière hémato-encéphalique qui détecte les toxines sanguines ?
+- Type : similar
+  - Gardée : `6a10cae5d3d1c8bcad0909a9`
+  - Supprimées : 6a112b55d3d1c8bcad090dfc
+  - Question : Quels sont les rôles physiologiques des acides gras à chaîne courte (AGCC) produits par le microbiote colique ?
+- Type : similar
+  - Gardée : `6a10f2ebd3d1c8bcad090b50`
+  - Supprimées : 6a10cae5d3d1c8bcad0909aa
+  - Question : Quelle hormone, sécrétée par les cellules endocrines de l'iléon en réponse à des lipides, ralentit la vidange gastrique ?
+- Type : similar
+  - Gardée : `6a10d90ed3d1c8bcad090a58`
+  - Supprimées : 6a10cae5d3d1c8bcad0909af
+  - Question : Quelle cellule pancréatique est spécifiquement responsable de la sécrétion des ions bicarbonates (HCO3-) ?
+- Type : similar
+  - Gardée : `6a10e786d3d1c8bcad090af7`
+  - Supprimées : 6a10d90ed3d1c8bcad090a57
+  - Question : Quels sont les facteurs indispensables au fonctionnement optimal de la lipase pancréatique dans le duodénum ?
+- Type : similar
+  - Gardée : `6a10dc4bd3d1c8bcad090aae`
+  - Supprimées : 6a112e35d3d1c8bcad090e3d
+  - Question : Quelle est la source principale d'énergie des colonocytes issue de la fermentation bactérienne ?
+- Type : similar
+  - Gardée : `6a1138bed3d1c8bcad090e6e`
+  - Supprimées : 6a10dc4bd3d1c8bcad090ab2, 6a10e786d3d1c8bcad090afc
+  - Question : Quelles hormones agissent comme des 'freins' de la sécrétion pancréatique exocrine post-prandiale ?
+- Type : similar
+  - Gardée : `6a10f5cbd3d1c8bcad090b9a`
+  - Supprimées : 6a112e35d3d1c8bcad090e3c
+  - Question : Quelles sont les cibles des antiémétiques utilisés pour bloquer les voies de signalisation vers le NTS ?
+- Type : similar
+  - Gardée : `6a111d1cd3d1c8bcad090d72`
+  - Supprimées : 6a112e35d3d1c8bcad090e39
+  - Question : Quelle est la cause du passage du fer ferrique (Fe3+) en fer ferreux (Fe2+) dans l'estomac ?
+- Type : similar
+  - Gardée : `6a112e35d3d1c8bcad090e3b`
+  - Supprimées : 6a112382d3d1c8bcad090db0
+  - Question : Quelle est la hormone sécrétée par les îlots de Langerhans en réponse à une élévation des acides aminés, exerçant un effet inhibiteur sur la sécrétion pancréatique exocrine ?
+
+## 📋 Sémiologie Chirurgicale — Examen Abdominal
+
+- Questions avant : 184
+- Questions à supprimer : 22
+
+- Type : similar
+  - Gardée : `6a06deff9b4f5bf230345e7a`
+  - Supprimées : 6a111e35d3d1c8bcad090d87
+  - Question : Quelle est la définition correcte d'une éventration ?
+- Type : similar
+  - Gardée : `6a112d13d3d1c8bcad090e23`
+  - Supprimées : 6a06fb3e4d323c08d02eea2d, 6a07ae4f7524c16253bc0ea9
+  - Question : Quelle est la définition exacte d'une éviscération abdominale ?
+- Type : similar
+  - Gardée : `6a1112eed3d1c8bcad090c89`
+  - Supprimées : 6a07ae4f7524c16253bc0eaf
+  - Question : Quels éléments font partie du 'Carré de Mondor' dans l'occlusion intestinale ?
+- Type : similar
+  - Gardée : `6a111e35d3d1c8bcad090d84`
+  - Supprimées : 6a07c8377524c16253bc10a4
+  - Question : Quel est le seuil de dilatation colique au scanner à partir duquel le risque de perforation diastaltique du caecum est majeur ?
+- Type : similar
+  - Gardée : `6a10be94d3d1c8bcad0908c8`
+  - Supprimées : 6a110365d3d1c8bcad090c33
+  - Question : Quels sont les éléments cliniques permettant d'orienter vers une perforation d'ulcère gastroduodénal ?
+- Type : similar
+  - Gardée : `6a10c159d3d1c8bcad090916`
+  - Supprimées : 6a112ec3d3d1c8bcad090e48
+  - Question : Parmi les causes suivantes, laquelle est une cause métabolique classique d'iléus paralytique (occlusion fonctionnelle) ?
+- Type : similar
+  - Gardée : `6a10c159d3d1c8bcad090917`
+  - Supprimées : 6a10c418d3d1c8bcad090966
+  - Question : Quels sont les signes cliniques orientant vers un syndrome d'ischémie mésentérique aiguë ?
+- Type : similar
+  - Gardée : `6a110365d3d1c8bcad090c2c`
+  - Supprimées : 6a10d12bd3d1c8bcad0909ef
+  - Question : Quel est le mécanisme physiopathologique expliquant la douleur lors d'une strangulation intestinale ?
+- Type : similar
+  - Gardée : `6a10d12bd3d1c8bcad0909f0`
+  - Supprimées : 6a111baed3d1c8bcad090d51
+  - Question : Quel est le nom de la manœuvre consistant en une flexion-adduction de la cuisse pour diagnostiquer une appendicite rétro-caecale ?
+- Type : similar
+  - Gardée : `6a10dc8fd3d1c8bcad090ab6`
+  - Supprimées : 6a10fb4ed3d1c8bcad090bbc, 6a112ec3d3d1c8bcad090e47
+  - Question : Quel est le nom de l'examen biologique, marqueur spécifique d'une infection bactérienne sévère, utile dans le diagnostic de péritonite ?
+- Type : similar
+  - Gardée : `6a111e35d3d1c8bcad090d86`
+  - Supprimées : 6a10dc8fd3d1c8bcad090ab7, 6a1112eed3d1c8bcad090c85
+  - Question : Quelles sont les causes métaboliques classiques d'iléus paralytique (occlusion fonctionnelle) ?
+- Type : similar
+  - Gardée : `6a111984d3d1c8bcad090d20`
+  - Supprimées : 6a10dc8fd3d1c8bcad090abd, 6a10f3b8d3d1c8bcad090b69
+  - Question : Quels sont les signes cliniques orientant vers une origine cancéreuse dans le cadre d'un syndrome abdominal ?
+- Type : similar
+  - Gardée : `6a112d13d3d1c8bcad090e1f`
+  - Supprimées : 6a10ec2ed3d1c8bcad090b10
+  - Question : Parmi les causes suivantes, lesquelles sont des étiologies métaboliques d'un iléus paralytique (occlusion fonctionnelle) ?
+- Type : similar
+  - Gardée : `6a10f3b8d3d1c8bcad090b68`
+  - Supprimées : 6a111984d3d1c8bcad090d21, 6a111baed3d1c8bcad090d55
+  - Question : Pourquoi la fibroscopie oesogastro-duodénale est-elle formellement contre-indiquée en cas de suspicion de perforation d'ulcère ?
+- Type : similar
+  - Gardée : `6a10fb4ed3d1c8bcad090bbf`
+  - Supprimées : 6a1102dcd3d1c8bcad090c23
+  - Question : Quelle est la valeur seuil du diamètre du côlon au scanner, au-delà de laquelle on craint une perforation diastaltique du caecum ?
+- Type : similar
+  - Gardée : `6a112d13d3d1c8bcad090e23`
+  - Supprimées : 6a111baed3d1c8bcad090d53
+  - Question : Quelle est la définition exacte d'une éviscération abdominale ?
+- Type : similar
+  - Gardée : `6a111e35d3d1c8bcad090d86`
+  - Supprimées : 6a111baed3d1c8bcad090d54
+  - Question : Quelles sont les causes métaboliques classiques d'iléus paralytique (occlusion fonctionnelle) ?
+
+## 📋 Sémiologie Digestive Haute
+
+- Questions avant : 186
+- Questions à supprimer : 19
+
+- Type : similar
+  - Gardée : `6a112c36d3d1c8bcad090e0b`
+  - Supprimées : 6a06f8e08d9b27cd40a9b8a8
+  - Question : Quelles sont les manifestations extra-œsophagiennes du RGO ?
+- Type : similar
+  - Gardée : `6a112c36d3d1c8bcad090e0c`
+  - Supprimées : 6a07c8c97524c16253bc10aa
+  - Question : Quels sont les signes d'alarme justifiant une endoscopie digestive haute ?
+- Type : similar
+  - Gardée : `6a111385d3d1c8bcad090c95`
+  - Supprimées : 6a10bdbbd3d1c8bcad0908a8, 6a10dde8d3d1c8bcad090ae5
+  - Question : Quelles sont les caractéristiques permettant d'identifier formellement un méléna ?
+- Type : similar
+  - Gardée : `6a10c0c8d3d1c8bcad090903`
+  - Supprimées : 6a111385d3d1c8bcad090c97
+  - Question : Quel est le nom du diverticule siégeant à la jonction pharyngo-œsophagienne, responsable d'une dysphagie haute ?
+- Type : similar
+  - Gardée : `6a10ed47d3d1c8bcad090b2f`
+  - Supprimées : 6a10c0c8d3d1c8bcad090907, 6a10cc07d3d1c8bcad0909c9
+  - Question : Comment nomme-t-on la pneumopathie causée par l'inhalation de contenu gastrique lors de vomissements ?
+- Type : similar
+  - Gardée : `6a10c0c8d3d1c8bcad09090a`
+  - Supprimées : 6a10c38dd3d1c8bcad090956
+  - Question : Pourquoi la réalisation d'une vidéo-capsule est-elle formellement contre-indiquée chez un patient présentant une suspicion de sténose digestive ?
+- Type : similar
+  - Gardée : `6a111385d3d1c8bcad090c94`
+  - Supprimées : 6a10c38dd3d1c8bcad090953
+  - Question : Quel est le nom de la pneumopathie d'inhalation causée par le passage de contenu gastrique dans les bronches lors de vomissements ?
+- Type : similar
+  - Gardée : `6a112c36d3d1c8bcad090e0c`
+  - Supprimées : 6a10cc07d3d1c8bcad0909cc
+  - Question : Quels sont les signes d'alarme justifiant une endoscopie digestive haute ?
+- Type : similar
+  - Gardée : `6a10d39dd3d1c8bcad090a39`
+  - Supprimées : 6a11163ad3d1c8bcad090cce
+  - Question : Quel est le nom de la pathologie caractérisée par une pneumopathie d'inhalation suite à des vomissements ?
+- Type : similar
+  - Gardée : `6a10dde8d3d1c8bcad090adf`
+  - Supprimées : 6a111c8ad3d1c8bcad090d66
+  - Question : Quel est le mécanisme physiopathologique expliquant l'alcalose métabolique observée au cours d'une sténose pylorique avec vomissements persistants ?
+- Type : similar
+  - Gardée : `6a1103f9d3d1c8bcad090c3c`
+  - Supprimées : 6a10f4f7d3d1c8bcad090b81, 6a11381dd3d1c8bcad090e63
+  - Question : Quels sont les signes cliniques orientant vers une étiologie neurologique (HTIC) devant des vomissements ?
+- Type : similar
+  - Gardée : `6a111c8ad3d1c8bcad090d65`
+  - Supprimées : 6a10f4f7d3d1c8bcad090b82
+  - Question : Un patient de 70 ans présente une hernie hiatale par roulement découverte fortuitement au scanner. Quelle est la particularité de cette hernie justifiant souvent une intervention ?
+- Type : similar
+  - Gardée : `6a10fca5d3d1c8bcad090be5`
+  - Supprimées : 6a110e71d3d1c8bcad090c77
+  - Question : Quel est le terme qualifiant la sensation de 'boule dans la gorge' liée à l'anxiété sans trouble de la déglutition ?
+- Type : similar
+  - Gardée : `6a1103f9d3d1c8bcad090c3c`
+  - Supprimées : 6a10fca5d3d1c8bcad090be6
+  - Question : Quels sont les signes cliniques orientant vers une étiologie neurologique (HTIC) devant des vomissements ?
+- Type : similar
+  - Gardée : `6a111385d3d1c8bcad090c93`
+  - Supprimées : 6a11381dd3d1c8bcad090e64
+  - Question : Quel trouble hydro-électrolytique complexe est classiquement associé à la sténose pylorique avec vomissements persistants ?
+- Type : similar
+  - Gardée : `6a112c36d3d1c8bcad090e07`
+  - Supprimées : 6a111de8d3d1c8bcad090d7a
+  - Question : Quel trouble métabolique ionique est classiquement observé dans la sténose pylorique avec vomissements persistants ?
+
+## 📋 Sémiologie — Foie, Vésicule Biliaire et Pancréas
+
+- Questions avant : 189
+- Questions à supprimer : 11
+
+- Type : similar
+  - Gardée : `6a10c56ed3d1c8bcad090994`
+  - Supprimées : 6a112462d3d1c8bcad090dc6
+  - Question : Quelle est la caractéristique de la bilirubine non conjuguée (BNC) concernant sa filtration rénale ?
+- Type : similar
+  - Gardée : `6a10cc4bd3d1c8bcad0909d1`
+  - Supprimées : 6a1137d0d3d1c8bcad090e5b
+  - Question : Quel est le nom de la complication infectieuse spontanée la plus fréquente du liquide d'ascite chez le cirrhotique ?
+- Type : similar
+  - Gardée : `6a10dd5bd3d1c8bcad090ad4`
+  - Supprimées : 6a10da1cd3d1c8bcad090a72
+  - Question : Quel est le rôle métabolique principal des cellules de Kupffer dans les sinusoïdes hépatiques ?
+- Type : similar
+  - Gardée : `6a112462d3d1c8bcad090dc4`
+  - Supprimées : 6a10f4a3d3d1c8bcad090b79
+  - Question : Quels sont les facteurs entrant dans le calcul du score de Child-Pugh ? (Sélectionnez toutes les réponses correctes)
+- Type : similar
+  - Gardée : `6a111a85d3d1c8bcad090d3a`
+  - Supprimées : 6a10f4a3d3d1c8bcad090b7b
+  - Question : Quel est le nom de l'enzyme dosée dans les selles pour diagnostiquer une insuffisance pancréatique exocrine ?
+- Type : similar
+  - Gardée : `6a112462d3d1c8bcad090dc2`
+  - Supprimées : 6a10fbdad3d1c8bcad090bc9
+  - Question : Quel est le devenir histologique de l'espace de Disse dans le foie cirrhotique qui explique directement l'augmentation des résistances vasculaires intra-hépatiques ?
+- Type : similar
+  - Gardée : `6a110d8ed3d1c8bcad090c5f`
+  - Supprimées : 6a11220cd3d1c8bcad090d8d
+  - Question : Quelles sont les caractéristiques biologiques typiques d'un ictère à bilirubine non conjuguée (BNC) ?
+- Type : similar
+  - Gardée : `6a112da4d3d1c8bcad090e30`
+  - Supprimées : 6a110d8ed3d1c8bcad090c60, 6a112be5d3d1c8bcad090e04
+  - Question : Quels sont les signes cliniques chez l'homme orientant vers une insuffisance hépatocellulaire par hyperœstrogénisme ?
+- Type : similar
+  - Gardée : `6a113729d3d1c8bcad090e51`
+  - Supprimées : 6a11220cd3d1c8bcad090d88
+  - Question : Quel terme médical désigne l'hypertrophie du tissu mammaire chez l'homme, signe d'insuffisance hépatocellulaire par hyperœstrogénisme ?
+- Type : similar
+  - Gardée : `6a112da4d3d1c8bcad090e2e`
+  - Supprimées : 6a112be5d3d1c8bcad090e03
+  - Question : Quels sont les mécanismes physiopathologiques qui, selon la loi de Starling, expliquent la formation de l'ascite chez le patient cirrhotique ?
+
+## 🧻 Constipation — Fiche Complète
+
+- Questions avant : 137
+- Questions à supprimer : 7
+
+- Type : similar
+  - Gardée : `6a10b814d3d1c8bcad090870`
+  - Supprimées : 6a10be4dd3d1c8bcad0908c0
+  - Question : Quelle est la formule exacte pour calculer le temps de transit colique (TTC) après l'ingestion de 10 marqueurs par jour pendant 6 jours ?
+- Type : similar
+  - Gardée : `6a10bc5cd3d1c8bcad09087c`
+  - Supprimées : 6a10d0e6d3d1c8bcad0909e9
+  - Question : Quelle est la durée du régime sans résidus à respecter obligatoirement avant une coloscopie ?
+- Type : similar
+  - Gardée : `6a10bc5cd3d1c8bcad09087d`
+  - Supprimées : 6a10c1e1d3d1c8bcad09092c
+  - Question : Quel est le nom de l'examen fonctionnel permettant de diagnostiquer l'anisme par mise en évidence d'une contraction paradoxale lors de la poussée ?
+- Type : similar
+  - Gardée : `6a10e735d3d1c8bcad090af4`
+  - Supprimées : 6a10c1e1d3d1c8bcad090926
+  - Question : Quel est le délai minimal de symptômes requis pour définir une constipation comme chronique selon les recommandations ?
+- Type : similar
+  - Gardée : `6a10e735d3d1c8bcad090aed`
+  - Supprimées : 6a10c1e1d3d1c8bcad09092a, 6a110e24d3d1c8bcad090c72
+  - Question : Quel est le coefficient multiplicateur du nombre de marqueurs radio-opaques restants à J7 pour obtenir le temps de transit colique total en heures ?
+- Type : similar
+  - Gardée : `6a10d0e6d3d1c8bcad0909eb`
+  - Supprimées : 6a10c529d3d1c8bcad09098a
+  - Question : Quel est le coefficient multiplicateur du nombre de marqueurs radio-opaques restants sur l'ASP à J7 pour obtenir le TTC en heures ?
+
+## 🩻 Sémiologie Radiologique — 1
+
+- Questions avant : 183
+- Questions à supprimer : 21
+
+- Type : similar
+  - Gardée : `6a112b0bd3d1c8bcad090df0`
+  - Supprimées : 6a0701cf94ce87b2e9968d4b, 6a07bfa77524c16253bc1044
+  - Question : Dans le cadre des critères RECIST 1.1, comment définit-on une réponse partielle ?
+- Type : similar
+  - Gardée : `6a1119dad3d1c8bcad090d24`
+  - Supprimées : 6a0701cf94ce87b2e9968d4d
+  - Question : Quels sont les éléments devant être analysés systématiquement lors de l'étude d'un foie en imagerie ?
+- Type : similar
+  - Gardée : `6a11146bd3d1c8bcad090caa`
+  - Supprimées : 6a0701cf94ce87b2e9968d4f
+  - Question : Quelles sont les caractéristiques d'une métastase hépatique hypervasculaire au scanner ?
+- Type : similar
+  - Gardée : `6a10bf62d3d1c8bcad0908dc`
+  - Supprimées : 6a07aaec7524c16253bc0e4c, 6a10e811d3d1c8bcad090b0b
+  - Question : Quelles sont les caractéristiques radiologiques d'un hémangiome hépatique typique en IRM ?
+- Type : similar
+  - Gardée : `6a112e7ad3d1c8bcad090e40`
+  - Supprimées : 6a07bfa77524c16253bc1045
+  - Question : Quels sont les signes radiologiques évocateurs d'une cirrhose hépatique au scanner ?
+- Type : similar
+  - Gardée : `6a10d996d3d1c8bcad090a66`
+  - Supprimées : 6a10bf62d3d1c8bcad0908df
+  - Question : Quels sont les critères radiologiques de la splénomégalie ?
+- Type : similar
+  - Gardée : `6a10e811d3d1c8bcad090b0d`
+  - Supprimées : 6a10bf62d3d1c8bcad0908e1
+  - Question : Quelle pathologie colique est classiquement associée à des métastases hépatiques hypovasculaires au scanner ?
+- Type : similar
+  - Gardée : `6a112e7ad3d1c8bcad090e41`
+  - Supprimées : 6a10c269d3d1c8bcad090938
+  - Question : Quelles sont les caractéristiques radiologiques d'un kyste hépatique simple en échographie ?
+- Type : similar
+  - Gardée : `6a1119dad3d1c8bcad090d25`
+  - Supprimées : 6a10c269d3d1c8bcad09093b, 6a10d1b5d3d1c8bcad090a06
+  - Question : Quelle est la définition radiologique d'une réponse tumorale 'stable' selon les critères RECIST 1.1 ?
+- Type : similar
+  - Gardée : `6a1122a0d3d1c8bcad090d9c`
+  - Supprimées : 6a10c5b3d3d1c8bcad09099b
+  - Question : Quel est le seuil de mesure du grand axe de la rate pour définir une splénomégalie ?
+- Type : similar
+  - Gardée : `6a10d996d3d1c8bcad090a62`
+  - Supprimées : 6a10f6a4d3d1c8bcad090bb3
+  - Question : Quels sont les signes radiologiques permettant de suspecter une cirrhose hépatique au scanner ?
+- Type : similar
+  - Gardée : `6a1119dad3d1c8bcad090d26`
+  - Supprimées : 6a10dcd4d3d1c8bcad090abf
+  - Question : Quel est le nom du signe radiologique, pathognomonique d'un cancer de la tête du pancréas, associant une dilatation du canal cholédoque et du canal de Wirsung ?
+- Type : similar
+  - Gardée : `6a10e811d3d1c8bcad090b0d`
+  - Supprimées : 6a10dcd4d3d1c8bcad090ac2
+  - Question : Quelle pathologie colique est classiquement associée à des métastases hépatiques hypovasculaires au scanner ?
+- Type : similar
+  - Gardée : `6a112e7ad3d1c8bcad090e40`
+  - Supprimées : 6a10dcd4d3d1c8bcad090ac4, 6a1119dad3d1c8bcad090d28
+  - Question : Quels sont les signes radiologiques évocateurs d'une cirrhose hépatique au scanner ?
+- Type : similar
+  - Gardée : `6a1119dad3d1c8bcad090d22`
+  - Supprimées : 6a11146bd3d1c8bcad090ca8
+  - Question : Quel est le délai spécifique du temps artériel lors d'une exploration scanographique hépatique après injection ?
+- Type : similar
+  - Gardée : `6a111bf3d3d1c8bcad090d58`
+  - Supprimées : 6a11146bd3d1c8bcad090caa
+  - Question : Quelles sont les caractéristiques radiologiques d'une métastase hépatique hypervasculaire au scanner ?
+- Type : similar
+  - Gardée : `6a1119dad3d1c8bcad090d27`
+  - Supprimées : 6a111bf3d3d1c8bcad090d5c
+  - Question : Pourquoi la Bili-IRM ne nécessite-t-elle pas d'injection de produit de contraste pour cartographier les voies biliaires ?
+
+## 🩻 Sémiologie Radiologique  — 2
+
+- Questions avant : 191
+- Questions à supprimer : 32
+
+- Type : similar
+  - Gardée : `6a0701f794ce87b2e9968d54`
+  - Supprimées : 6a07b9237524c16253bc0f99
+  - Question : Quelle est l'épaisseur maximale considérée comme normale pour la paroi de l'intestin grêle au scanner ?
+- Type : similar
+  - Gardée : `6a10c45cd3d1c8bcad090973`
+  - Supprimées : 6a0701f794ce87b2e9968d59
+  - Question : Quels signes scannographiques permettent de définir un abcès abdominal ?
+- Type : similar
+  - Gardée : `6a111940d3d1c8bcad090d19`
+  - Supprimées : 6a07aa0f7524c16253bc0e1b
+  - Question : Quelle est l'épaisseur normale de la paroi de l'intestin grêle en scanner ?
+- Type : similar
+  - Gardée : `6a10d056d3d1c8bcad0909dc`
+  - Supprimées : 6a07aa0f7524c16253bc0e1d
+  - Question : Quelle est la caractéristique morphologique d'une sténose colique d'origine maligne au scanner ?
+- Type : similar
+  - Gardée : `6a112b9fd3d1c8bcad090dff`
+  - Supprimées : 6a07aa0f7524c16253bc0e20
+  - Question : Quels signes scanographiques sont en faveur d'une maladie de Crohn en phase active ?
+- Type : similar
+  - Gardée : `6a10c45cd3d1c8bcad090973`
+  - Supprimées : 6a07b9237524c16253bc0fa0
+  - Question : Quels signes scannographiques permettent de définir un abcès abdominal ?
+- Type : similar
+  - Gardée : `6a10c19dd3d1c8bcad09091e`
+  - Supprimées : 6a10bed8d3d1c8bcad0908cd, 6a10d056d3d1c8bcad0909d7
+  - Question : Quel terme radiologique désigne une image de 'manque' de produit de contraste lors d'un lavement colique, traduisant une tumeur endoluminale ?
+- Type : similar
+  - Gardée : `6a10c19dd3d1c8bcad09091d`
+  - Supprimées : 6a10f53ad3d1c8bcad090b8c
+  - Question : Quelle est la valeur seuil du diamètre de l'appendice permettant de poser le diagnostic d'appendicite à l'imagerie ?
+- Type : similar
+  - Gardée : `6a10c19dd3d1c8bcad09091e`
+  - Supprimées : 6a10c45cd3d1c8bcad09096c
+  - Question : Quel terme radiologique désigne une image de 'manque' de produit de contraste lors d'un lavement colique, traduisant une tumeur endoluminale ?
+- Type : similar
+  - Gardée : `6a10c19dd3d1c8bcad090921`
+  - Supprimées : 6a10d056d3d1c8bcad0909dd
+  - Question : Quel est le nom de l'épanchement gazeux extra-digestif, signe d'une perforation intestinale ?
+- Type : similar
+  - Gardée : `6a10d315d3d1c8bcad090a2c`
+  - Supprimées : 6a10c45cd3d1c8bcad09096d, 6a1112a1d3d1c8bcad090c81
+  - Question : Quels sont les avantages de la sonde nasale pour le transit du grêle par rapport à l'ingestion orale simple ?
+- Type : similar
+  - Gardée : `6a1112a1d3d1c8bcad090c7f`
+  - Supprimées : 6a10c45cd3d1c8bcad090970
+  - Question : Diagnostic et prise en charge d'un patient présentant une suspicion d'appendicite.
+- Type : similar
+  - Gardée : `6a10c45cd3d1c8bcad090972`
+  - Supprimées : 6a10d056d3d1c8bcad0909dc
+  - Question : Quelle est la caractéristique sémiologique d'une sténose colique d'origine maligne au scanner ?
+- Type : similar
+  - Gardée : `6a10d056d3d1c8bcad0909d8`
+  - Supprimées : 6a10d315d3d1c8bcad090a2c
+  - Question : Quels sont les avantages de la sonde nasale pour la réalisation d'un transit du grêle par rapport à l'ingestion orale ?
+- Type : similar
+  - Gardée : `6a10d056d3d1c8bcad0909d9`
+  - Supprimées : 6a10daa4d3d1c8bcad090a7f
+  - Question : Quelle structure sert de référence pour identifier une densité liquidienne au scanner ?
+- Type : similar
+  - Gardée : `6a10d315d3d1c8bcad090a29`
+  - Supprimées : 6a10fc61d3d1c8bcad090bde
+  - Question : Quel est le seuil d'épaisseur normale (en mm) d'une paroi d'anse grêlique au scanner ?
+- Type : similar
+  - Gardée : `6a10d315d3d1c8bcad090a2d`
+  - Supprimées : 6a10fc61d3d1c8bcad090bdd
+  - Question : Quelle structure anatomique sert de repère pour différencier une ascite d'un épanchement pleural en échographie ?
+- Type : similar
+  - Gardée : `6a10fc61d3d1c8bcad090bda`
+  - Supprimées : 6a10daa4d3d1c8bcad090a7e, 6a1122e4d3d1c8bcad090da0
+  - Question : Quel est le nom de la complication radiologique d'une occlusion caractérisée par la présence d'air dans les veines mésentériques ou le foie ?
+- Type : similar
+  - Gardée : `6a10dd9fd3d1c8bcad090adc`
+  - Supprimées : 6a10daa4d3d1c8bcad090a80
+  - Question : Quelle est la valeur normale (en mm) de l'épaisseur de la paroi de l'intestin grêle au scanner ?
+- Type : similar
+  - Gardée : `6a1124f5d3d1c8bcad090dd2`
+  - Supprimées : 6a10dd9fd3d1c8bcad090ada
+  - Question : Quels sont les signes scanographiques permettant d'évoquer une origine maligne d'une sténose colique ?

@@ -1,0 +1,529 @@
+# 🫀 IMAGERIE CARDIOVASCULAIRE
+
+> **2ème année de Médecine** · Fiche de révision exhaustive · Importable dans Notion
+> 
+
+---
+
+## 📌 À retenir absolument
+
+> 💡 **2 types d'imagerie** : MORPHOLOGIQUE (coronarographie, scanner) vs FONCTIONNELLE (écho, IRM, scintigraphie) +++
+💡 **Coronarographie = seule imagerie URGENTE** en cas de SCA → diagnostic ET thérapeutique (angioplastie) +++
+💡 **Scanner coronaire = excellente VPN** (pas de faux négatifs) → élimine la maladie coronaire si normal +++ QCM +++
+💡 **Scanner coronaire = MOINS BONNE SPÉCIFICITÉ** (surestimation des sténoses à cause des calcifications) +++
+💡 **Score calcique de 0 N'ÉLIMINE PAS à 100% la maladie coronaire** (plaques non calcifiées invisibles sans injection) +++
+💡 **Prémédication scanner coronaire** : β-bloquants (↓ FC) + dérivés nitrés (dilatent les coronaires) +++
+💡 **Tous les examens cardiaques sont synchronisés à l'ECG** +++
+💡 **Plan de référence en cardio = PETIT AXE** (reconstruction en œil de bœuf) +++
+💡 **VG = 17 segments** : basale (1-6) / médio-ventriculaire (7-12) / apicale (13-16) / apex (17) +++
+💡 **Cinétique** : Normokinésie / Hypokinésie / Akinésie / Dyskinésie (expansion paradoxale) +++
+💡 **Drogues vasodilatatrices (adénosine)** → vol vasculaire → imagerie de perfusion (scintigraphie/IRM) +++
+💡 **Infarctus = épicentre SOUS-ENDOCARDIQUE** (artères arrivent de l'épicarde, plongent vers l'endo) +++
+💡 **IRM = technique de référence pour la VIABILITÉ MYOCARDIQUE** → rehaussement tardif  gadolinium+++
+💡 **« WHITE IS DEAD »** : zone blanche au rehaussement tardif IRM = nécrose = inutile de poser un stent +++
+💡 **Viabilité IRM** : épaisseur résiduelle > 5 mm + cinétique résiduelle (épaississement focal) +++
+💡 **Myocardite = rehaussement SOUS-ÉPICARDIQUE** (≠ infarctus = sous-endocardique) +++
+💡 **Dissection aortique → scanner injecté EN URGENCE** (vital, le plus rapide) +++
+💡 **Embolie pulmonaire → angioscanner pulmonaire** en urgence +++
+💡 **OAP radio** : cardiomégalie + épanchements pleuraux EN AILE DE PAPILLON +++
+💡 **Condensations SANS bronchogramme aérien = OAP** (≠ pneumonie infectieuse qui A un bronchogramme) +++ QCM +++
+💡 **Cardiomégalie = signe de RADIO THORACIQUE seulement** (pas visible au scanner) +++
+💡 **Dominance droite = 80%** de la population +++
+💡 **Angor stable risque intermédiaire → coroscanner** | **Risque élevé → coronarographie d'emblée** +++
+💡 **Réserve coronaire = ×4 le débit à l'effort** / sténose > 50% → débit s'effondre (Gould, 1974) +++
+💡 **Injection artérielle > injection veineuse** en toxicité rénale (1er passage hépatique direct) +++
+> 
+
+---
+
+## 1️⃣ Les différents types d'examens cardiovasculaires
+
+> **2 grandes catégories** : imagerie morphologique/anatomique ET imagerie fonctionnelle
+> 
+
+### Imagerie morphologique vs fonctionnelle +++
+
+| **IMAGERIE MORPHOLOGIQUE** | **IMAGERIE FONCTIONNELLE** |
+| --- | --- |
+| **De plus en plus fonctionnelle** | **De plus en plus morphologique** |
+| **Coronarographie** | **Échocardiographie** |
+| Examen **INVASIF** (artère fémorale ou radiale) | Meilleure **résolution temporelle** (temps réel) |
+| Injection iodée **ARTÉRIELLE** (toxicité rénale ↑↑) | Transthoracique (TTT) ou transoesophagienne (ETO) |
+| Adapté à **l'URGENCE** (SCA) | Optimale chez enfants/adolescents |
+| Angioplastie possible (pose de stent) = interventionnel | Patients corpulents/emphysémateux = moins bonne résolution |
+| Réalisé en salle de cathétérisme | Sans injection — non irradiante |
+| **Scanner coronaire / Coroscanner** | **IRM cardiaque** |
+| Examen **PEU INVASIF**, non interventionnel | Injection **gadolinium** (≠ iode) — très faible risque allergique |
+| Injection iodée **VEINEUSE** (toxicité rénale ↓) | Référence pour la **viabilité myocardique** (rehaussement tardif) |
+| Adapté aux patients **STABLES** (angor) | **Scintigraphie et TEP** |
+| **Mal adapté aux urgences** | Au repos ou sous stress (effort / médicament) |
+| **Excellente VPN** : examen normal = maladie coronaire éliminée +++ | Analyse de la cinétique OU de la perfusion myocardique |
+| Moins bonne spécificité (calcifications surestiment sténoses) | Radiations ionisantes — relativement coûteuse |
+
+### Techniques pour les gros vaisseaux +++
+
+| Technique | Invasivité | Injection | Urgence | Particularités |
+| --- | --- | --- | --- | --- |
+| **Angiographie / Artériographie** | Invasive | Iodée ARTÉRIELLE | ✅ Oui | Angioplastie disponible |
+| **Angio-scanographie** | Peu invasive | Iodée VEINEUSE | ✅ Oui | Examen rapide |
+| **Angio-IRM** | Non invasive | Gadolinium (facultative) | ❌ Non (lent) | Contraste spontané du sang |
+
+### Toxicité des produits de contraste +++
+
+> ⚠️ **Scanner voie veineuse ≠ artériographie voie artérielle** — Plus de risques pour la voie artérielle (1er passage hépatique direct dans les artères rénales)
+> 
+
+| Produit | Risque allergique | Toxicité rénale | Remarques |
+| --- | --- | --- | --- |
+| **PDC iodés** | Faible mais non nul | **Artérielle > Veineuse** (1er passage) | Injection veineuse = dernier degré de toxicité (quasi nulle) |
+| **Gadolinium** | Très faible | Quasi nulle | Composés cycliques préférés (accumulation NGC décrite pour linéaires — pas de patho prouvée) |
+
+```
+RÈGLE DE TOXICITÉ RÉNALE :
+Injection ARTÉRIELLE → 1er passage → direct artères rénales → toxicité ↑↑
+Injection VEINEUSE   → 2ème passage → fait le tour de la circulation → toxicité ↓↓
+```
+
+---
+
+## 2️⃣ Spécificités des examens cardiaques
+
+> 💡 **Tous les examens cardiaques sont synchronisés à l'ECG** +++
+> 
+
+### Types d'imagerie cardiaque
+
+| Type | Modalités | Exemples |
+| --- | --- | --- |
+| **Imagerie en temps réel** | Image directe — pas de reconstruction | Échographie, Angiographie, Coronarographie |
+| **Imagerie segmentée** | Reconstruction sur **plusieurs cycles cardiaques** (récurrence du mouvement cardiaque) | IRM, Scintigraphie |
+
+### Plans de coupe en imagerie cardiaque +++
+
+> 💡 Le cœur est un organe **ASYMÉTRIQUE** → plans standards (axial, sagittal, coronal) peu utilisés → plans spécifiques cardio
+> 
+
+| Plan | Description | Structures vues | Référence ? |
+| --- | --- | --- | --- |
+| **Horizontal long axe** | 4 cavités (OG, VG, VD, OD) | Valves mitrale + tricuspide / Aorte thoracique ascendante | Non |
+| **Vertical long axe** | VG + OG + crosse de l'aorte | Côté gauche du cœur (2 cavités) | Non |
+| **3 cavités / Para-sagittal long axe** | VG + OG + infundibulum VD + aorte | Chambre de chasse du VD → artère pulmonaire | Non |
+| **Petit axe** | Section perpendiculaire au grand axe — VG entouré par le VD | Toutes les structures en coupe transversale | **✅ PLAN DE RÉFÉRENCE +++** |
+
+### Segmentation du VG — Modèle 17 segments (vue en œil de bœuf) +++
+
+```
+Vue par la POINTE du VG (apex = segment 17 au centre) :
+
+        COURONNE BASALE (externe)          → Segments  1 à  6
+        COURONNE MÉDIO-VENTRICULAIRE       → Segments  7 à 12
+        COURONNE APICALE                   → Segments 13 à 16
+        APEX                               → Segment  17 (centre)
+```
+
+> 💡 Ce modèle est **ubiquitaire** : utilisé pour TOUTES les modalités d'imagerie cardiaque (écho, IRM, scintigraphie, scanner)
+> 
+- **Icon** :
+    
+    ![image.png](%F0%9F%AB%80%20IMAGERIE%20CARDIOVASCULAIRE/image.png)
+    
+
+---
+
+## 3️⃣ Bases anatomiques des artères coronaires
+
+### Les 2 artères coronaires +++
+
+|  | **Coronaire GAUCHE** | **Coronaire DROITE** |
+| --- | --- | --- |
+| **Origine** | Tronc commun (TC) → bifurcation | Sillon auriculo-ventriculaire droit → face inférieure |
+| **Branches principales** | ① **IVA** (interventriculaire antérieure) → diagonales + septales | Branches marginales droites |
+|  | ② **Artère Circonflexe (Cx)** → artères marginales |  |
+| **Territoire** | Face antérieure VG + Septum IV + Face latérale VG | VD + Face **inférieure** du VG |
+| **Particularité** | Tronc commun avant bifurcation | Forme en **C** — calibre **CONSTANT** (seule artère du corps humain !) |
+
+### Dominance coronaire +++
+
+| Dominance | Fréquence | Artère volumineuse | Vascularisation face inférieure |
+| --- | --- | --- | --- |
+| **Droite** | **80%** de la population | Coronaire droite | Coronaire droite |
+| **Gauche** | 20% de la population | Artère circonflexe | Artère circonflexe |
+
+### Atteinte coronaire : nomenclature
+
+```
+Mono-tronculaire  = 1 artère atteinte
+Bi-tronculaire    = 2 artères atteintes
+Tri-tronculaire   = 3 artères atteintes (le plus grave)
+```
+
+---
+
+## 4️⃣ Sémiologie : La maladie coronaire
+
+### Physiopathologie +++
+
+> **Insuffisance d'apport d'O₂** via le réseau coronarien → artères sténosées par lésions d'athérome → **cascade ischémique**
+> 
+
+**Signe clinique clé = ANGOR (angine de poitrine) :**
+
+- Douleur **constrictive** thoracique
+- Survenant typiquement **à l'effort**
+- Favorisée par le **froid**
+- Cédant à la prise de **trinitrine** (vasodilatateur)
+- Irradiant vers la **mâchoire**, le cou, les membres supérieurs
+
+> 💡 Douleur montrée par le **plat de la main** = cardiaque / par **un doigt** = non cardiaque (intercostale)
+> 
+
+**Obstruction complète (thrombose) → nécrose myocardique = INFARCTUS DU MYOCARDE :**
+
+| Issue possible | Description |
+| --- | --- |
+| Décès | Mort subite |
+| Révélation | Découverte de la maladie coronaire |
+| Séquelles | Insuffisance ventriculaire gauche |
+| Guérison | Sans séquelle si désobstruction **rapide** |
+
+### A. Stratification du risque (PPT = Probabilité Pré-Test) +++
+
+| Niveau de risque | Profil type | Stratégie d'imagerie |
+| --- | --- | --- |
+| **Risque FAIBLE** | Jeune femme asymptomatique | Pas d'imagerie spécifique (diagnostic différentiel seulement) |
+| **Risque INTERMÉDIAIRE** | Homme âgé, peu symptomatique | Stratégie **non invasive** → **COROSCANNER** en 1ère intention |
+| **Risque ÉLEVÉ** | Homme ou femme âgé(e), symptomatique | **CORONAROGRAPHIE d'emblée** |
+
+### B. Le scanner coronaire (coroscanner) +++
+
+**Réalisation en 2 temps :**
+
+- 
+    1. Score calcique (sans injection)
+    
+    | Caractéristique | Détail |
+    | --- | --- |
+    | **Technique** | Examen synchronisé à l'ECG **sans injection** |
+    | **Principe** | Détection des calcifications coronaires (zones blanches) |
+    | **Résultat** | Exprimé en **percentile** par rapport à la population générale (ex : 80ème percentile = 80% de la population a un score plus faible) |
+    | **Utilité** | Bon marqueur du risque coronaire — examen non invasif et peu coûteux |
+    | **⚠️ PIÈGE** | Score calcique **= 0 N'ÉLIMINE PAS** la maladie coronaire (plaques non calcifiées invisibles sans injection) +++ |
+- 
+    1. Avec injection de PdC iodé IV
+    
+    | Caractéristique | Détail |
+    | --- | --- |
+    | **Technique** | Acquisition axiale synchronisée ECG + injection iodée **VEINEUSE** |
+    | **Reconstructions** | Rendu luminographique multiplanaire + rendu volumique |
+    | **VPN** | **Excellente** (pas de faux négatifs) — scanner normal = maladie coronaire éliminée +++ |
+    | **Spécificité** | **Moins bonne** : calcifications surestiment les sténoses (plus c'est grave, moins c'est précis) |
+    | **Après diagnostic** | Si sténose serrée proximale ou pluritronculaire → coronarographie |
+
+**Prémédications habituelles :**
+
+```
+β-BLOQUANTS (per os ou IV) → ralentir et régulariser la FC → meilleure qualité d'image
+DÉRIVÉS NITRÉS (trinitrine sub-linguale) → dilater les vaisseaux coronaires (surtout femmes à petits coronaires)
+```
+
+### C. Scanner coronaire vs Coronarographie +++
+
+| Critère | SCANNER | CORONAROGRAPHIE |
+| --- | --- | --- |
+| **Invasivité** | Peu invasif (IV) | Invasif (artériel) |
+| **Visualisation paroi / plaque** | ✅ Oui (plaque graisseuse = grise / calcifiée = blanche) | ❌ Non (lumière uniquement) |
+| **Résolution spatiale** | Bonne | Très bonne |
+| **Angioplastie** | ❌ Non | ✅ Oui (interventionnel) |
+| **Urgence SCA** | ❌ Mal adapté | ✅ Adapté |
+| **VPN** | **✅ Excellente** (pas de faux négatifs) | N/A |
+| **Surestimation sténoses** | ⚠️ Oui (calcifications) | Non (gold standard) |
+
+> ⚠️ **QCM +++ : Scanner coronaire NORMAL = on élimine la maladie coronaire et on évite la coronarographie**
+> 
+
+---
+
+## 5️⃣ Retentissement fonctionnel — La réserve coronaire
+
+### Principe de la réserve coronaire +++
+
+> **À l'effort, le débit coronaire est multiplié par 4**
+La réserve coronaire = capacité du myocarde à ×4 son flux coronaire à l'effort
+> 
+
+```
+Expérience de GOULD (chien, 1974) :
+   Sténose < 50%  → réserve coronaire maintenue → pas de retentissement hémodynamique
+   Sténose > 50%  → débit s'EFFONDRE à l'effort → retentissement hémodynamique +++
+   Variabilité inter-individuelle ÉNORME (très différent homme/femme)
+```
+
+**Imputabilité :** la sténose vue au scanner est-elle VRAIMENT responsable des symptômes ? → nécessité de l'imagerie fonctionnelle
+
+### Décision thérapeutique selon le retentissement
+
+| Situation | Traitement |
+| --- | --- |
+| **Sténose SANS retentissement hémodynamique** | Traitement **médical** : statines + antiagrégants plaquettaires |
+| **Sténose AVEC retentissement hémodynamique** | **Revascularisation** : angioplastie (endovasculaire) ou pontage (chirurgical) |
+
+### Techniques d'évaluation de la réserve coronaire +++
+
+- A. Tests à l'effort (si patient peut faire un effort)
+    
+    
+    | Technique | Principe | Avantages | Limites |
+    | --- | --- | --- | --- |
+    | **Épreuve d'effort simple** (sans imagerie) | Critères cliniques + ECG | Simple | ⚠️ Sensibilité et spécificité **médiocres** — faux positifs chez la femme — risque mort subite coronaire sévère → *« Non c'est un examen merdique »* (Prof) |
+    | **Échographie d'effort** | Analyse de la **cinétique cardiaque** à l'effort = défaut de contractilité dans un territoire vasculaire | Temps réel, pas d'irradiation, disponible | Dépend de l'échogénicité |
+    | **Scintigraphie cardiaque** + test d'effort | **Défaut réversible de captation** d'un radio-traceur à l'effort vs repos | Disponible en France, très utilisée | Radiations ionisantes, coûteuse |
+- B. Tests médicamenteux (si effort impossible)
+    
+    
+    | Médicament | Mécanisme | Analyse | Principe |
+    | --- | --- | --- | --- |
+    | **DOBUTAMINE** | Amine vasopressive → ↑ FC + ↑ besoins O₂ + ↑ contraction = **simule l'effort** → si ischémie : trouble de la cinétique segmentaire | **Échographie** (écho dobu +++) ou IRM | Surveillance étroite obligatoire |
+    | **ADÉNOSINE** (vasodilatateur) | Dilate les artères **normales** seulement → **vol vasculaire** (sang orienté vers les territoires normaux) → hypoperfusion des territoires sténosés | **Scintigraphie** ou **IRM** = imagerie de perfusion | Test au repos ne montrera rien — OBLIGATOIRE de stresser |
+
+> 💡 Normalement le myocarde s'opacifie de manière **synchrone** avec un gradient **épicarde → endocarde** sur une IRM de perfusion
+> 
+
+### Terminologie de la cinétique myocardique +++
+
+| Terme | Définition |
+| --- | --- |
+| **Normokinésie** | Contraction des ventricules **normale** |
+| **Hypokinésie** | Contraction **diminuée** |
+| **Akinésie** | **Absence** de mouvement |
+| **Dyskinésie** | Absence de mouvement + **expansion paradoxale** (bombement) |
+
+> 💡 Analyse par **échographie** (privilégiée : disponible + temps réel) ou IRM (plus rare, moins disponible)
+> 
+
+---
+
+## 6️⃣ L'infarctus du myocarde (IM)
+
+### Physiopathologie +++
+
+> **Thrombose occlusive brutale d'une artère coronaire** par rupture de plaque d'athérome → agrégation plaquettaire → thrombus → mort cellulaire hypoxique en aval
+> 
+
+```
+Épicentre de la nécrose = SOUS-ENDOCARDIQUE
+(artères arrivent de l'épicarde et plongent vers l'endocarde = zone la plus éloignée = la plus touchée)
+
+Atteinte peut être :
+  → Plus ou moins TRANSMURALE (traverse le myocarde : 10-12 mm d'épaisseur)
+  → Plus ou moins étendue (plusieurs segments)
+  → Plus lente que le cerveau (myocarde plus résistant)
+```
+
+### A. Clinique et imagerie en urgence +++
+
+| Élément | Description |
+| --- | --- |
+| **Douleur** | Rétro-sternale, irradiant vers mâchoires, cou, membres supérieurs |
+| **Signes associés** | Choc cardiovasculaire (↓ PA), agitation, sueurs |
+| **ECG** | Élévation du segment ST |
+| **Biologie** | Élévation des **troponines** (enzymes cardiaques) |
+| **Imagerie URGENTE** | **CORONAROGRAPHIE** → seule imagerie urgente à ce stade +++ |
+
+**Déroulement de la coronarographie urgente :**
+
+```
+1) Abord fémoral OU radial
+2) Cathétérisme sélectif des coronaires
+3) Identification de la sténose coupable
+4) Passage d'un guide au travers de la sténose
+5) Angioplastie au ballonnet
+6) Pose d'un STENT
+→ Douleurs post-coro possibles (dissolution plaque → emboles distaux) mais sans gravité
+```
+
+### B. Complication : Œdème pulmonaire (OAP) — QCM +++
+
+> **Défaillance cardiaque gauche** post-infarctus → OAP
+> 
+
+| Signe | RADIO THORACIQUE | SCANNER |
+| --- | --- | --- |
+| **Cœur** | **Cardiomégalie** (rapport cardio-thoracique > 0,5) **+++** | Gros cœur + grosses veines pulmonaires |
+|  | ⚠️ Cardiomégalie = **signe de RADIO seulement** (pas visible au scanner) |  |
+| **Épanchements** | Comblement culs-de-sac pleuraux **EN AILE DE PAPILLON** +++ | Épanchements pleuraux |
+| **Parenchyme** | Opacités interstitielles péri-hilaires | Épaississement péri-bronchovasculaire et des scissures |
+|  |  | Épaississement **régulier** des septas inter-lobulaires |
+| **Condensations** | **SANS bronchogramme aérien** +++ | Condensations **SANS bronchogramme** |
+
+> ⚠️ **QCM +++ PIÈGE MAJEUR :** Condensations SANS bronchogramme aérien = OAP
+≠ **Pneumonies infectieuses** qui ont des condensations AVEC bronchogramme aérien
+> 
+
+### C. IRM cardiaque — Viabilité myocardique (technique de référence) +++
+
+> **IRM = technique de référence** pour analyser l'étendue de l'infarctus et la viabilité myocardique résiduelle
+> 
+
+**Principe du rehaussement tardif au gadolinium :**
+
+```
+1) Injection de chélate de GADOLINIUM
+   → Produit de contraste qui diffuse dans le milieu EXTRACELLULAIRE
+
+2) En zone de nécrose : lyse cellulaire → augmentation de l'espace extracellulaire
+   → Le gadolinium s'y accumule (zone de rétention)
+
+3) Imagerie de REHAUSSEMENT TARDIF = 10 minutes après injection
+   → Zone nécrosée apparaît en BLANC au temps tardif
+
+4) « WHITE IS DEAD » : blanc = nécrose = mort cellulaire
+```
+
+**Critères de viabilité myocardique à l'IRM :**
+
+| Critère | Seuil / Aspect | Interprétation |
+| --- | --- | --- |
+| **Zone de rétention gadolinium** | Zone **NOIRE** au rehaussement tardif | ✅ **Viable** — pas de nécrose |
+| **Zone de rehaussement** | Zone **BLANCHE** au temps tardif | ❌ **Nécrose** — « White is dead » |
+| **Épaisseur résiduelle du myocarde** | **> 5 mm** | ✅ Viable |
+| **Cinétique résiduelle** | Persistance d'un épaississement focal | ✅ Viable |
+
+> ⚠️ **RÈGLE FONDAMENTALE** : En présence de nécrose confirmée à l'IRM → **INUTILE de poser un stent** (risque d'aggraver le patient — mortalité inférieure avec traitement médical seul) +++
+> 
+
+---
+
+## 7️⃣ Diagnostics différentiels
+
+### Tableau comparatif des urgences cardiovasculaires +++
+
+| Pathologie | Mécanisme | Imagerie de RÉFÉRENCE | Particularités clés |
+| --- | --- | --- | --- |
+| **PÉRICARDITE AIGUË** | Inflammation virale du péricarde | **Échographie cardiaque** trans-thoracique | Douleur majorée à l'inspiration profonde / Frottement péricardique / Pas d'élévation troponine |
+| **MYOPÉRICARDITE AIGUË** | Inflammation virale du péricarde ET myocarde adjacent | **IRM → diagnostic positif** | Rehaussement **SOUS-ÉPICARDIQUE** (≠ infarctus = sous-endocardique) / ↑ troponine (≠ péricardite) / Complication : cicatrice → trouble du rythme tardif |
+| **DISSECTION AORTIQUE** | Rupture de l'intima → clivage de la média | **Scanner injecté EN URGENCE** (vital) | ETO possible mais moins disponible / IRM possible mais moins rapide / Scanner = 1er choix absolu |
+| **EMBOLIE PULMONAIRE** | Défect endoluminal artériel pulmonaire | **Angioscanner pulmonaire** | Dilatation du VD / Infarctus pulmonaire / Épanchement pleural souvent minime / Scintigraphie V/P en 2ème intention (emboles distaux) |
+| **INSUFFISANCE CARDIAQUE GAUCHE / CARDIOPATHIE ISCHÉMIQUE** | Souvent conséquence d'un infarctus étendu | **IRM** (différencie ischémique vs non ischémique par rehaussement tardif) + **Écho** (rapide, non irradiante) | IRM mesure : FEVG + volumes VG + masse ventriculaire gauche |
+
+### Localisation du rehaussement tardif IRM — Résumé clef +++
+
+```
+INFARCTUS DU MYOCARDE  →  Rehaussement SOUS-ENDOCARDIQUE
+                           (épicentre sous-endocardique, front de vague vers épicarde)
+
+MYOCARDITE             →  Rehaussement SOUS-ÉPICARDIQUE
+
+PAS DE REHAUSSEMENT    →  Myocarde VIABLE (zone noire = pas de nécrose)
+```
+
+---
+
+## 8️⃣ Conduite à tenir pratique — Algorithme décisionnel +++
+
+| Situation clinique | 1ère intention | Compléments |
+| --- | --- | --- |
+| **SCA / Infarctus en URGENCE** | **CORONAROGRAPHIE ± ANGIOPLASTIE** | IRM post-infarctus (viabilité, étendue) |
+| **Angor stable — risque INTERMÉDIAIRE** | **COROSCANNER** (VPN excellente) | Si sténose serrée → coronarographie / Si doute fonctionnel → imagerie de stress |
+| **Angor stable — risque ÉLEVÉ** | **CORONAROGRAPHIE d'emblée** | Angioplastie ou pontage selon anatomie |
+| **Évaluation fonctionnelle (ischémie)** | Écho d'effort ou scintigraphie + effort | IRM ou scintigraphie sous adénosine (vasodilatateur) si effort impossible |
+| **Viabilité myocardique** | **IRM (rehaussement tardif gadolinium)** | Décision de revasculariser ou non |
+| **Dissection aortique** | **SCANNER INJECTÉ EN URGENCE** | ETO si scanner impossible |
+| **Embolie pulmonaire** | **ANGIOSCANNER PULMONAIRE** | Scintigraphie V/P si scanner normal + tableau évocateur (emboles distaux) |
+| **Péricardite aiguë** | **Échographie cardiaque TTT** | IRM si doute diagnostique |
+| **Myocardite** | **IRM (diagnostic positif)** | Surveillance rythme (cicatrice → troubles tardifs) |
+
+---
+
+## 9️⃣ Cas clinique illustratif (cours)
+
+> **Patient :** Homme de 33 ans — Douleur thoracique — Vie nocturne, sédentaire (jeux vidéo), obèse
+**Échographie initiale :** aorte thoracique ascendante dilatée → indication de scanner
+> 
+
+**Résultats scanner cardiaque + aortique (synchronisation ECG) :**
+
+```
+→ Sténose IVA PROXIMAL  : 60%  (plaque GRAISSEUSE = grise au scanner)
+→ Sténose IVA MOYENNE   : 98%  (plaque CALCIFIÉE = blanche "qui pète" au scanner)
+→ Aorte dilatée à 43 mm (non disséquée)
+```
+
+**Test à l'adénosine (vasodilatateur) :**
+
+```
+→ Septum reste NOIR (ne prend pas le contraste)
+→ = Déficit perfusionnel = ISCHÉMIE CONFIRMÉE
+```
+
+**Rehaussement tardif :**
+
+```
+→ Zone NOIRE = pas de blanc = PAS D'INFARCTUS
+→ Ischémie réversible SANS nécrose
+```
+
+**Traitement :**
+
+```
+2 angioplasties (sténose 98% en PREMIER, puis 60%) + prévention cardiovasculaire intensive
+→ Patient de 33 ans → sans traitement : pronostic vital engagé à court terme
+```
+
+> 💡 **Leçon clé :** Ischémie réversible ≠ Infarctus. Le rehaussement tardif (noir = pas de nécrose) guide la décision de revasculariser
+> 
+
+---
+
+## 🔟 Conclusion du cours
+
+```
+SYNDROME CORONAIRE AIGU / URGENCE  →  CORONAROGRAPHIE ± ANGIOPLASTIE
+VIABILITÉ DU MYOCARDE              →  IRM (rehaussement tardif)
+
+ANGOR STABLE :
+  Risque intermédiaire  →  COROSCANNER (éliminer maladie coronaire)
+  Risque élevé          →  CORONAROGRAPHIE d'emblée
+
+IMAGERIE FONCTIONNELLE :
+  Effort possible       →  Écho d'effort ou scintigraphie + effort
+  Effort impossible     →  IRM ou scintigraphie sous stress vasodilatateur (adénosine)
+```
+
+---
+
+## 1️⃣1️⃣ Points QCM / Pièges ⚡
+
+- ✅ **Coronarographie = SEULE imagerie urgente dans le SCA** → diagnostique ET thérapeutique (angioplastie) +++
+- ✅ **Scanner coronaire = EXCELLENTE VPN** — scanner normal élimine la maladie coronaire et évite la coro +++
+- ✅ **Scanner coronaire = MOINS BONNE SPÉCIFICITÉ** (calcifications surestiment les sténoses) +++
+- ✅ **Score calcique = 0 N'ÉLIMINE PAS** la maladie coronaire (plaques non calcifiées invisibles sans injection) +++
+- ✅ **Prémédication scanner coro** : β-bloquants (↓ FC) + dérivés nitrés (↑ diamètre coronaire) +++
+- ✅ **Tous les examens cardiaques synchronisés à l'ECG** +++
+- ✅ **Plan de référence cardio = PETIT AXE** (reconstruction en œil de bœuf) +++
+- ✅ **VG = 17 segments** : basale (1-6) + médio-ventriculaire (7-12) + apicale (13-16) + apex (17) +++
+- ✅ **Cinétique** : Normokinésie / Hypokinésie / Akinésie / **Dyskinésie** (expansion paradoxale) +++
+- ✅ **Dominance droite = 80%** de la population (coronaire droite volumineuse) +++
+- ✅ **Adénosine = vasodilatateur** → dilate artères NORMALES → vol vasculaire → révèle ischémie +++
+- ✅ **Réserve coronaire = ×4 le débit** à l'effort / sténose > 50% = débit s'effondre (Gould, 1974) +++
+- ✅ **Épreuve d'effort simple = sensibilité et spécificité médiocres** (faux positifs chez la femme) +++
+- ✅ **Infarctus = épicentre SOUS-ENDOCARDIQUE** (artères arrivent de la périphérie) +++
+- ✅ **IRM rehaussement tardif = référence pour la VIABILITÉ MYOCARDIQUE** +++
+- ✅ **« WHITE IS DEAD »** → zone blanche = nécrose → inutile de revasculariser (stent ou pontage) +++
+- ✅ **Viabilité IRM** : épaisseur > 5 mm ET cinétique résiduelle (épaississement focal) +++
+- ✅ **Infarctus → rehaussement SOUS-ENDOCARDIQUE** / **Myocardite → SOUS-ÉPICARDIQUE** +++
+- ✅ **Myocardite vs péricardite** → différentiel = **ÉLÉVATION DE LA TROPONINE** (myocardite) +++
+- ✅ **Dissection aortique → SCANNER INJECTÉ EN URGENCE** (vital, le plus rapide) +++
+- ✅ **Embolie pulmonaire → ANGIOSCANNER PULMONAIRE** (1ère intention) +++
+- ✅ **OAP radio** : Cardiomégalie (rapport > 0,5) + aile de papillon + opacités interstitielles péri-hilaires +++
+- ✅ **OAP = condensations SANS bronchogramme** (≠ pneumonie infectieuse = AVEC bronchogramme) +++ QCM +++
+- ✅ **Cardiomégalie = signe de RADIO THORACIQUE seulement** (pas au scanner) +++
+- ✅ **IRM cardiopathie dilatée** = différencie ischémique vs non ischémique par rehaussement tardif +++
+- ✅ **Douleur PAR LE PLAT DE LA MAIN = cardiaque** / par un doigt = non cardiaque +++
+- ✅ **Angor stable risque INTERMÉDIAIRE → Coroscanner** | **Risque ÉLEVÉ → Coronarographie d'emblée** +++
+- ✅ **Myocardite complication tardive** = cicatrice myocardique → **TROUBLE DU RYTHME TARDIF** +++
+- ✅ **Imagerie segmentée** (IRM, scintigraphie) = reconstruction sur **plusieurs cycles cardiaques** +++
+- ✅ **Injection artérielle = toxicité rénale >** injection veineuse (1er passage hépatique) +++
+- ✅ **PIÈGE** : scanner coronaire ne peut pas faire d'angioplastie → **coronarographie si revascularisation** +++
+- ✅ **PIÈGE** : OAP = condensations SANS bronchogramme / Pneumonie = AVEC bronchogramme +++
+
+[](data:image/png;base64,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)

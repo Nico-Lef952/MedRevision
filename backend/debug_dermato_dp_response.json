@@ -1,0 +1,362 @@
+{
+  "dps": [
+    {
+      "type": "dp",
+      "question": "Dermatite Atopique et Alopécie : Prise en charge",
+      "vignette": "Le petit Léo, 6 mois, est vu pour une éruption prurigineuse évoluant depuis l'âge de 3 mois. Il est allergique aux protéines de lait de vache. Sommeil perturbé par le prurit. Antécédents : mère asthmatique. À l'examen, plaques érythémateuses et squameuses du visage. La mère rapporte également une chute de cheveux chronique chez elle.",
+      "explanation": "Dossier portant sur la dermatite atopique (diagnostic clinique), ses complications (impétiginisation) et l'alopécie.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "dermatite atopique",
+        "impétiginisation",
+        "alopécie"
+      ],
+      "sub_questions": [
+        {
+          "type": "qrm",
+          "question": "Q1 : Quelles sont les lésions élémentaires visualisées sur la première photo (Léo) ?",
+          "options": [
+            {
+              "text": "Érythème",
+              "is_correct": true
+            },
+            {
+              "text": "Pustule",
+              "is_correct": false
+            },
+            {
+              "text": "Bulle",
+              "is_correct": false
+            },
+            {
+              "text": "Vésicule",
+              "is_correct": true
+            },
+            {
+              "text": "Xérose cutanée",
+              "is_correct": true
+            }
+          ],
+          "answer": "Érythème, Vésicule, Xérose cutanée",
+          "explanation": "Le tableau clinique de la dermatite atopique chez le nourrisson associe érythème, vésicule (en phase aiguë) et xérose."
+        },
+        {
+          "type": "qcm",
+          "question": "Q2 : Quel est votre diagnostic principal pour Léo ?",
+          "options": [
+            {
+              "text": "Dermatite atopique",
+              "is_correct": true
+            },
+            {
+              "text": "Dermite séborrhéique",
+              "is_correct": false
+            },
+            {
+              "text": "Psoriasis",
+              "is_correct": false
+            },
+            {
+              "text": "Gale",
+              "is_correct": false
+            }
+          ],
+          "answer": "Dermatite atopique",
+          "explanation": "Terrain atopique, début précoce, prurit et aspect clinique typique."
+        },
+        {
+          "type": "qrm",
+          "question": "Q3 : Sur quels arguments évoquez-vous ce diagnostic ?",
+          "options": [
+            {
+              "text": "Début dans la petite enfance",
+              "is_correct": true
+            },
+            {
+              "text": "Allergie aux protéines de lait de vache",
+              "is_correct": false
+            },
+            {
+              "text": "Xérose cutanée",
+              "is_correct": true
+            },
+            {
+              "text": "Antécédent familial d'atopie",
+              "is_correct": true
+            },
+            {
+              "text": "Atteinte des zones de convexité",
+              "is_correct": true
+            }
+          ],
+          "answer": "Début petite enfance, Xérose, Atcd atopie, Atteinte zones de convexité",
+          "explanation": "L'atteinte des zones de convexité est caractéristique du nourrisson, contrairement aux plis chez l'enfant plus grand."
+        },
+        {
+          "type": "qrm",
+          "question": "Q4 : Sur la deuxième photo (Léo revenu), quelles lésions élémentaires voyez-vous ?",
+          "options": [
+            {
+              "text": "Suintement",
+              "is_correct": true
+            },
+            {
+              "text": "Vésicule",
+              "is_correct": false
+            },
+            {
+              "text": "Croûte mélicérique",
+              "is_correct": true
+            },
+            {
+              "text": "Nodule",
+              "is_correct": false
+            },
+            {
+              "text": "Erosions",
+              "is_correct": true
+            }
+          ],
+          "answer": "Suintement, Croûte mélicérique, Erosions",
+          "explanation": "Aspect clinique évocateur d'une impétiginisation (surinfection bactérienne)."
+        },
+        {
+          "type": "qcm",
+          "question": "Q5 : Quel est votre diagnostic pour cette surinfection ?",
+          "options": [
+            {
+              "text": "Syndrome de Kaposi-Juliusberg",
+              "is_correct": false
+            },
+            {
+              "text": "Erysipèle du visage",
+              "is_correct": false
+            },
+            {
+              "text": "Zona",
+              "is_correct": false
+            },
+            {
+              "text": "Impétiginisation",
+              "is_correct": true
+            },
+            {
+              "text": "Eczéma de contact",
+              "is_correct": false
+            }
+          ],
+          "answer": "Impétiginisation",
+          "explanation": "Croûtes mélicériques = infection bactérienne secondaire."
+        },
+        {
+          "type": "qrm",
+          "question": "Q6 : Pour la mère : de quel type d'alopécie s'agit-il ?",
+          "options": [
+            {
+              "text": "Alopécie post-inflammatoire",
+              "is_correct": false
+            },
+            {
+              "text": "Alopécie non cicatricielle",
+              "is_correct": true
+            },
+            {
+              "text": "Alopécie acquise",
+              "is_correct": true
+            },
+            {
+              "text": "Alopécie en plaque",
+              "is_correct": false
+            },
+            {
+              "text": "Alopécie diffuse",
+              "is_correct": true
+            }
+          ],
+          "answer": "Alopécie non cicatricielle, acquise et diffuse",
+          "explanation": "L'image montre un éclaircissement diffus du sommet du crâne (AAG féminine)."
+        },
+        {
+          "type": "qrm",
+          "question": "Q7 : Quel(s) examen(s) à visée étiologique prescrivez-vous pour la mère ?",
+          "options": [
+            {
+              "text": "Biopsie",
+              "is_correct": false
+            },
+            {
+              "text": "Trichogramme",
+              "is_correct": false
+            },
+            {
+              "text": "Ferritinémie",
+              "is_correct": true
+            },
+            {
+              "text": "Patch test",
+              "is_correct": false
+            },
+            {
+              "text": "TSH",
+              "is_correct": true
+            }
+          ],
+          "answer": "Ferritinémie, TSH",
+          "explanation": "Bilan systématique en cas d'alopécie diffuse persistante."
+        }
+      ]
+    },
+    {
+      "type": "dp",
+      "question": "Dermatose bulleuse auto-immune : Pemphigus",
+      "vignette": "Monsieur X, 47 ans, HTA et hypercholestérolémie, présente des lésions érosives et bulleuses du dos évoluant depuis 1 mois, accompagnées de lésions buccales érosives.",
+      "explanation": "Dossier portant sur le pemphigus vulgaire : présentation clinique, immunofluorescence et ELISA.",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "pemphigus",
+        "immunofluorescence",
+        "ELISA"
+      ],
+      "sub_questions": [
+        {
+          "type": "qcm",
+          "question": "Q1 : Quelles lésions élémentaires retrouvez-vous sur l'image du dos ?",
+          "options": [
+            {
+              "text": "Papules",
+              "is_correct": false
+            },
+            {
+              "text": "Bulles",
+              "is_correct": true
+            },
+            {
+              "text": "Pustules",
+              "is_correct": false
+            },
+            {
+              "text": "Erosions",
+              "is_correct": true
+            },
+            {
+              "text": "Ulcération",
+              "is_correct": false
+            }
+          ],
+          "answer": "Bulles et Erosions",
+          "explanation": "L'image montre des érosions post-bulleuses sur le dos."
+        },
+        {
+          "type": "qcm",
+          "question": "Q2 : À quelles complications directes ces lésions exposent-elles ?",
+          "options": [
+            {
+              "text": "Sepsis",
+              "is_correct": true
+            },
+            {
+              "text": "Dermo-hypodermite bactérienne",
+              "is_correct": true
+            },
+            {
+              "text": "Insuffisance hépatocellulaire",
+              "is_correct": false
+            },
+            {
+              "text": "Arthrites",
+              "is_correct": false
+            },
+            {
+              "text": "Déshydratation",
+              "is_correct": true
+            }
+          ],
+          "answer": "Sepsis, Dermo-hypodermite bactérienne, Déshydratation",
+          "explanation": "La perte de la barrière cutanée expose aux infections et aux fuites hydro-électrolytiques."
+        },
+        {
+          "type": "qcm",
+          "question": "Q3 : Quelle est votre principale hypothèse diagnostique ?",
+          "options": [
+            {
+              "text": "Pemphigus vulgaire",
+              "is_correct": true
+            },
+            {
+              "text": "Pemphigoïde bulleuse",
+              "is_correct": false
+            },
+            {
+              "text": "Lupus",
+              "is_correct": false
+            },
+            {
+              "text": "Eczéma",
+              "is_correct": false
+            }
+          ],
+          "answer": "Pemphigus vulgaire",
+          "explanation": "Atteinte muqueuse buccale associée aux érosions cutanées."
+        },
+        {
+          "type": "qcm",
+          "question": "Q4 : De quel examen s'agit-il sur la dernière image (fluorescence en résille) ?",
+          "options": [
+            {
+              "text": "ELISA",
+              "is_correct": false
+            },
+            {
+              "text": "Immunofluorescence directe",
+              "is_correct": true
+            },
+            {
+              "text": "Western Blot",
+              "is_correct": false
+            },
+            {
+              "text": "Hémoculture",
+              "is_correct": false
+            },
+            {
+              "text": "Histologie",
+              "is_correct": false
+            }
+          ],
+          "answer": "Immunofluorescence directe",
+          "explanation": "La fluorescence intercellulaire en maille de filet est typique de l'IFD dans le pemphigus."
+        },
+        {
+          "type": "qrm",
+          "question": "Q5 : Quelles sont les protéines cibles de cette pathologie ?",
+          "options": [
+            {
+              "text": "Desmogleine 3",
+              "is_correct": true
+            },
+            {
+              "text": "BPAG1",
+              "is_correct": false
+            },
+            {
+              "text": "Lamine 5",
+              "is_correct": false
+            },
+            {
+              "text": "BPAG2",
+              "is_correct": false
+            },
+            {
+              "text": "Desmogleine 1",
+              "is_correct": true
+            }
+          ],
+          "answer": "Desmogleine 3 et Desmogleine 1",
+          "explanation": "Les pemphigus sont liés à des auto-anticorps anti-desmogléines (3 pour la muqueuse, 1 et 3 pour la forme cutanéo-muqueuse)."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,291 @@
+# -*- coding: utf-8 -*-
+
+import asyncio
+import json
+import os
+import re
+from pathlib import Path
+from datetime import datetime, timezone
+
+import docx
+from google import genai
+from server import db
+
+SUBJECT_NAME = "Revêtement cutané"
+QCM_FILE = Path("annales/Revêtement cutané/Sujet 24-25 revêtement cutané.docx")
+MODEL = "gemini-2.5-flash"
+
+
+def load_env():
+    p = Path(".env")
+    if not p.exists():
+        return
+    for line in p.read_text(encoding="utf-8", errors="ignore").splitlines():
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        os.environ.setdefault(k.strip(), v.strip())
+
+
+def read_docx(path):
+    doc = docx.Document(path)
+    parts = []
+    for p in doc.paragraphs:
+        txt = p.text.strip()
+        if txt:
+            parts.append(txt)
+    for table in doc.tables:
+        for row in table.rows:
+            cells = [cell.text.strip().replace("\n", " / ") for cell in row.cells]
+            line = " | ".join(c for c in cells if c)
+            if line:
+                parts.append(line)
+    return "\n".join(parts)
+
+
+def extract_json(text):
+    text = (text or "").strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```json", "", text, flags=re.I).strip()
+        text = re.sub(r"^```", "", text).strip()
+        text = re.sub(r"```$", "", text).strip()
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1:
+        raise ValueError("JSON introuvable")
+    return json.loads(text[start:end + 1])
+
+
+def clean_word_xml_noise(text):
+    text = text.replace("\r", "\n")
+    text = text.replace("\xa0", " ")
+    text = re.sub(r"<w:tab\s*/>", " ", text)
+    text = re.sub(r"<w:t[^>]*>", "", text)
+    text = re.sub(r"</w:t>", "", text)
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text
+
+
+def split_questions(text):
+    """
+    Découpe robuste :
+    - Q1 seul sur une ligne
+    - Q15 :
+    - Q16)
+    - 27.
+    - 29.
+    Les options peuvent ne pas être précédées de A/B/C/D/E.
+    """
+    text = clean_word_xml_noise(text)
+
+    # Force un retour à la ligne avant chaque début de question
+    text = re.sub(r"(?<!\n)(Q\s*\d{1,2}\s*[\)\.\-:]?)", r"\n\1", text, flags=re.I)
+    text = re.sub(r"(?<!\n)(\b\d{1,2}\s*[\)\.\-:]\s+Concernant)", r"\n\1", text, flags=re.I)
+    text = re.sub(r"(?<!\n)(\b\d{1,2}\s*[\)\.\-:]\s+Parmi)", r"\n\1", text, flags=re.I)
+
+    lines = [l.strip() for l in text.splitlines() if l.strip()]
+
+    q_start = re.compile(
+        r"^(?:Q\s*)?\d{1,2}\s*[\)\.\-:]?\s*$"
+        r"|^(?:Q\s*)?\d{1,2}\s*[\)\.\-:]\s+"
+        r"|^Question\s+\d{1,2}\b",
+        re.I
+    )
+
+    blocks = []
+    current = []
+
+    for line in lines:
+        if q_start.match(line):
+            if current:
+                blocks.append("\n".join(current).strip())
+            current = [line]
+        else:
+            if current:
+                current.append(line)
+
+    if current:
+        blocks.append("\n".join(current).strip())
+
+    # On garde les blocs qui ont au moins un énoncé + plusieurs lignes d’options.
+    clean = []
+    for b in blocks:
+        useful_lines = [x.strip() for x in b.splitlines() if x.strip()]
+        if len(useful_lines) >= 4:
+            clean.append(b)
+
+    Path("debug_dermato_qcm_blocks.txt").write_text(
+        "\n\n---QUESTION---\n\n".join(clean),
+        encoding="utf-8"
+    )
+
+    return clean
+
+
+def normalize_options(options):
+    clean = []
+    for opt in options or []:
+        if not isinstance(opt, dict):
+            continue
+        text = opt.get("text") or opt.get("label") or ""
+        if not text:
+            continue
+        clean.append({
+            "text": text.strip(),
+            "is_correct": bool(opt.get("is_correct", opt.get("correct", False)))
+        })
+    return clean
+
+
+def validate_q(q):
+    qtype = q.get("type", "qrm")
+    if qtype not in ["qi", "qcm", "qrm"]:
+        qtype = "qrm"
+
+    question = (q.get("question") or "").strip()
+    options = normalize_options(q.get("options", []))
+
+    if not question:
+        return None
+    if len(options) < 2:
+        return None
+    if not any(o["is_correct"] for o in options):
+        return None
+
+    return {
+        "type": qtype,
+        "question": question,
+        "vignette": q.get("vignette", "") or "",
+        "options": options,
+        "answer": (q.get("answer") or "").strip(),
+        "explanation": (q.get("explanation") or "Correction à vérifier.").strip(),
+        "difficulty": q.get("difficulty", 2),
+        "rang": q.get("rang", "A"),
+        "concepts": q.get("concepts", []),
+        "sub_questions": []
+    }
+
+
+async def get_course_context(user_id, subject_id):
+    courses = await db.courses.find({
+        "user_id": user_id,
+        "subject_id": subject_id
+    }).sort("title", 1).to_list(500)
+
+    parts = []
+    for c in courses:
+        content = c.get("content", "") or ""
+        if len(content) > 100:
+            parts.append(f"\n\n# {c.get('title', '')}\n{content}")
+
+    return "\n".join(parts)[:90000]
+
+
+async def main():
+    load_env()
+
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    client = genai.Client(api_key=api_key)
+
+    user = await db.users.find_one({"email": "admin@medrevision.com"})
+    user_id = str(user["_id"])
+
+    subject = await db.subjects.find_one({
+        "user_id": user_id,
+        "name": {"$regex": SUBJECT_NAME, "$options": "i"}
+    })
+    subject_id = str(subject["_id"])
+
+    text = read_docx(QCM_FILE)
+    blocks = split_questions(text)
+
+    print("Questions détectées dans le fichier :", len(blocks))
+
+    if len(blocks) != 30:
+        Path("debug_dermato_qcm_blocks.txt").write_text("\n\n---QUESTION---\n\n".join(blocks), encoding="utf-8")
+        raise RuntimeError(f"Détection invalide : attendu 30 blocs, obtenu {len(blocks)}. Voir debug_dermato_qcm_blocks.txt")
+
+    course_context = await get_course_context(user_id, subject_id)
+
+    annale_id = f"{subject_id}-2024-2025-sujet-revetement-cutane"
+
+    await db.questions.delete_many({
+        "user_id": user_id,
+        "is_annale": True,
+        "annale_id": annale_id
+    })
+
+    docs = []
+
+    for idx, block in enumerate(blocks, 1):
+        print(f"\nCorrection question {idx}/30")
+
+        prompt = f"""
+Tu dois convertir UNE question d'annale de dermatologie en question MedRevision.
+
+Règles :
+- Conserve l'énoncé et les options.
+- Corrige les bonnes réponses en t'appuyant sur les cours.
+- Donne une explication claire.
+- Réponds uniquement en JSON valide.
+- Ne transforme pas en QROC.
+
+COURS :
+{course_context}
+
+QUESTION D'ANNALE :
+{block}
+
+Format :
+{{
+  "question": {{
+    "type": "qrm",
+    "question": "énoncé",
+    "vignette": "",
+    "options": [
+      {{"text": "A. option", "is_correct": true}},
+      {{"text": "B. option", "is_correct": false}}
+    ],
+    "answer": "réponse courte",
+    "explanation": "correction",
+    "difficulty": 2,
+    "rang": "A",
+    "concepts": ["notion"]
+  }}
+}}
+"""
+
+        res = client.models.generate_content(model=MODEL, contents=prompt)
+        data = extract_json(res.text or "")
+        q = validate_q(data.get("question", {}))
+
+        if not q:
+            Path(f"debug_dermato_qcm_invalid_{idx}.json").write_text(
+                json.dumps(data, ensure_ascii=False, indent=2),
+                encoding="utf-8"
+            )
+            raise RuntimeError(f"Question {idx} invalide. Voir debug_dermato_qcm_invalid_{idx}.json")
+
+        docs.append({
+            "user_id": user_id,
+            "subject_id": subject_id,
+            "course_id": None,
+            "is_annale": True,
+            "annale_id": annale_id,
+            "annale_year": "2024-2025",
+            "annale_title": "Sujet 24-25 revêtement cutané",
+            "source_file": str(QCM_FILE),
+            "source_index": idx,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            **q
+        })
+
+    if len(docs) != 30:
+        raise RuntimeError(f"Import refusé : attendu 30, obtenu {len(docs)}")
+
+    await db.questions.insert_many(docs)
+    print("\nIMPORT QCM DERMATO OK : 30 questions")
+
+
+asyncio.run(main())

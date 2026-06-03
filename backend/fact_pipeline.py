@@ -1,0 +1,674 @@
+# -*- coding: utf-8 -*-
+
+# UTF-8 console fix for Windows
+import sys
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
+import argparse
+import asyncio
+import json
+import os
+import re
+import time
+from pathlib import Path
+from datetime import datetime, timezone
+from bson import ObjectId
+from google import genai
+from server import db
+
+FACTS_JSON = "fact_coverage_report.json"
+FACTS_MD = "fact_coverage_report.md"
+
+
+def load_env():
+    p = Path(".env")
+    if not p.exists():
+        return
+    for line in p.read_text(encoding="utf-8", errors="ignore").splitlines():
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        os.environ.setdefault(k.strip(), v.strip())
+
+
+def extract_json(text):
+    text = (text or "").strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```json", "", text, flags=re.I).strip()
+        text = re.sub(r"^```", "", text).strip()
+        text = re.sub(r"```$", "", text).strip()
+
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1:
+        raise ValueError("JSON not found")
+
+    return json.loads(text[start:end + 1])
+
+
+def norm(text):
+    text = (text or "").lower()
+    text = text.replace("œ", "oe")
+    text = re.sub(r"[^\wÀ-ÿ'-]+", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+def count_words(text):
+    return len(re.findall(r"\b[\wÀ-ÿ'-]+\b", text or ""))
+
+
+def target_for_importance(importance):
+    if importance == "high":
+        return 4
+    if importance == "medium":
+        return 3
+    return 2
+
+
+def expected_fact_count(word_count):
+    if word_count < 900:
+        return 25
+    if word_count < 2200:
+        return 50
+    if word_count < 4000:
+        return 80
+    return 120
+
+
+def question_blob(q):
+    parts = [
+        q.get("question", ""),
+        q.get("answer", ""),
+        q.get("explanation", ""),
+        q.get("vignette", ""),
+        " ".join(q.get("concepts", []) or []),
+    ]
+
+    for opt in q.get("options", []) or []:
+        if isinstance(opt, dict):
+            parts.append(opt.get("text", ""))
+
+    for sq in q.get("sub_questions", []) or []:
+        if isinstance(sq, dict):
+            parts.append(sq.get("question", ""))
+            parts.append(sq.get("answer", ""))
+            parts.append(sq.get("explanation", ""))
+            for opt in sq.get("options", []) or []:
+                if isinstance(opt, dict):
+                    parts.append(opt.get("text", ""))
+
+    return norm(" ".join(parts))
+
+
+def fact_matches_question(fact, q_blob):
+    terms = []
+    for x in [fact.get("title", ""), fact.get("statement", "")]:
+        if x:
+            terms.append(x)
+
+    for k in fact.get("keywords", []) or []:
+        if k:
+            terms.append(k)
+
+    terms = [norm(t) for t in terms if len(norm(t)) >= 4]
+
+    # Direct keyword match
+    for t in terms:
+        if t in q_blob:
+            return True
+
+    # Flexible statement match
+    words = [w for w in norm(fact.get("statement", "")).split() if len(w) >= 5]
+    if not words:
+        words = [w for w in norm(fact.get("title", "")).split() if len(w) >= 5]
+
+    if not words:
+        return False
+
+    found = sum(1 for w in words if w in q_blob)
+    return found >= max(2, int(len(words) * 0.45))
+
+
+def normalize_options(options):
+    if not isinstance(options, list):
+        return []
+
+    clean = []
+    for opt in options:
+        if isinstance(opt, dict):
+            txt = opt.get("text") or opt.get("label") or opt.get("answer") or ""
+            if txt:
+                clean.append({
+                    "text": txt,
+                    "is_correct": bool(opt.get("is_correct", opt.get("correct", False)))
+                })
+        elif isinstance(opt, str):
+            clean.append({"text": opt, "is_correct": False})
+
+    return clean
+
+
+def validate_question(raw):
+    if not isinstance(raw, dict):
+        return None
+
+    qtype = raw.get("type", "qrm")
+    if qtype not in ["qi", "qcm", "qrm", "qroc", "cas_clinique"]:
+        qtype = "qrm"
+
+    question = (raw.get("question") or "").strip()
+    if not question:
+        return None
+
+    answer = (raw.get("answer") or "").strip()
+    explanation = (raw.get("explanation") or "").strip()
+    vignette = raw.get("vignette", "") or ""
+    options = normalize_options(raw.get("options", []))
+
+    if qtype in ["qi", "qcm", "qrm"]:
+        if len(options) < 2:
+            return None
+        if not any(o.get("is_correct") for o in options):
+            return None
+
+    if qtype == "cas_clinique":
+        if not vignette:
+            return None
+        if len(options) < 2:
+            return None
+        if not any(o.get("is_correct") for o in options):
+            return None
+
+    if qtype == "qroc":
+        if not answer:
+            return None
+        if len(answer.split()) > 2:
+            return None
+        options = [{"text": answer, "is_correct": True}]
+
+    return {
+        "type": qtype,
+        "question": question,
+        "vignette": vignette,
+        "options": options,
+        "answer": answer,
+        "explanation": explanation,
+        "difficulty": raw.get("difficulty", 2),
+        "rang": raw.get("rang", "A"),
+        "concepts": raw.get("concepts", []),
+        "sub_questions": []
+    }
+
+
+async def get_user():
+    user = await db.users.find_one({"email": "admin@medrevision.com"})
+    if not user:
+        raise RuntimeError("Admin user not found")
+    return user
+
+
+async def get_courses(user_id, only_subject="", course_contains=""):
+    query = {"user_id": user_id}
+
+    if only_subject:
+        subject = await db.subjects.find_one({
+            "user_id": user_id,
+            "name": {"$regex": only_subject, "$options": "i"}
+        })
+        if not subject:
+            print("Subject not found:", only_subject)
+            return []
+        query["subject_id"] = str(subject["_id"])
+
+    if course_contains:
+        query["title"] = {"$regex": course_contains, "$options": "i"}
+
+    return await db.courses.find(query).sort("title", 1).to_list(5000)
+
+
+async def build_facts(args):
+    load_env()
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    client = genai.Client(api_key=api_key)
+
+    user = await get_user()
+    user_id = str(user["_id"])
+
+    courses = await get_courses(user_id, args.only_subject, args.course_contains)
+    done = 0
+
+    for course in courses:
+        if done >= args.limit:
+            break
+
+        content = course.get("content", "") or ""
+        if count_words(content) < 80:
+            continue
+
+        existing = await db.course_facts.count_documents({
+            "user_id": user_id,
+            "course_id": str(course["_id"])
+        })
+
+        if existing and not args.force:
+            print("Already has facts:", course.get("title"), "|", existing)
+            continue
+
+        if args.force:
+            await db.course_facts.delete_many({
+                "user_id": user_id,
+                "course_id": str(course["_id"])
+            })
+
+        subject = await db.subjects.find_one({"_id": ObjectId(course.get("subject_id"))})
+        subject_name = subject.get("name", "Unknown") if subject else "Unknown"
+
+        trimmed = content[:90000]
+        min_facts = expected_fact_count(count_words(content))
+
+        prompt = f"""
+You must extract every testable fact from a medical course.
+
+Goal:
+The student wants to replace passive reading with active questions.
+So every useful information in the course should become a testable fact.
+
+You must extract at least {min_facts} facts for this course.
+If you find fewer than {min_facts}, you are probably grouping facts too broadly.
+
+Rules:
+- Be very granular.
+- Do not summarize into broad notions.
+- One fact = one precise piece of information that could become one or more questions.
+- Split definitions, scores, thresholds, signs, causes, contraindications, timelines, classifications, exceptions and clinical reasoning points into separate facts.
+- A score, a threshold, a definition, a sign, a cause, an exception or a clinical rule must each be its own fact.
+- Do not use outside knowledge.
+- Only extract facts present in the course.
+- Importance:
+  high = must know / exam likely
+  medium = useful
+  low = detail
+- target_questions:
+  high: 4
+  medium: 3
+  low: 2
+
+Subject: {subject_name}
+Course title: {course.get("title", "")}
+Section: {course.get("chapter", "")}
+
+COURSE:
+{trimmed}
+
+Return valid JSON only:
+{{
+  "facts": [
+    {{
+      "title": "short name",
+      "statement": "precise fact from the course",
+      "importance": "high | medium | low",
+      "keywords": ["keyword1", "keyword2"],
+      "target_questions": 3
+    }}
+  ]
+}}
+"""
+
+        while True:
+            try:
+                print("=" * 90)
+                print("Extracting facts:", subject_name, "->", course.get("title"))
+                print("=" * 90)
+
+                res = client.models.generate_content(model=args.model, contents=prompt)
+                data = extract_json(res.text or "")
+
+                docs = []
+                seen = set()
+
+                for f in data.get("facts", []):
+                    title = (f.get("title") or "").strip()
+                    statement = (f.get("statement") or "").strip()
+
+                    if not title or not statement:
+                        continue
+
+                    key = norm(title + " " + statement)
+                    if key in seen:
+                        continue
+                    seen.add(key)
+
+                    importance = f.get("importance", "medium")
+                    if importance not in ["high", "medium", "low"]:
+                        importance = "medium"
+
+                    target = f.get("target_questions") or target_for_importance(importance)
+
+                    docs.append({
+                        "user_id": user_id,
+                        "subject_id": str(course.get("subject_id")),
+                        "course_id": str(course["_id"]),
+                        "title": title,
+                        "statement": statement,
+                        "importance": importance,
+                        "keywords": f.get("keywords", []),
+                        "target_questions": int(target),
+                        "created_at": datetime.now(timezone.utc).isoformat()
+                    })
+
+                if docs:
+                    await db.course_facts.insert_many(docs)
+
+                print("Facts inserted:", len(docs))
+                done += 1
+                time.sleep(args.delay)
+                break
+
+            except Exception as e:
+                msg = str(e).lower()
+                print("Error:", e)
+                if "429" in msg or "quota" in msg:
+                    time.sleep(3600)
+                elif "503" in msg or "unavailable" in msg or "overload" in msg:
+                    time.sleep(900)
+                else:
+                    time.sleep(180)
+
+
+async def check_coverage(args):
+    user = await get_user()
+    user_id = str(user["_id"])
+
+    courses = await get_courses(user_id, args.only_subject, args.course_contains)
+
+    report = []
+    md = []
+    md.append("# Fact coverage report")
+    md.append("")
+
+    for course in courses:
+        facts = await db.course_facts.find({
+            "user_id": user_id,
+            "course_id": str(course["_id"])
+        }).to_list(5000)
+
+        if not facts:
+            continue
+
+        questions = await db.questions.find({
+            "user_id": user_id,
+            "course_id": str(course["_id"])
+        }).to_list(10000)
+
+        q_blobs = [(str(q["_id"]), question_blob(q)) for q in questions]
+
+        course_items = []
+        uncovered = 0
+        under = 0
+
+        for fact in facts:
+            matches = []
+            for qid, blob in q_blobs:
+                if fact_matches_question(fact, blob):
+                    matches.append(qid)
+
+            target = int(fact.get("target_questions", 2) or 2)
+            count = len(matches)
+
+            if count == 0:
+                uncovered += 1
+                status = "uncovered"
+            elif count < target:
+                under += 1
+                status = "under_target"
+            else:
+                status = "ok"
+
+            course_items.append({
+                "fact_id": str(fact["_id"]),
+                "title": fact.get("title"),
+                "statement": fact.get("statement"),
+                "importance": fact.get("importance"),
+                "target_questions": target,
+                "covered_questions": count,
+                "status": status,
+                "matched_question_ids": matches[:20]
+            })
+
+        report.append({
+            "course_id": str(course["_id"]),
+            "course_title": course.get("title"),
+            "question_count": len(questions),
+            "fact_count": len(facts),
+            "uncovered": uncovered,
+            "under_target": under,
+            "facts": course_items
+        })
+
+        md.append(f"## {course.get('title')}")
+        md.append("")
+        md.append(f"- Questions: {len(questions)}")
+        md.append(f"- Facts: {len(facts)}")
+        md.append(f"- Uncovered: {uncovered}")
+        md.append(f"- Under target: {under}")
+        md.append("")
+
+        for item in course_items:
+            if item["status"] != "ok":
+                md.append(f"- [{item['status']}] {item['title']} ({item['covered_questions']}/{item['target_questions']})")
+                md.append(f"  - {item['statement']}")
+        md.append("")
+
+    Path(FACTS_JSON).write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    Path(FACTS_MD).write_text("\n".join(md), encoding="utf-8")
+
+    print("Report:", FACTS_MD)
+    print("JSON:", FACTS_JSON)
+
+
+async def generate_missing(args):
+    load_env()
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    client = genai.Client(api_key=api_key)
+
+    user = await get_user()
+    user_id = str(user["_id"])
+
+    if not Path(FACTS_JSON).exists():
+        print("Run check first.")
+        return
+
+    coverage = json.loads(Path(FACTS_JSON).read_text(encoding="utf-8"))
+
+    candidates = []
+    for course in coverage:
+        for fact in course.get("facts", []):
+            if fact.get("status") in ["uncovered", "under_target"]:
+                missing = max(0, int(fact.get("target_questions", 2)) - int(fact.get("covered_questions", 0)))
+                if missing > 0:
+                    candidates.append({
+                        "course_id": course["course_id"],
+                        "course_title": course["course_title"],
+                        "fact": fact,
+                        "missing": missing,
+                    })
+
+    # Priority: uncovered first, then high importance
+    importance_rank = {"high": 0, "medium": 1, "low": 2}
+    candidates.sort(key=lambda c: (
+        0 if c["fact"]["status"] == "uncovered" else 1,
+        importance_rank.get(c["fact"].get("importance"), 9),
+        -c["missing"]
+    ))
+
+    calls = 0
+
+    for cand in candidates:
+        if calls >= args.limit_calls:
+            break
+
+        course = await db.courses.find_one({"_id": ObjectId(cand["course_id"])})
+        if not course:
+            continue
+
+        subject = await db.subjects.find_one({"_id": ObjectId(course.get("subject_id"))})
+        subject_name = subject.get("name", "Unknown") if subject else "Unknown"
+
+        existing = await db.questions.find({
+            "user_id": user_id,
+            "course_id": cand["course_id"]
+        }).to_list(10000)
+
+        existing_small = [{
+            "type": q.get("type"),
+            "question": q.get("question"),
+            "answer": q.get("answer"),
+            "concepts": q.get("concepts", [])
+        } for q in existing[-500:]]
+
+        amount = min(args.batch, cand["missing"])
+        fact = cand["fact"]
+
+        content = (course.get("content", "") or "")[:90000]
+
+        prompt = f"""
+Generate questions in French for ONE precise fact from a medical course.
+
+Critical rules:
+- Use only the course content.
+- The answer must be explicitly present in the course or directly deducible.
+- Do not use outside knowledge.
+- Do not duplicate existing questions.
+- Focus only on the fact below.
+- Generate exactly {amount} questions.
+- Mix qrm, qcm, qi, qroc, cas_clinique when relevant.
+- QROC answer must be 1 or 2 words maximum.
+- If the fact needs a sentence answer, use qrm/qcm/cas_clinique, not qroc.
+- Cas clinique must include vignette and 4 or 5 options with at least one correct.
+
+Subject: {subject_name}
+Course: {course.get("title", "")}
+
+FACT TO COVER:
+Title: {fact.get("title")}
+Statement: {fact.get("statement")}
+Keywords: {fact.get("keywords", [])}
+
+Existing questions:
+{json.dumps(existing_small, ensure_ascii=False)}
+
+Course content:
+{content}
+
+Return valid JSON only:
+{{
+  "strategy": "short explanation",
+  "questions": [
+    {{
+      "type": "qrm | qcm | qi | qroc | cas_clinique",
+      "question": "text",
+      "vignette": "",
+      "options": [
+        {{"text": "option", "is_correct": true}},
+        {{"text": "option", "is_correct": false}}
+      ],
+      "answer": "answer",
+      "explanation": "correction",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": ["{fact.get("title")}"],
+      "sub_questions": []
+    }}
+  ]
+}}
+"""
+
+        while True:
+            try:
+                print("=" * 90)
+                print("Generating for fact:", cand["course_title"], "->", fact.get("title"))
+                print("Missing:", cand["missing"], "| amount:", amount)
+                print("=" * 90)
+
+                res = client.models.generate_content(model=args.model, contents=prompt)
+                data = extract_json(res.text or "")
+                raw_questions = data.get("questions", [])
+
+                existing_texts = {norm(q.get("question", "")) for q in existing}
+                docs = []
+
+                for raw in raw_questions:
+                    q = validate_question(raw)
+                    if not q:
+                        continue
+
+                    key = norm(q["question"])
+                    if key in existing_texts:
+                        continue
+                    existing_texts.add(key)
+
+                    docs.append({
+                        "user_id": user_id,
+                        "course_id": cand["course_id"],
+                        "subject_id": str(course.get("subject_id")),
+                        "created_at": datetime.now(timezone.utc).isoformat(),
+                        **q
+                    })
+
+                if docs:
+                    await db.questions.insert_many(docs)
+
+                print("Inserted:", len(docs))
+                calls += 1
+                time.sleep(args.delay)
+                break
+
+            except Exception as e:
+                msg = str(e).lower()
+                print("Error:", e)
+                if "429" in msg or "quota" in msg:
+                    time.sleep(3600)
+                elif "503" in msg or "unavailable" in msg or "overload" in msg:
+                    time.sleep(900)
+                else:
+                    time.sleep(180)
+
+
+async def main():
+    parser = argparse.ArgumentParser()
+    sub = parser.add_subparsers(dest="cmd", required=True)
+
+    p1 = sub.add_parser("build")
+    p1.add_argument("--only-subject", default="")
+    p1.add_argument("--course-contains", default="")
+    p1.add_argument("--model", default="gemini-3.1-flash-lite")
+    p1.add_argument("--delay", type=int, default=30)
+    p1.add_argument("--limit", type=int, default=999)
+    p1.add_argument("--force", action="store_true")
+
+    p2 = sub.add_parser("check")
+    p2.add_argument("--only-subject", default="")
+    p2.add_argument("--course-contains", default="")
+
+    p3 = sub.add_parser("generate")
+    p3.add_argument("--model", default="gemini-3.1-flash-lite")
+    p3.add_argument("--limit-calls", type=int, default=20)
+    p3.add_argument("--batch", type=int, default=3)
+    p3.add_argument("--delay", type=int, default=20)
+
+    args = parser.parse_args()
+
+    if args.cmd == "build":
+        await build_facts(args)
+    elif args.cmd == "check":
+        await check_coverage(args)
+    elif args.cmd == "generate":
+        await generate_missing(args)
+
+
+asyncio.run(main())

@@ -1,0 +1,34 @@
+{
+  "question": {
+    "type": "qrm",
+    "question": "Quelle(s) image(s) correspond(ent) à un dermographisme ?",
+    "vignette": "Veuillez noter que les images originales (C, D, E) ne sont pas fournies dans l'énoncé. Les options textuelles ci-dessous sont des descriptions hypothétiques basées sur la nature du dermographisme pour illustrer la question. Sans les images réelles, une correction basée sur le contenu visuel est impossible. Le concept de 'dermographisme' n'est pas non plus explicitement abordé dans les cours fournis.",
+    "options": [
+      {
+        "text": "A. Une image montrant une éruption cutanée diffuse sans cause mécanique apparente.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Une image présentant des signes d'eczéma chronique avec lichénification.",
+        "is_correct": false
+      },
+      {
+        "text": "C. Une image illustrant des stries rouges surélevées et éphémères suite à un frottement linéaire de la peau.",
+        "is_correct": false
+      },
+      {
+        "text": "D. Une image où des marques linéaires rouges et prurigineuses sont visibles immédiatement après l'application d'une pression ou d'un grattage.",
+        "is_correct": false
+      },
+      {
+        "text": "E. Une image montrant une réaction cutanée de type papuleux et érythémateux, précisément au tracé d'un stylo sur la peau.",
+        "is_correct": false
+      }
+    ],
+    "answer": "La correction des options n'est pas possible sans les images originales et sans un cours dédié au dermographisme. En l'absence de ces éléments, aucune option ne peut être marquée comme correcte.",
+    "explanation": "La question originale se réfère à des images (C, D, E) qui ne sont pas fournies dans l'énoncé. De plus, le concept de 'dermographisme' n'est pas explicitement défini ou détaillé dans les fiches de cours fournies ('Physiologie Cutanée : Effets des UV', 'Physiologie Cutanée : Pigmentation Cutanée', 'Alopécies', 'Les Brûlures', 'Biopsie Cutanée', 'Histologie du Revêtement Cutané', 'Sémiologie Unguéale').\n\nLe dermographisme (ou dermatographie) est une forme d'urticaire physique où une stimulation mécanique (frottement, grattage, pression) de la peau provoque l'apparition de marques rouges, surélevées et prurigineuses le long du tracé de la stimulation, ressemblant à une écriture sur la peau. Cette réaction est due à la dégranulation des mastocytes cutanés et la libération d'histamine.\n\nSans les images et sans référence au dermographisme dans le matériel de cours fourni, il est impossible de corriger précisément les options 'C', 'D' et 'E' ou de fournir une explication basée sur les cours demandés par les règles.",
+    "difficulty": 3,
+    "rang": "D",
+    "concepts": []
+  }
+}

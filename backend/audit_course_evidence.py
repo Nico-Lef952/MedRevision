@@ -1,0 +1,307 @@
+# -*- coding: utf-8 -*-
+
+# UTF-8 console fix for Windows
+import sys
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
+import argparse
+import asyncio
+import json
+import os
+import re
+import time
+from pathlib import Path
+from bson import ObjectId
+from google import genai
+from server import db
+
+OUT_JSON = "course_evidence_audit_results.json"
+OUT_MD = "course_evidence_audit_report.md"
+
+def load_env():
+    p = Path(".env")
+    if not p.exists():
+        return
+    for line in p.read_text(encoding="utf-8", errors="ignore").splitlines():
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        os.environ.setdefault(k.strip(), v.strip())
+
+def extract_json(text):
+    text = (text or "").strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```json", "", text, flags=re.I).strip()
+        text = re.sub(r"^```", "", text).strip()
+        text = re.sub(r"```$", "", text).strip()
+
+    start = text.find("{")
+    end = text.rfind("}")
+
+    if start == -1 or end == -1:
+        raise ValueError("JSON introuvable")
+
+    return json.loads(text[start:end + 1])
+
+def compact_question(q):
+    return {
+        "id": str(q["_id"]),
+        "type": q.get("type", ""),
+        "question": q.get("question", ""),
+        "vignette": q.get("vignette", ""),
+        "options": q.get("options", []),
+        "answer": q.get("answer", ""),
+        "explanation": q.get("explanation", ""),
+        "concepts": q.get("concepts", []),
+        "sub_questions": q.get("sub_questions", [])
+    }
+
+def make_prompt(course, subject_name, questions):
+    content = course.get("content", "") or ""
+    if len(content) > 90000:
+        content = content[:90000] + "\n\n[CONTENT TRUNCATED]"
+
+    return f"""
+You are auditing medical revision questions.
+
+CRITICAL RULE:
+A question is acceptable ONLY if the correct answer is explicitly present in the course content
+or very clearly deducible from it.
+
+Do NOT use outside medical knowledge.
+If the answer is medically true but not supported by the course text, mark it as unsupported.
+If the course does not contain enough information to justify the answer, mark it as unsupported.
+If you are unsure, mark it as ambiguous.
+
+For each question, return:
+- status: supported | unsupported | ambiguous | format_error
+- confidence: number between 0 and 1
+- reason: short explanation in French
+- evidence: short quote or paraphrase from the course that supports the answer. Empty if unsupported.
+
+Subject: {subject_name}
+Course title: {course.get("title", "")}
+Course section: {course.get("chapter", "")}
+
+COURSE CONTENT:
+{content}
+
+QUESTIONS TO CHECK:
+{json.dumps(questions, ensure_ascii=False)}
+
+Return valid JSON only:
+{{
+  "results": [
+    {{
+      "question_id": "id",
+      "status": "supported | unsupported | ambiguous | format_error",
+      "confidence": 0.95,
+      "reason": "raison courte en français",
+      "evidence": "passage du cours qui justifie la réponse"
+    }}
+  ]
+}}
+"""
+
+def write_report(results):
+    lines = []
+    lines.append("# Audit preuve dans le cours")
+    lines.append("")
+    lines.append("| Cours | Question ID | Statut | Confiance | Raison |")
+    lines.append("|---|---|---:|---:|---|")
+
+    for r in results:
+        lines.append(
+            f"| {r.get('course_title','')} "
+            f"| `{r.get('question_id','')}` "
+            f"| {r.get('status','')} "
+            f"| {r.get('confidence','')} "
+            f"| {str(r.get('reason','')).replace('|','-')} |"
+        )
+
+    lines.append("")
+    lines.append("---")
+    lines.append("")
+    lines.append("# Questions non supportées")
+    lines.append("")
+
+    for r in results:
+        if r.get("status") == "unsupported":
+            lines.append(f"## {r.get('course_title','')}")
+            lines.append(f"- ID : `{r.get('question_id')}`")
+            lines.append(f"- Confiance : {r.get('confidence')}")
+            lines.append(f"- Raison : {r.get('reason')}")
+            lines.append(f"- Evidence : {r.get('evidence')}")
+            lines.append("")
+
+    Path(OUT_MD).write_text("\n".join(lines), encoding="utf-8")
+
+async def delete_from_report(threshold, apply):
+    if not Path(OUT_JSON).exists():
+        print("Rapport JSON introuvable.")
+        return
+
+    results = json.loads(Path(OUT_JSON).read_text(encoding="utf-8"))
+
+    ids = []
+    for r in results:
+        if r.get("status") == "unsupported" and float(r.get("confidence", 0)) >= threshold:
+            ids.append(r.get("question_id"))
+
+    ids = [i for i in ids if i]
+
+    print("Questions unsupported candidates :", len(ids))
+    for qid in ids[:80]:
+        q = await db.questions.find_one({"_id": ObjectId(qid)})
+        if q:
+            print("-", qid, "|", q.get("type"), "|", q.get("question", "")[:140])
+
+    if not apply:
+        print()
+        print("Mode preview. Pour supprimer :")
+        print(f"python audit_course_evidence.py --delete-unsupported --threshold {threshold} --apply")
+        return
+
+    if ids:
+        res = await db.questions.delete_many({"_id": {"$in": [ObjectId(i) for i in ids]}})
+        print("Supprimées :", res.deleted_count)
+    else:
+        print("Rien à supprimer.")
+
+async def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--only-subject", default="")
+    parser.add_argument("--course-contains", default="")
+    parser.add_argument("--model", default="gemini-3.1-flash-lite")
+    parser.add_argument("--batch-size", type=int, default=35)
+    parser.add_argument("--limit-courses", type=int, default=999)
+    parser.add_argument("--delay", type=int, default=20)
+    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--delete-unsupported", action="store_true")
+    parser.add_argument("--threshold", type=float, default=0.85)
+    parser.add_argument("--apply", action="store_true")
+    args = parser.parse_args()
+
+    load_env()
+
+    if args.delete_unsupported:
+        await delete_from_report(args.threshold, args.apply)
+        return
+
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    client = genai.Client(api_key=api_key)
+
+    user = await db.users.find_one({"email": "admin@medrevision.com"})
+    user_id = str(user["_id"])
+
+    results = []
+    done_ids = set()
+
+    if args.resume and Path(OUT_JSON).exists():
+        results = json.loads(Path(OUT_JSON).read_text(encoding="utf-8"))
+        done_ids = {r.get("question_id") for r in results}
+        print("Resume :", len(done_ids), "questions deja auditees")
+
+    subject_filter = {}
+    if args.only_subject:
+        subject = await db.subjects.find_one({
+            "user_id": user_id,
+            "name": {"$regex": args.only_subject, "$options": "i"}
+        })
+        if not subject:
+            print("Matiere introuvable :", args.only_subject)
+            return
+        subject_filter["subject_id"] = str(subject["_id"])
+
+    courses = await db.courses.find({
+        "user_id": user_id,
+        **subject_filter
+    }).to_list(5000)
+
+    done_courses = 0
+
+    for course in courses:
+        if done_courses >= args.limit_courses:
+            break
+
+        if args.course_contains and args.course_contains.lower() not in course.get("title", "").lower():
+            continue
+
+        content = course.get("content", "") or ""
+        if len(content) < 100:
+            continue
+
+        subject = await db.subjects.find_one({"_id": ObjectId(course.get("subject_id"))})
+        subject_name = subject.get("name", "Matiere inconnue") if subject else "Matiere inconnue"
+
+        questions = await db.questions.find({
+            "user_id": user_id,
+            "course_id": str(course["_id"])
+        }).to_list(5000)
+
+        questions = [q for q in questions if str(q["_id"]) not in done_ids]
+
+        if not questions:
+            continue
+
+        print("=" * 90)
+        print("Cours :", subject_name, "->", course.get("title"))
+        print("Questions a auditer :", len(questions))
+        print("=" * 90)
+
+        for i in range(0, len(questions), args.batch_size):
+            batch = questions[i:i + args.batch_size]
+            compact = [compact_question(q) for q in batch]
+
+            while True:
+                try:
+                    prompt = make_prompt(course, subject_name, compact)
+                    res = client.models.generate_content(model=args.model, contents=prompt)
+                    data = extract_json(res.text or "")
+
+                    batch_results = data.get("results", [])
+
+                    for r in batch_results:
+                        r["course_id"] = str(course["_id"])
+                        r["course_title"] = course.get("title", "")
+                        r["subject_name"] = subject_name
+
+                    results.extend(batch_results)
+
+                    Path(OUT_JSON).write_text(
+                        json.dumps(results, ensure_ascii=False, indent=2),
+                        encoding="utf-8"
+                    )
+                    write_report(results)
+
+                    print("Batch OK :", len(batch_results))
+                    time.sleep(args.delay)
+                    break
+
+                except Exception as e:
+                    msg = str(e).lower()
+                    print("Erreur :", e)
+
+                    if "429" in msg or "quota" in msg:
+                        print("Pause quota 1h")
+                        time.sleep(3600)
+                    elif "503" in msg or "unavailable" in msg or "overload" in msg:
+                        print("Pause surcharge 15 min")
+                        time.sleep(900)
+                    else:
+                        print("Pause erreur 5 min")
+                        time.sleep(300)
+
+        done_courses += 1
+
+    Path(OUT_JSON).write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
+    write_report(results)
+
+    print("Termine.")
+    print("Rapport :", OUT_MD)
+
+asyncio.run(main())

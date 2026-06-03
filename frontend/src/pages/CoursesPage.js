@@ -4,6 +4,7 @@ import { coursesApi, subjectsApi, formatApiError } from '../lib/api';
 import {
   Plus,
   FileText,
+  ChevronDown,
   Upload,
   Search,
   Clock,
@@ -21,6 +22,7 @@ export default function CoursesPage() {
   const [courses, setCourses] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [collapsedChapters, setCollapsedChapters] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [modalMode, setModalMode] = useState('create');
   const [formData, setFormData] = useState({ title: '', subject_id: '', content: '', tags: '', chapter: '' });
@@ -176,78 +178,166 @@ export default function CoursesPage() {
         </select>
       </div>
 
-      {/* Courses List */}
-      {courses.length > 0 ? (
-        <div className="space-y-4">
-          {courses.map((course, idx) => (
-            <div
-              key={course.id}
-              className="flex items-center gap-5 p-5 bg-white border border-[#E2E8F0] rounded-2xl hover:shadow-lg hover:border-[#4F46E5]/30 transition-all group"
-              data-testid={`course-${idx}`}
-            >
-              <Link to={`/courses/${course.id}`} className="flex items-center gap-5 flex-1 min-w-0">
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-lg"
-                  style={{ background: `linear-gradient(135deg, ${getSubjectColor(course.subject_id)}, ${getSubjectColor(course.subject_id)}CC)` }}
-                >
-                  <FileText className="w-7 h-7 text-white" />
-                </div>
-                
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-lg text-[#1E293B] group-hover:text-[#4F46E5] transition-colors truncate">
-                    {course.title}
-                  </h3>
-                  <p className="text-[#64748B] truncate">
-                    {getSubjectName(course.subject_id)}
-                    {course.chapter && ` · ${course.chapter}`}
-                  </p>
-                  {course.summary && (
-                    <p className="text-sm text-[#94A3B8] mt-1 line-clamp-1">{course.summary}</p>
-                  )}
-                </div>
-              </Link>
+        {/* Courses List */}
+        {courses.length > 0 ? (
+          <div className="space-y-5">
+            {Object.entries(
+              courses.reduce((acc, course) => {
+                const chapter = course.chapter || 'Autres';
+                if (!acc[chapter]) acc[chapter] = [];
+                acc[chapter].push(course);
+                return acc;
+              }, {})
+            )
+              .sort(([a], [b]) => {
+                const order = [
+                  'Bases fondamentales',
+                  'Physiologie',
+                  'Sémiologie',
+                  'Pathologie',
+                  'Rappels',
+                  'Reproduction',
+                  'Gynécologie',
+                  'Génétique',
+                  'Syndromes respiratoires · Plèvre',
+                  'Syndromes respiratoires · Médiastin',
+                  'Exploration paraclinique · EFR',
+                  'Exploration paraclinique · Endoscopie',
+                  'Exploration paraclinique · Prick-tests',
+                  'Histologie',
+                  'Autres'
+                ];
 
-              <div className="hidden sm:flex items-center gap-4 shrink-0">
-                <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FDF4FF] text-[#A855F7] font-medium text-sm">
-                  <HelpCircle className="w-4 h-4" />
-                  {course.question_count}
-                </span>
-                <span className="flex items-center gap-1 text-sm text-[#94A3B8]">
-                  <Clock className="w-4 h-4" />
-                  {new Date(course.updated_at).toLocaleDateString('fr-FR')}
-                </span>
-              </div>
+                const ia = order.includes(a) ? order.indexOf(a) : 999;
+                const ib = order.includes(b) ? order.indexOf(b) : 999;
+                return ia - ib || a.localeCompare(b);
+              })
+              .map(([chapter, chapterCourses]) => {
+                const subjectColor = getSubjectColor(chapterCourses[0]?.subject_id);
+                const accent = [subjectColor, `${subjectColor}CC`];
 
-              {course.tags?.length > 0 && (
-                <div className="hidden lg:flex gap-2 shrink-0">
-                  {course.tags.slice(0, 2).map((tag, i) => (
-                    <span key={i} className="badge badge-primary">{tag}</span>
-                  ))}
-                </div>
-              )}
+                // Par défaut : sections fermées pour alléger.
+                // Si recherche active : tout s'ouvre pour voir les résultats.
+                const isCollapsed = !searchQuery && collapsedChapters[chapter] !== false;
 
-              <button
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  if (!window.confirm(`Supprimer le cours "${course.title}" ? Toutes ses questions seront perdues.`)) return;
-                  try {
-                    await coursesApi.delete(course.id);
-                    fetchData();
-                  } catch (err) {
-                    alert(formatApiError(err));
-                  }
-                }}
-                className="p-2.5 text-[#94A3B8] hover:text-[#EF4444] hover:bg-[#FEE2E2] rounded-xl transition-colors shrink-0"
-                title="Supprimer le cours"
-                data-testid={`delete-course-${idx}`}
-              >
-                <Trash2 className="w-5 h-5" />
-              </button>
-            </div>
-          ))}
-        </div>
-      ) : (
+                return (
+                  <section key={chapter} className="space-y-3">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setCollapsedChapters(prev => ({
+                          ...prev,
+                          [chapter]: isCollapsed ? false : true
+                        }))
+                      }
+                      className="w-full text-left"
+                    >
+                      <div
+                        className="relative overflow-hidden rounded-2xl shadow-lg border border-white/40 hover:shadow-xl transition-all"
+                        style={{ background: `linear-gradient(135deg, ${accent[0]}, ${accent[1]})` }}
+                      >
+                        <div className="absolute -right-8 -top-10 h-28 w-28 rounded-full bg-white/20" />
+                        <div className="absolute right-20 bottom-0 h-16 w-16 rounded-full bg-white/10" />
+
+                        <div className="relative flex items-center justify-between gap-4 px-5 py-4">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-11 h-11 rounded-2xl flex items-center justify-center bg-white/20 text-white shadow-sm shrink-0">
+                              <FileText className="w-5 h-5" />
+                            </div>
+
+                            <div className="min-w-0">
+                              <h2 className="text-2xl font-black text-white uppercase tracking-tight truncate">
+                                {chapter}
+                              </h2>
+                              <p className="text-sm text-white/80">
+                                Section de révision
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-3 shrink-0">
+                            <span className="hidden sm:inline-flex px-4 py-2 rounded-full bg-white/95 text-sm font-bold text-[#1E293B] shadow-sm">
+                              {chapterCourses.length} cours
+                            </span>
+
+                            <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-white">
+                              <ChevronDown
+                                className={`w-5 h-5 transition-transform ${isCollapsed ? '' : 'rotate-180'}`}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </button>
+
+                    {!isCollapsed && (
+                      <div className="space-y-4">
+                        {chapterCourses.map((course) => (
+                          <div
+                            key={course.id}
+                            className="flex items-center gap-5 p-5 bg-white border border-[#E2E8F0] rounded-2xl hover:shadow-lg hover:border-[#4F46E5]/30 transition-all group"
+                            data-testid={`course-${course.id}`}
+                          >
+                            <Link to={`/courses/${course.id}`} className="flex items-center gap-5 flex-1 min-w-0">
+                              <div
+                                className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-lg"
+                                style={{ background: `linear-gradient(135deg, ${getSubjectColor(course.subject_id)}, ${getSubjectColor(course.subject_id)}CC)` }}
+                              >
+                                <FileText className="w-7 h-7 text-white" />
+                              </div>
+
+                              <div className="flex-1 min-w-0">
+                                <h3 className="font-bold text-lg text-[#1E293B] group-hover:text-[#4F46E5] transition-colors truncate">
+                                  {course.title}
+                                </h3>
+                                <p className="text-[#64748B] truncate">
+                                  {getSubjectName(course.subject_id)}
+                                  {course.chapter && ` · ${course.chapter}`}
+                                </p>
+                                {course.summary && (
+                                  <p className="text-sm text-[#94A3B8] mt-1 line-clamp-1">{course.summary}</p>
+                                )}
+                              </div>
+                            </Link>
+
+                            <div className="hidden sm:flex items-center gap-4 shrink-0">
+                              <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FDF4FF] text-[#A855F7] font-medium text-sm">
+                                <HelpCircle className="w-4 h-4" />
+                                {course.question_count}
+                              </span>
+                              <span className="flex items-center gap-1 text-sm text-[#94A3B8]">
+                                <Clock className="w-4 h-4" />
+                                {new Date(course.updated_at).toLocaleDateString('fr-FR')}
+                              </span>
+                            </div>
+
+                            <button
+                              onClick={async (e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                if (!window.confirm(`Supprimer le cours "${course.title}" ? Toutes ses questions seront perdues.`)) return;
+                                try {
+                                  await coursesApi.delete(course.id);
+                                  fetchData();
+                                } catch (err) {
+                                  alert(formatApiError(err));
+                                }
+                              }}
+                              className="p-2.5 text-[#94A3B8] hover:text-[#EF4444] hover:bg-[#FEE2E2] rounded-xl transition-colors shrink-0"
+                              title="Supprimer le cours"
+                              data-testid={`delete-course-${course.id}`}
+                            >
+                              <Trash2 className="w-5 h-5" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </section>
+                );
+              })}
+          </div>
+        ) : (
         <div className="empty-state text-center py-16 px-6">
           <div className="w-24 h-24 mx-auto mb-6 rounded-3xl bg-gradient-to-br from-[#06B6D4] to-[#3B82F6] flex items-center justify-center shadow-2xl shadow-cyan-500/30">
             <FileText className="w-12 h-12 text-white" />

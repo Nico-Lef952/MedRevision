@@ -1,0 +1,788 @@
+[
+  {
+    "global_score": 8,
+    "coverage_score": 9,
+    "relevance_score": 9,
+    "wording_score": 9,
+    "factual_score": 10,
+    "summary": "Le fonds de questions est de grande qualité, très complet et couvre l'ensemble des notions du cours de manière dense et précise. La progression pédagogique est respectée. Seuls quelques problèmes de redondance mineurs et une structure de question à trous incomplète ont été notés.",
+    "question_count_assessment": "ok",
+    "bad_questions": [
+      {
+        "question_id": "6a0870bde6322a8f38e0b989",
+        "severity": "medium",
+        "problem_type": "incomplete",
+        "problem": "La question principale est vide (pas d'énoncé réel) et les sous-questions n'ont pas d'options de réponse, ce qui rend l'exercice impossible à traiter en l'état.",
+        "suggested_fix": "Formuler une question QRM complète sur la transition phase folliculaire/lutéale avec des options de réponse pour chaque sous-question."
+      }
+    ],
+    "duplicates": [
+      {
+        "question_ids": [
+          "6a07022094ce87b2e9968d65",
+          "6a07bb227524c16253bc0fdc",
+          "6a0857cefd266305a559f49a"
+        ],
+        "explanation": "Ces trois questions portent exactement sur le même sujet : l'effet de la progestérone sur l'endomètre. Elles pourraient être fusionnées."
+      },
+      {
+        "question_ids": [
+          "6a07022094ce87b2e9968d63",
+          "6a07bb227524c16253bc0fe1"
+        ],
+        "explanation": "Double interrogation sur le rôle de l'aromatase dans la conversion testostérone/estradiol."
+      }
+    ],
+    "missing_notions": [
+      {
+        "notion": "La durée normale des cycles (25-35 jours)",
+        "importance": "low",
+        "suggested_question": "Quelle est la plage de durée considérée comme physiologique pour un cycle menstruel ?"
+      }
+    ],
+    "recommended_extra_questions": 0,
+    "priority": "low",
+    "course_id": "6a0506d9eb8b2aa107c72d89",
+    "course_title": "♀️ RAPPELS CYCLE OVULATOIRE",
+    "subject_name": "GROG",
+    "chapter": "Rappels",
+    "question_count": 38,
+    "target_questions": 20,
+    "word_count": 1096,
+    "created_at": "2026-05-16T16:04:43.200433+00:00"
+  },
+  {
+    "global_score": 75,
+    "coverage_score": 85,
+    "relevance_score": 90,
+    "wording_score": 80,
+    "factual_score": 95,
+    "summary": "La banque de questions est globalement excellente, très proche du contenu et couvrant bien les points clés du cours. Le volume est excessif (42 au lieu de 25) avec de nombreux doublons sur les sujets les plus importants. La précision terminologique est bonne, bien que quelques questions souffrent de répétitions de formulations presque identiques.",
+    "question_count_assessment": "too_high",
+    "bad_questions": [
+      {
+        "question_id": "6a07025494ce87b2e9968d6c",
+        "severity": "low",
+        "problem_type": "duplicate",
+        "problem": "Quasiment identique à la question 6a07b5df7524c16253bc0f16.",
+        "suggested_fix": "Supprimer l'une des deux."
+      },
+      {
+        "question_id": "6a07025494ce87b2e9968d6f",
+        "severity": "low",
+        "problem_type": "duplicate",
+        "problem": "Quasiment identique à la question 6a07cd1b7524c16253bc10cd.",
+        "suggested_fix": "Supprimer l'une des deux."
+      }
+    ],
+    "duplicates": [
+      {
+        "question_ids": [
+          "6a07025494ce87b2e9968d6c",
+          "6a07b5df7524c16253bc0f16",
+          "6a07cd1b7524c16253bc10cc"
+        ],
+        "explanation": "Trois questions posent exactement la même interrogation sur l'interdiction des données secondaires."
+      },
+      {
+        "question_ids": [
+          "6a07025494ce87b2e9968d73",
+          "6a086b8de6322a8f38e0b94c"
+        ],
+        "explanation": "Double interrogation sur les textes interdisant la thérapie germinale."
+      },
+      {
+        "question_ids": [
+          "6a07025494ce87b2e9968d71",
+          "6a07b5df7524c16253bc0f1c"
+        ],
+        "explanation": "Questions redondantes sur les risques du dépistage préconceptionnel."
+      }
+    ],
+    "missing_notions": [
+      {
+        "notion": "Dépistage néonatal de la SMA",
+        "importance": "low",
+        "suggested_question": "Quelle maladie a fait l'objet d'un dépistage néonatal généralisé en France en décembre 2023 ?"
+      },
+      {
+        "notion": "Business des données génétiques (23andMe)",
+        "importance": "medium",
+        "suggested_question": "Quel argument financier majeur est mis en avant contre la vente libre de tests génétiques (exemple du rachat de données par des laboratoires pharmaceutiques) ?"
+      }
+    ],
+    "recommended_extra_questions": 0,
+    "priority": "medium",
+    "course_id": "6a0506dbeb8b2aa107c72d8a",
+    "course_title": "⚖️ Éthique, Juridique et Génétique",
+    "subject_name": "GROG",
+    "chapter": "Génétique",
+    "question_count": 42,
+    "target_questions": 25,
+    "word_count": 1972,
+    "created_at": "2026-05-16T16:04:58.106764+00:00"
+  },
+  {
+    "global_score": 8,
+    "coverage_score": 9,
+    "relevance_score": 9,
+    "wording_score": 8,
+    "factual_score": 9,
+    "summary": "Le questionnaire est de grande qualité, très complet et couvre l'essentiel du chapitre. Il respecte les points clés du cours (définitions OMS, bilan, causes). Toutefois, le nombre de questions (81) est excessif par rapport à l'objectif (37), générant des redondances importantes sur les mêmes sujets (spermogramme, varicocèle, endométriose). Un élagage est nécessaire pour atteindre la cible et optimiser la densité.",
+    "question_count_assessment": "too_high",
+    "bad_questions": [
+      {
+        "question_id": "6a07028294ce87b2e9968d7c",
+        "severity": "medium",
+        "problem_type": "false",
+        "problem": "La proposition \"Une chute thermique brutale à J14\" est marquée comme correcte alors que c'est l'inverse (on cherche une élévation).",
+        "suggested_fix": "Corriger les options pour ne laisser que le décalage thermique vers le haut."
+      },
+      {
+        "question_id": "6a08302aabfbae3072875e95",
+        "severity": "low",
+        "problem_type": "too_easy",
+        "problem": "La question donne la réponse dans le libellé de l'option.",
+        "suggested_fix": "Reformuler : 'Comment diagnostique-t-on cliniquement une hydrocèle ?'"
+      }
+    ],
+    "duplicates": [
+      {
+        "question_ids": [
+          "6a07028294ce87b2e9968d7a",
+          "6a07a4267524c16253bc0dba",
+          "6a07ac087524c16253bc0e7a",
+          "6a07bb907524c16253bc0fea"
+        ],
+        "explanation": "Quatre questions identiques sur la varicocèle."
+      },
+      {
+        "question_ids": [
+          "6a07028294ce87b2e9968d7b",
+          "6a07ac087524c16253bc0e7b",
+          "6a07a4267524c16253bc0dc1"
+        ],
+        "explanation": "Trois questions identiques sur l'hystérosalpingographie."
+      },
+      {
+        "question_ids": [
+          "6a07028294ce87b2e9968d7f",
+          "6a07a4267524c16253bc0dbc",
+          "6a07ac087524c16253bc0e79",
+          "6a07bb907524c16253bc0feb",
+          "6a08486efd266305a559f48d"
+        ],
+        "explanation": "Cinq questions sur le délai de 2,5-3 mois du spermogramme."
+      }
+    ],
+    "missing_notions": [
+      {
+        "notion": "Définition de l'infertilité primaire vs secondaire",
+        "importance": "medium",
+        "suggested_question": "Quelle est la différence entre une infertilité primaire et une infertilité secondaire ?"
+      },
+      {
+        "notion": "La notion de fertilité vs fécondité",
+        "importance": "low",
+        "suggested_question": "Quelle est la définition de la fécondité selon le cours ?"
+      }
+    ],
+    "recommended_extra_questions": 0,
+    "priority": "medium",
+    "course_id": "6a0506ddeb8b2aa107c72d8b",
+    "course_title": "👫 Sémiologie du Couple Infertile",
+    "subject_name": "GROG",
+    "chapter": "Reproduction",
+    "question_count": 81,
+    "target_questions": 37,
+    "word_count": 2946,
+    "created_at": "2026-05-16T16:05:14.255911+00:00"
+  },
+  {
+    "global_score": 7,
+    "coverage_score": 8,
+    "relevance_score": 9,
+    "wording_score": 7,
+    "factual_score": 9,
+    "summary": "La banque de questions est très complète et couvre bien les points clés du cours (PCU, SMA, DMD, Mucoviscidose). Cependant, il y a une redondance massive sur certains items (notamment la PCU et la SMA) qui occupe une part trop importante de la banque par rapport à d'autres notions moins abordées. Le volume est excessif en raison de ces répétitions, ce qui nuit à la densité de la banque.",
+    "question_count_assessment": "too_high",
+    "bad_questions": [
+      {
+        "question_id": "6a0702c594ce87b2e9968d84",
+        "severity": "low",
+        "problem_type": "duplicate",
+        "problem": "Quasiment identique à la question 6a07ab247524c16253bc0e51 et 6a07c6057524c16253bc108b.",
+        "suggested_fix": "Conserver une seule version exemplaire."
+      },
+      {
+        "question_id": "6a07ab247524c16253bc0e57",
+        "severity": "low",
+        "problem_type": "duplicate",
+        "problem": "Presque identique à la question 6a0702c594ce87b2e9968d8b.",
+        "suggested_fix": "Fusionner ou supprimer la doublure."
+      },
+      {
+        "question_id": "6a086bd1e6322a8f38e0b958",
+        "severity": "low",
+        "problem_type": "duplicate",
+        "problem": "Encore une question sur la PCU et la grossesse (répétée 4 fois au total).",
+        "suggested_fix": "Supprimer."
+      }
+    ],
+    "duplicates": [
+      {
+        "question_ids": [
+          "6a0702c594ce87b2e9968d84",
+          "6a07ab247524c16253bc0e51",
+          "6a07c6057524c16253bc108b",
+          "6a0810541f024b8cba1d51f8"
+        ],
+        "explanation": "La question sur la PCU et la grossesse est répétée 4 fois avec des formulations quasi identiques."
+      },
+      {
+        "question_ids": [
+          "6a0821b833bbefe92834497b",
+          "6a085834fd266305a559f4a2"
+        ],
+        "explanation": "La question sur la limite de 5kb des vecteurs AAV est présente deux fois."
+      }
+    ],
+    "missing_notions": [
+      {
+        "notion": "Différence entre thérapie somatique et germinale (éthique/loi)",
+        "importance": "high",
+        "suggested_question": "Pourquoi la thérapie génique germinale est-elle interdite en pratique clinique alors que la thérapie somatique est autorisée ?"
+      },
+      {
+        "notion": "Régulation de l'expression des gènes (temporalité et espace)",
+        "importance": "medium",
+        "suggested_question": "Pourquoi la maîtrise de la régulation de l'expression des gènes (temps et espace) est-elle capitale en thérapie génique ?"
+      }
+    ],
+    "recommended_extra_questions": 5,
+    "priority": "medium",
+    "course_id": "6a0506dfeb8b2aa107c72d8c",
+    "course_title": "💊 Approches Thérapeutiques des Maladies Génétiques",
+    "subject_name": "GROG",
+    "chapter": "Génétique",
+    "question_count": 65,
+    "target_questions": 28,
+    "word_count": 2273,
+    "created_at": "2026-05-16T16:05:27.891141+00:00"
+  },
+  {
+    "global_score": 7,
+    "coverage_score": 8,
+    "relevance_score": 9,
+    "wording_score": 8,
+    "factual_score": 9,
+    "summary": "La banque de questions est globalement excellente, bien structurée et couvre la quasi-totalité du cours. Le volume est cohérent avec l'objectif de densité. Quelques répétitions sur les définitions de base (parité, vaginisme, score de Nugent) et la première cause d'aménorrhée secondaire sont présentes, mais elles restent pédagogiquement utiles pour une banque de révision. Le contenu est factuellement aligné avec la fiche.",
+    "question_count_assessment": "ok",
+    "bad_questions": [
+      {
+        "question_id": "6a0702ff94ce87b2e9968d96",
+        "severity": "low",
+        "problem_type": "ambiguous",
+        "problem": "La question demande quelles sont les caractéristiques d'une vaginose bactérienne selon le score, mais les options incluent les définitions des scores eux-mêmes, ce qui prête à confusion dans la structure QRM.",
+        "suggested_fix": "Reformuler : 'Quelle est l'interprétation d'un score de Nugent entre 7 et 10 ?'"
+      }
+    ],
+    "duplicates": [
+      {
+        "question_ids": [
+          "6a0702ff94ce87b2e9968d90",
+          "6a079eaf7524c16253bc0d73",
+          "6a07c9057524c16253bc10ad"
+        ],
+        "explanation": "La question sur la première cause d'aménorrhée secondaire est posée trois fois avec le même niveau de difficulté."
+      },
+      {
+        "question_ids": [
+          "6a0702ff94ce87b2e9968d91",
+          "6a07a7bc7524c16253bc0deb",
+          "6a07b2fa7524c16253bc0ed0"
+        ],
+        "explanation": "La définition de la parité (P) est répétée quasi identiquement."
+      },
+      {
+        "question_ids": [
+          "6a0702ff94ce87b2e9968d93",
+          "6a0702ff94ce87b2e9968d9a",
+          "6a079eaf7524c16253bc0d76"
+        ],
+        "explanation": "Définition du vaginisme répétée."
+      }
+    ],
+    "missing_notions": [
+      {
+        "notion": "Dépistage des cancers du sein",
+        "importance": "medium",
+        "suggested_question": "Quels sont les signes d'appel cliniques à rechercher lors de l'inspection des seins (ex: maladie de Paget) ?"
+      },
+      {
+        "notion": "Technique de l'examen au spéculum",
+        "importance": "low",
+        "suggested_question": "Quelle est l'orientation correcte à donner au spéculum lors de son introduction ?"
+      }
+    ],
+    "recommended_extra_questions": 5,
+    "priority": "low",
+    "course_id": "6a0506e1eb8b2aa107c72d8d",
+    "course_title": "🔍 Examens Cliniques et Complémentaires en Gynécologie",
+    "subject_name": "GROG",
+    "chapter": "Gynécologie",
+    "question_count": 63,
+    "target_questions": 46,
+    "word_count": 3654,
+    "created_at": "2026-05-16T16:05:41.530552+00:00"
+  },
+  {
+    "global_score": 7,
+    "coverage_score": 8,
+    "relevance_score": 7,
+    "wording_score": 8,
+    "factual_score": 9,
+    "summary": "La banque de questions est très complète et couvre efficacement le chapitre, avec une bonne densité clinique. Toutefois, le volume est excessif en raison d'une redondance massive. Il y a de nombreux doublons quasi identiques sur les fonctions des glandes annexes, les marqueurs biochimiques et le diagnostic de l'azoospermie obstructive.",
+    "question_count_assessment": "too_high",
+    "bad_questions": [
+      {
+        "question_id": "6a0800081f024b8cba1d5168",
+        "severity": "medium",
+        "problem_type": "incomplete",
+        "problem": "La question 3 du DP est déconnectée du cas clinique présenté (infertilité) car elle concerne la liquéfaction alors que le sujet porte sur l'HBP.",
+        "suggested_fix": "Remplacer par une question sur l'intérêt du dosage du PSA sérique dans le cadre du diagnostic différentiel cancer/HBP."
+      }
+    ],
+    "duplicates": [
+      {
+        "question_ids": [
+          "6a079dc27524c16253bc0d4b",
+          "6a07a1577524c16253bc0da5",
+          "6a07b55d7524c16253bc0f02",
+          "6a07c97b7524c16253bc10b5"
+        ],
+        "explanation": "Quatre questions identiques demandant quelle glande produit la majeure partie du volume du liquide séminal."
+      },
+      {
+        "question_ids": [
+          "6a07032994ce87b2e9968da5",
+          "6a07a8637524c16253bc0e0e"
+        ],
+        "explanation": "Doublons sur la définition de l'azoospermie."
+      },
+      {
+        "question_ids": [
+          "6a0800921f024b8cba1d516b",
+          "6a07ff661f024b8cba1d515f",
+          "6a080b6d1f024b8cba1d51c9"
+        ],
+        "explanation": "Triplon sur le cas clinique de l'azoospermie obstructive (absence de fructose, pH acide)."
+      },
+      {
+        "question_ids": [
+          "6a0801e01f024b8cba1d517b",
+          "6a080b6d1f024b8cba1d51c9",
+          "6a082c53abfbae3072875e11"
+        ],
+        "explanation": "Plusieurs questions redondantes sur le diagnostic de l'obstruction des canaux éjaculateurs."
+      }
+    ],
+    "missing_notions": [
+      {
+        "notion": "Épididymite : étiologie et conséquences fonctionnelles",
+        "importance": "high",
+        "suggested_question": "Quelles sont les conséquences d'une épididymite infectieuse sur la fertilité masculine ?"
+      },
+      {
+        "notion": "Régulation hormonale locale (rôle des androgènes sur l'épithélium épididymaire)",
+        "importance": "medium",
+        "suggested_question": "Comment la dihydrotestostérone (DHT) influence-t-elle la fonction de l'épithélium épididymaire ?"
+      }
+    ],
+    "recommended_extra_questions": 0,
+    "priority": "medium",
+    "course_id": "6a0506e3eb8b2aa107c72d8e",
+    "course_title": "🔬 Épididyme, Glandes Annexes & Liquide Séminal",
+    "subject_name": "GROG",
+    "chapter": "Reproduction",
+    "question_count": 131,
+    "target_questions": 52,
+    "word_count": 4162,
+    "created_at": "2026-05-16T16:05:55.792445+00:00"
+  },
+  {
+    "global_score": 7,
+    "coverage_score": 8,
+    "relevance_score": 9,
+    "wording_score": 8,
+    "factual_score": 9,
+    "summary": "La banque de questions couvre l'essentiel du cours, notamment les nouveautés 2025/2026 (CMV, vaccins, recommandations HAS). Toutefois, il existe une redondance massive sur certaines questions clés (acide folique, terme, CMV, mortalité maternelle), ce qui alourdit inutilement la base pour un entraînement dense.",
+    "question_count_assessment": "too_high",
+    "bad_questions": [
+      {
+        "question_id": "6a086c16e6322a8f38e0b965",
+        "severity": "low",
+        "problem_type": "duplicate",
+        "problem": "Question identique à la 6a07035394ce87b2e9968db2 et 6a08480cfd266305a559f483.",
+        "suggested_fix": "Supprimer les doublons, n'en garder qu'une seule."
+      },
+      {
+        "question_id": "6a086c16e6322a8f38e0b963",
+        "severity": "low",
+        "problem_type": "duplicate",
+        "problem": "Double la notion abordée dans la question 6a08480cfd266305a559f481.",
+        "suggested_fix": "Supprimer."
+      },
+      {
+        "question_id": "6a07b89c7524c16253bc0f86",
+        "severity": "low",
+        "problem_type": "duplicate",
+        "problem": "Copie exacte de la 6a07035394ce87b2e9968da9.",
+        "suggested_fix": "Supprimer."
+      }
+    ],
+    "duplicates": [
+      {
+        "question_ids": [
+          "6a07035394ce87b2e9968da9",
+          "6a07b89c7524c16253bc0f86"
+        ],
+        "explanation": "Double question sur l'acide folique."
+      },
+      {
+        "question_ids": [
+          "6a07035394ce87b2e9968da8",
+          "6a07b89c7524c16253bc0f87"
+        ],
+        "explanation": "Double question sur le terme et la LCC."
+      },
+      {
+        "question_ids": [
+          "6a07035394ce87b2e9968db1",
+          "6a07b89c7524c16253bc0f89"
+        ],
+        "explanation": "Double question sur la cause de mortalité maternelle."
+      },
+      {
+        "question_ids": [
+          "6a07035394ce87b2e9968db2",
+          "6a08480cfd266305a559f483",
+          "6a086c16e6322a8f38e0b965"
+        ],
+        "explanation": "Triplon sur le traitement du CMV."
+      }
+    ],
+    "missing_notions": [
+      {
+        "notion": "Rythme des consultations prénatales",
+        "importance": "medium",
+        "suggested_question": "Quel est le nombre total de consultations prénatales obligatoires et à quel moment se situe la consultation d'anesthésie ?"
+      },
+      {
+        "notion": "Définition précise de la pré-éclampsie (chiffres)",
+        "importance": "high",
+        "suggested_question": "Quelle est la définition biologique et clinique de la pré-éclampsie ?"
+      }
+    ],
+    "recommended_extra_questions": 0,
+    "priority": "low",
+    "course_id": "6a0506e5eb8b2aa107c72d8f",
+    "course_title": "🤰 Cours 2026",
+    "subject_name": "GROG",
+    "chapter": "Autres",
+    "question_count": 39,
+    "target_questions": 22,
+    "word_count": 1724,
+    "created_at": "2026-05-16T16:11:29.382581+00:00"
+  },
+  {
+    "global_score": 75,
+    "coverage_score": 85,
+    "relevance_score": 90,
+    "wording_score": 80,
+    "factual_score": 95,
+    "summary": "La banque de questions est dense, pertinente et couvre bien l'ensemble du cours. Cependant, le volume actuel (80 questions) est largement supérieur à l'objectif de 37 questions et souffre d'une redondance massive. De nombreux concepts (acide folique, HTA, tabagisme, cholestase) sont interrogés 4 à 5 fois de manière identique.",
+    "question_count_assessment": "too_high",
+    "bad_questions": [
+      {
+        "question_id": "6a08447ffd266305a559f43f",
+        "severity": "medium",
+        "problem_type": "ambiguous",
+        "problem": "La question demande de citer deux contre-indications ou éléments de mauvais pronostic mais la réponse fournie est un seul élément (la conséquence du repos). La formulation est confuse.",
+        "suggested_fix": "Quel est l'effet du repos strict sur le risque de RCIU et de MFIU ?"
+      }
+    ],
+    "duplicates": [
+      {
+        "question_ids": [
+          "6a07038794ce87b2e9968db4",
+          "6a07a5977524c16253bc0dc4",
+          "6a07afd07524c16253bc0eb3",
+          "6a07c8817524c16253bc10a5",
+          "6a0830cdabfbae3072875e9e",
+          "6a0830cdabfbae3072875ea0",
+          "6a08447ffd266305a559f441"
+        ],
+        "explanation": "Toutes ces questions portent exclusivement sur la dose ou la période de supplémentation en acide folique."
+      },
+      {
+        "question_ids": [
+          "6a07038794ce87b2e9968db7",
+          "6a07a5977524c16253bc0dc7",
+          "6a07afd07524c16253bc0eb5",
+          "6a07c8817524c16253bc10a8",
+          "6a08447ffd266305a559f43f",
+          "6a0865cfe6322a8f38e0b8ff"
+        ],
+        "explanation": "Répétition excessive sur l'idée reçue concernant le repos alité."
+      },
+      {
+        "question_ids": [
+          "6a07038794ce87b2e9968dbd",
+          "6a07a5977524c16253bc0dcd",
+          "6a07afd07524c16253bc0eba"
+        ],
+        "explanation": "Triplication de la question sur l'alcool comme cause de retard mental."
+      }
+    ],
+    "missing_notions": [
+      {
+        "notion": "Rôle des 7 consultations et de l'anesthésie",
+        "importance": "high",
+        "suggested_question": "Quel est le calendrier réglementaire des consultations prénatales obligatoires en France ?"
+      },
+      {
+        "notion": "Délivrance dirigée",
+        "importance": "medium",
+        "suggested_question": "Quelles sont les modalités de la délivrance dirigée en salle de naissance ?"
+      }
+    ],
+    "recommended_extra_questions": 0,
+    "priority": "medium",
+    "course_id": "6a0506e6eb8b2aa107c72d90",
+    "course_title": "🤰 Suivi de la Grossesse Normale",
+    "subject_name": "GROG",
+    "chapter": "Gynécologie",
+    "question_count": 80,
+    "target_questions": 37,
+    "word_count": 2922,
+    "created_at": "2026-05-16T16:12:00.502106+00:00"
+  },
+  {
+    "global_score": 7,
+    "coverage_score": 8,
+    "relevance_score": 7,
+    "wording_score": 8,
+    "factual_score": 9,
+    "summary": "La banque de questions est riche et couvre bien les aspects physiologiques clés (modèle 2 cellules, rôle des gonadotropines, sélection folliculaire). Cependant, le volume est excessivement élevé avec de nombreuses redondances sur les questions de base (rôle de la FSH, rôle de l'aromatase), ce qui alourdit le corpus inutilement.",
+    "question_count_assessment": "too_high",
+    "bad_questions": [
+      {
+        "question_id": "6a0703ba94ce87b2e9968dc4",
+        "severity": "low",
+        "problem_type": "duplicate",
+        "problem": "Cette question est quasi identique à la QROC (6a0703ba94ce87b2e9968dca) et est répétée plusieurs fois dans le bank (ex: 6a07b7f77524c16253bc0f70).",
+        "suggested_fix": "Conserver une seule version bien formulée sur le rôle de l'aromatase."
+      },
+      {
+        "question_id": "6a07b7f77524c16253bc0f6c",
+        "severity": "low",
+        "problem_type": "duplicate",
+        "problem": "Question quasi identique à 6a0703ba94ce87b2e9968dc0.",
+        "suggested_fix": "Supprimer l'une des deux."
+      }
+    ],
+    "duplicates": [
+      {
+        "question_ids": [
+          "6a0703ba94ce87b2e9968dc0",
+          "6a079f5d7524c16253bc0d88",
+          "6a07b7f77524c16253bc0f6c"
+        ],
+        "explanation": "Triplication de la question sur le rôle moteur de la FSH dans le recrutement folliculaire."
+      },
+      {
+        "question_ids": [
+          "6a0703ba94ce87b2e9968dc4",
+          "6a0703ba94ce87b2e9968dca",
+          "6a07b7f77524c16253bc0f70"
+        ],
+        "explanation": "Répétition excessive sur l'enzyme aromatase et son rôle."
+      },
+      {
+        "question_ids": [
+          "6a08460efd266305a559f45c",
+          "6a086c5fe6322a8f38e0b96b"
+        ],
+        "explanation": "Double interrogation sur la coopération thèque-granulosa."
+      }
+    ],
+    "missing_notions": [
+      {
+        "notion": "Rythmicité hypothalamique (Générateur de pulses GnRH)",
+        "importance": "high",
+        "suggested_question": "Comment la fréquence de pulsatilité de la GnRH influence-t-elle la synthèse relative de FSH et de LH par l'hypophyse antérieure ?"
+      },
+      {
+        "notion": "Régulation par les facteurs de croissance locaux au stade pré-antral",
+        "importance": "medium",
+        "suggested_question": "Quels facteurs paracrines (hors gonadotropines) interviennent dans la transition follicule primordial vers follicule primaire ?"
+      }
+    ],
+    "recommended_extra_questions": 0,
+    "priority": "medium",
+    "course_id": "6a0506e8eb8b2aa107c72d91",
+    "course_title": "🥚 Régulation de la Folliculogenèse",
+    "subject_name": "GROG",
+    "chapter": "Reproduction",
+    "question_count": 70,
+    "target_questions": 43,
+    "word_count": 3435,
+    "created_at": "2026-05-16T16:12:14.718716+00:00"
+  },
+  {
+    "global_score": 75,
+    "coverage_score": 90,
+    "relevance_score": 85,
+    "wording_score": 80,
+    "factual_score": 95,
+    "summary": "La banque de questions est dense, pertinente et couvre globalement bien les objectifs du cours. Cependant, il existe une très forte redondance sur certaines questions de base (définition maladie rare, prélèvement de référence), et un nombre important de questions se répètent presque à l'identique d'un bloc à l'autre. La structure est bonne mais nécessite un élagage des doublons.",
+    "question_count_assessment": "too_high",
+    "bad_questions": [
+      {
+        "question_id": "6a0703ea94ce87b2e9968dcd",
+        "severity": "low",
+        "problem_type": "duplicate",
+        "problem": "Cette question est quasi identique à la question '6a079e757524c16253bc0d6b'.",
+        "suggested_fix": "Conserver une seule version et supprimer l'autre."
+      },
+      {
+        "question_id": "6a0703ea94ce87b2e9968dce",
+        "severity": "low",
+        "problem_type": "duplicate",
+        "problem": "Doublon avec '6a079e757524c16253bc0d6a' et '6a07a3ef7524c16253bc0db0'.",
+        "suggested_fix": "Supprimer les doublons."
+      },
+      {
+        "question_id": "6a07a3ef7524c16253bc0db1",
+        "severity": "medium",
+        "problem_type": "ambiguous",
+        "problem": "La question demande la 'caractéristique majeure' mais la formulation est restrictive.",
+        "suggested_fix": "Quelles sont les caractéristiques du mode de transmission lié à l'X ?"
+      }
+    ],
+    "duplicates": [
+      {
+        "question_ids": [
+          "6a0703ea94ce87b2e9968dcd",
+          "6a079e757524c16253bc0d6b",
+          "6a07ac767524c16253bc0e8b"
+        ],
+        "explanation": "Triplication de la question sur la résolution des techniques."
+      },
+      {
+        "question_ids": [
+          "6a0703ea94ce87b2e9968dce",
+          "6a079e757524c16253bc0d6a",
+          "6a07a3ef7524c16253bc0db0",
+          "6a07ac767524c16253bc0e93"
+        ],
+        "explanation": "Quadruplication de la question sur le prélèvement de référence."
+      },
+      {
+        "question_ids": [
+          "6a0703ea94ce87b2e9968dcc",
+          "6a079e757524c16253bc0d69",
+          "6a07a3ef7524c16253bc0dae"
+        ],
+        "explanation": "Triplication de la définition des maladies rares."
+      }
+    ],
+    "missing_notions": [
+      {
+        "notion": "Détail de la différence entre hétérozygote composite et homozygote",
+        "importance": "medium",
+        "suggested_question": "Quelle est la différence entre un individu homozygote et hétérozygote composite dans le cadre d'une maladie autosomique récessive ?"
+      },
+      {
+        "notion": "Nuance sur la FISH interphasique et la T21",
+        "importance": "high",
+        "suggested_question": "Pourquoi la FISH interphasique est-elle déconseillée pour le diagnostic isolé d'une Trisomie 21 ?"
+      }
+    ],
+    "recommended_extra_questions": 2,
+    "priority": "medium",
+    "course_id": "6a0506eaeb8b2aa107c72d92",
+    "course_title": "🧬 De la Variabilité du Génome Humain au Diagnostic des Maladies Génétiques",
+    "subject_name": "GROG",
+    "chapter": "Génétique",
+    "question_count": 64,
+    "target_questions": 47,
+    "word_count": 3741,
+    "created_at": "2026-05-16T16:12:28.481738+00:00"
+  },
+  {
+    "global_score": 7,
+    "coverage_score": 8,
+    "relevance_score": 8,
+    "wording_score": 7,
+    "factual_score": 9,
+    "summary": "La banque de questions est solide, complète et bien ancrée dans le contenu du cours. Elle couvre efficacement les aspects cliniques, techniques (NGS, calculs de risque) et éthiques. Le volume est élevé mais justifié par la densité du sujet, bien que la redondance entre certains items sur la classe des variants ou les probabilités mendéliennes puisse être optimisée.",
+    "question_count_assessment": "too_high",
+    "bad_questions": [
+      {
+        "question_id": "6a07041e94ce87b2e9968ddb",
+        "severity": "medium",
+        "problem_type": "false",
+        "problem": "Le cours mentionne que la pénétrance est toujours exprimée en fonction de l'âge. Dire '100%' sans autre précision est une simplification abusive qui contredit la logique du cours.",
+        "suggested_fix": "Modifier la réponse pour préciser : '100% à 80 ans' ou 'complète avec une expression dépendante de l'âge'."
+      },
+      {
+        "question_id": "6a079f097524c16253bc0d7e",
+        "severity": "low",
+        "problem_type": "ambiguous",
+        "problem": "La formulation 'Absence de deuxième allèle sur le chromosome Y' est maladroite. Chez l'homme, le chromosome Y ne porte pas les mêmes gènes que le X.",
+        "suggested_fix": "Reformuler : 'Présence d'une variation sur l'unique chromosome X chez un sujet masculin, en l'absence de second allèle sur ce locus'."
+      }
+    ],
+    "duplicates": [
+      {
+        "question_ids": [
+          "6a07041e94ce87b2e9968dda",
+          "6a079f097524c16253bc0d7f",
+          "6a07a82b7524c16253bc0dfe",
+          "6a07c41a7524c16253bc107d",
+          "6a07b3327524c16253bc0edb"
+        ],
+        "explanation": "Cinq questions portent strictement sur la classe 3 des variants. Une seule suffit."
+      },
+      {
+        "question_ids": [
+          "6a07041e94ce87b2e9968de2",
+          "6a079f097524c16253bc0d81",
+          "6a07a82b7524c16253bc0e00",
+          "6a07c41a7524c16253bc107e",
+          "6a07b3327524c16253bc0edc"
+        ],
+        "explanation": "Même constat pour le risque de 1/4 pour une maladie autosomique récessive (Aa x Aa)."
+      }
+    ],
+    "missing_notions": [
+      {
+        "notion": "Différence DPN vs DPI sur le plan légal et technique",
+        "importance": "medium",
+        "suggested_question": "Quelle est la principale différence entre le DPN et le DPI concernant le stade du développement et le type de prélèvement ?"
+      }
+    ],
+    "recommended_extra_questions": 0,
+    "priority": "low",
+    "course_id": "6a0506ebeb8b2aa107c72d93",
+    "course_title": "🧬 Du Diagnostic d'une Maladie Génétique à la Prise en Charge des Apparentés",
+    "subject_name": "GROG",
+    "chapter": "Génétique",
+    "question_count": 72,
+    "target_questions": 44,
+    "word_count": 3542,
+    "created_at": "2026-05-16T16:18:04.297483+00:00"
+  }
+]

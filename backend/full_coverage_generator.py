@@ -1,0 +1,517 @@
+# -*- coding: utf-8 -*-
+
+import argparse
+import asyncio
+import json
+import os
+import random
+import re
+import time
+from pathlib import Path
+from datetime import datetime, timezone
+from bson import ObjectId
+from google import genai
+
+from server import db
+
+
+def load_env():
+    p = Path(".env")
+    if not p.exists():
+        return
+
+    for line in p.read_text(encoding="utf-8", errors="ignore").splitlines():
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        os.environ.setdefault(k.strip(), v.strip())
+
+
+def count_words(text):
+    return len(re.findall(r"\b[\w'-]+\b", text or ""))
+
+
+def target_total_questions(words):
+    if words < 900:
+        return 80
+    if words < 2200:
+        return 140
+    if words < 4000:
+        return 220
+    return 320
+
+
+def norm(text):
+    return re.sub(r"\s+", " ", (text or "").strip().lower())
+
+
+def extract_json(text):
+    text = (text or "").strip()
+
+    if text.startswith("```"):
+        text = re.sub(r"^```json", "", text, flags=re.I).strip()
+        text = re.sub(r"^```", "", text).strip()
+        text = re.sub(r"```$", "", text).strip()
+
+    start = text.find("{")
+    end = text.rfind("}")
+
+    if start == -1 or end == -1:
+        raise ValueError("No JSON found")
+
+    return json.loads(text[start:end + 1])
+
+
+def sleep_msg(seconds, reason):
+    print("")
+    print(f"Pause {round(seconds / 60, 1)} min - {reason}")
+    print("")
+    time.sleep(seconds)
+
+
+def normalize_options(options):
+    if not isinstance(options, list):
+        return []
+
+    clean = []
+
+    for opt in options:
+        if isinstance(opt, str):
+            clean.append({"text": opt, "is_correct": False})
+        elif isinstance(opt, dict):
+            txt = opt.get("text") or opt.get("label") or opt.get("answer") or ""
+            if txt:
+                clean.append({
+                    "text": txt,
+                    "is_correct": bool(opt.get("is_correct", opt.get("correct", False)))
+                })
+
+    return clean
+
+
+def normalize_sub_questions(q):
+    sub = (
+        q.get("sub_questions")
+        or q.get("subQuestions")
+        or q.get("subquestions")
+        or q.get("questions")
+        or q.get("items")
+        or []
+    )
+
+    if not isinstance(sub, list):
+        return []
+
+    clean = []
+
+    for sq in sub:
+        if not isinstance(sq, dict):
+            continue
+
+        question = sq.get("question") or sq.get("text") or sq.get("prompt") or ""
+        options = normalize_options(sq.get("options") or sq.get("choices") or [])
+
+        if not question:
+            continue
+
+        clean.append({
+            "question": question,
+            "type": sq.get("type", "qrm"),
+            "options": options,
+            "answer": sq.get("answer", ""),
+            "explanation": sq.get("explanation", sq.get("correction", ""))
+        })
+
+    return clean
+
+
+def validate_question(q):
+    if not isinstance(q, dict):
+        return None
+
+    qtype = q.get("type", "qrm")
+    if qtype not in ["qi", "qcm", "qrm", "vrai_faux", "qroc", "cas_clinique", "dp"]:
+        qtype = "qrm"
+
+    question = (q.get("question") or "").strip()
+    if not question:
+        return None
+
+    options = normalize_options(q.get("options", []))
+    vignette = q.get("vignette") or q.get("case") or q.get("clinical_case") or q.get("scenario") or ""
+    answer = q.get("answer", "")
+    explanation = q.get("explanation", "")
+
+    if qtype in ["qi", "qcm", "qrm", "vrai_faux"]:
+        if len(options) < 2:
+            return None
+        if not any(o.get("is_correct") for o in options):
+            return None
+
+    if qtype == "qroc":
+        if not answer:
+            return None
+
+        # Les QROC doivent rester courtes : 1 à 2 mots max.
+        short_answer = str(answer).strip()
+        if len(short_answer.split()) > 2:
+            return None
+
+        if not options:
+            options = [{"text": short_answer, "is_correct": True}]
+        else:
+            options = [{"text": short_answer, "is_correct": True}]
+
+    if qtype == "cas_clinique":
+        if not vignette:
+            return None
+        if len(options) < 2:
+            return None
+        if not any(o.get("is_correct") for o in options):
+            return None
+
+    sub_questions = normalize_sub_questions(q)
+
+    if qtype == "dp":
+        if not vignette:
+            return None
+        if len(sub_questions) < 2:
+            return None
+
+        for sq in sub_questions:
+            opts = sq.get("options", [])
+            if not isinstance(opts, list) or len(opts) < 2:
+                return None
+            if not any(isinstance(o, dict) and o.get("is_correct") for o in opts):
+                return None
+
+    return {
+        "type": qtype,
+        "question": question,
+        "vignette": vignette,
+        "options": options,
+        "answer": answer,
+        "explanation": explanation,
+        "difficulty": q.get("difficulty", 2),
+        "rang": q.get("rang", "A"),
+        "concepts": q.get("concepts", []),
+        "sub_questions": sub_questions
+    }
+
+
+async def get_user():
+    user = await db.users.find_one({"email": "admin@medrevision.com"})
+    if not user:
+        raise RuntimeError("Admin user not found")
+    return user
+
+
+async def get_subject(subject_id):
+    try:
+        return await db.subjects.find_one({"_id": ObjectId(subject_id)})
+    except Exception:
+        return None
+
+
+def subject_rank(name):
+    n = (name or "").lower()
+
+    groups = [
+        ["grog"],
+        ["revetement", "revêtement", "dermato", "cutane", "cutané"],
+        ["cardio", "cardiovasculaire"],
+        ["respiratoire", "pneumo"],
+        ["digestif"],
+    ]
+
+    for i, keys in enumerate(groups):
+        if any(k in n for k in keys):
+            return i
+
+    return 999
+
+
+async def build_candidates(user_id, args):
+    courses = await db.courses.find({"user_id": user_id}).to_list(5000)
+    candidates = []
+
+    for course in courses:
+        content = course.get("content", "") or ""
+        words = count_words(content)
+
+        if words < args.min_words:
+            continue
+
+        subject_id = course.get("subject_id", "")
+        subject = await get_subject(subject_id)
+        subject_name = subject.get("name", "Unknown") if subject else "Unknown"
+
+        if args.only_subject and args.only_subject.lower() not in subject_name.lower():
+            continue
+
+        if args.course_contains and args.course_contains.lower() not in course.get("title", "").lower():
+            continue
+
+        current = await db.questions.count_documents({
+            "user_id": user_id,
+            "course_id": str(course["_id"])
+        })
+
+        target = target_total_questions(words)
+
+        if current >= target:
+            continue
+
+        gap = target - current
+
+        candidates.append({
+            "course": course,
+            "subject_id": subject_id,
+            "subject_name": subject_name,
+            "words": words,
+            "current": current,
+            "target": target,
+            "gap": gap,
+            "priority": gap + words / 100
+        })
+
+    def min_priority(c):
+        if args.priority_under and c["current"] < args.priority_under:
+            return 0
+        return 1
+
+    # Priorité :
+    # 1. ordre des matières
+    # 2. cours sous le seuil demandé, ex < 80
+    # 3. parmi eux, ceux qui ont le moins de questions d'abord
+    # 4. sinon, priorité normale
+    candidates.sort(key=lambda c: (
+        subject_rank(c["subject_name"]),
+        min_priority(c),
+        c["current"] if args.priority_under else 999999,
+        -c["priority"]
+    ))
+    return candidates
+
+
+def make_prompt(course, subject_name, existing, amount):
+    content = course.get("content", "") or ""
+
+    if len(content) > 80000:
+        content = content[:80000] + "\n\n[CONTENT TRUNCATED]"
+
+    existing_small = []
+    for q in existing[-500:]:
+        existing_small.append({
+            "type": q.get("type", ""),
+            "question": q.get("question", ""),
+            "concepts": q.get("concepts", [])
+        })
+
+    return f"""
+You are creating a dense medical question bank in French.
+
+Goal:
+Generate questions that help the student cover ALL important notions of the course.
+
+Important:
+- Generate exactly {amount} new questions.
+- Cover notions not already covered by existing questions.
+- Do not duplicate existing questions.
+- Do not ask the same notion twice with only different wording.
+- Make questions medically correct.
+- Make questions useful for exam revision.
+- Use French.
+- Mix types:
+  - qrm / qcm / qi for factual knowledge
+  - qroc for active recall, but the expected answer must be very short: 1 or 2 words maximum
+  - cas_clinique for reasoning
+  - dp for progressive clinical reasoning
+- For cas_clinique: vignette + 4 or 5 options + at least one correct option.
+- For dp: vignette + 3 to 5 sub_questions. Each sub_question must have 4 or 5 options and at least one correct option.
+- Avoid empty options.
+- For qroc, the answer and options[0].text must contain only the short expected answer, maximum 2 words. If the answer needs a sentence, use qrm or cas_clinique instead.
+- Return valid JSON only.
+
+Subject: {subject_name}
+Course title: {course.get("title", "")}
+Course section: {course.get("chapter", "")}
+
+Existing questions:
+{json.dumps(existing_small, ensure_ascii=False)}
+
+Course content:
+{content}
+
+Expected JSON:
+{{
+  "strategy": "short explanation in French",
+  "questions": [
+    {{
+      "type": "qrm | qcm | qi | qroc | cas_clinique | dp",
+      "question": "question text",
+      "vignette": "",
+      "options": [
+        {{"text": "option", "is_correct": true}},
+        {{"text": "option", "is_correct": false}}
+      ],
+      "answer": "answer",
+      "explanation": "correction",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": ["notion"],
+      "sub_questions": []
+    }}
+  ]
+}}
+"""
+
+
+async def generate_for_course(client, model, user_id, candidate, args):
+    course = candidate["course"]
+    course_id = str(course["_id"])
+
+    existing = await db.questions.find({
+        "user_id": user_id,
+        "course_id": course_id
+    }).to_list(5000)
+
+    existing_texts = {norm(q.get("question", "")) for q in existing}
+
+    amount = min(args.batch, candidate["gap"])
+
+    print("=" * 100)
+    print(f"Course: {candidate['subject_name']} -> {course.get('title', '')}")
+    print(f"Words: {candidate['words']}")
+    print(f"Current / target: {candidate['current']} / {candidate['target']}")
+    print(f"Generating: {amount} questions")
+    print("=" * 100)
+
+    prompt = make_prompt(course, candidate["subject_name"], existing, amount)
+
+    res = client.models.generate_content(model=model, contents=prompt)
+    data = extract_json(res.text or "")
+
+    raw_questions = data.get("questions", [])
+
+    docs = []
+
+    for raw in raw_questions:
+        q = validate_question(raw)
+        if not q:
+            continue
+
+        key = norm(q["question"])
+        if key in existing_texts:
+            continue
+
+        existing_texts.add(key)
+
+        docs.append({
+            "user_id": user_id,
+            "course_id": course_id,
+            "subject_id": candidate["subject_id"],
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            **q
+        })
+
+    if docs:
+        await db.questions.insert_many(docs)
+
+    if len(docs) == 0:
+        Path("debug_full_coverage_last.json").write_text(
+            json.dumps(data, ensure_ascii=False, indent=2),
+            encoding="utf-8"
+        )
+        print("Debug saved: debug_full_coverage_last.json")
+
+    print("Strategy:", data.get("strategy", ""))
+    print("Inserted:", len(docs))
+
+    return len(docs)
+
+
+async def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", default="")
+    parser.add_argument("--only-subject", default="")
+    parser.add_argument("--course-contains", default="")
+    parser.add_argument("--loop", action="store_true")
+    parser.add_argument("--limit-calls", type=int, default=10)
+    parser.add_argument("--batch", type=int, default=25)
+    parser.add_argument("--delay", type=int, default=30)
+    parser.add_argument("--quota-sleep", type=int, default=3600)
+    parser.add_argument("--overload-sleep", type=int, default=900)
+    parser.add_argument("--min-words", type=int, default=80)
+    parser.add_argument("--priority-under", type=int, default=0)
+    args = parser.parse_args()
+
+    load_env()
+
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    if not api_key:
+        raise RuntimeError("No API key found")
+
+    model = args.model or os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite")
+    client = genai.Client(api_key=api_key)
+
+    user = await get_user()
+    user_id = str(user["_id"])
+
+    calls = 0
+
+    print("FULL COVERAGE GENERATOR")
+    print(f"Model: {model}")
+    print("Ctrl+C to stop.")
+
+    while True:
+        try:
+            if calls >= args.limit_calls:
+                print("Limit reached.")
+                return
+
+            candidates = await build_candidates(user_id, args)
+
+            if not candidates:
+                print("All matching courses reached target.")
+                if args.loop:
+                    sleep_msg(1800, "checking later")
+                    continue
+                return
+
+            print("")
+            print(f"Candidates: {len(candidates)}")
+            print("Top 5:")
+            for c in candidates[:5]:
+                print(f"- {c['subject_name']} -> {c['course'].get('title', '')} | {c['current']}/{c['target']}")
+
+            inserted = await generate_for_course(client, model, user_id, candidates[0], args)
+            calls += 1
+
+            if inserted == 0:
+                sleep_msg(120, "nothing inserted")
+            else:
+                sleep_msg(args.delay, "normal pause")
+
+            if not args.loop:
+                print("Done.")
+                return
+
+        except KeyboardInterrupt:
+            print("Manual stop.")
+            return
+
+        except Exception as err:
+            msg = str(err).lower()
+            print("Error:", err)
+
+            if "429" in msg or "quota" in msg or "resource_exhausted" in msg:
+                sleep_msg(args.quota_sleep, "quota reached")
+            elif "503" in msg or "unavailable" in msg or "high demand" in msg:
+                sleep_msg(args.overload_sleep + random.randint(0, 300), "Gemini overloaded")
+            else:
+                sleep_msg(300, "unknown error")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

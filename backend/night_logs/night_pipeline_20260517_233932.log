@@ -1,0 +1,10 @@
+PIPELINE DE NUIT
+Subject : Revêtement cutané
+Model : gemini-3.1-flash-lite
+Log : night_logs\night_pipeline_20260517_233932.log
+
+====================================================================================================
+CMD : C:\Program Files\Python313\python.exe -u fact_pipeline.py build --only-subject Revêtement cutané --delay 30 --model gemini-3.1-flash-lite
+====================================================================================================
+==========================================================================================
+Extracting facts: Rev�tement cutan� -> Error: 'charmap' codec can't encode characters in position 0-1: character maps to <undefined>

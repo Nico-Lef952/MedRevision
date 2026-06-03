@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
 
   const checkAuth = useCallback(async () => {
     // Try to get token from localStorage
-    const savedToken = localStorage.getItem(TOKEN_KEY);
+    const savedToken = localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
     if (savedToken) {
       setAuthToken(savedToken);
     }
@@ -22,6 +22,8 @@ export function AuthProvider({ children }) {
     } catch (error) {
       // Clear invalid token
       localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+        sessionStorage.removeItem(TOKEN_KEY);
       clearAuthToken();
       setUser(false);
     } finally {
@@ -33,13 +35,20 @@ export function AuthProvider({ children }) {
     checkAuth();
   }, [checkAuth]);
 
-  const login = async (email, password) => {
+  const login = async (email, password, rememberMe = false) => {
     const response = await authApi.login({ email, password });
     const userData = response.data;
     
     // Store the token from response
     if (userData.access_token) {
-      localStorage.setItem(TOKEN_KEY, userData.access_token);
+      if (rememberMe) {
+        localStorage.setItem(TOKEN_KEY, userData.access_token);
+        sessionStorage.removeItem(TOKEN_KEY);
+      } else {
+        sessionStorage.setItem(TOKEN_KEY, userData.access_token);
+        localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+      }
       setAuthToken(userData.access_token);
     }
     
@@ -72,6 +81,7 @@ export function AuthProvider({ children }) {
       // Ignore logout errors
     }
     localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
     clearAuthToken();
     setUser(false);
   };

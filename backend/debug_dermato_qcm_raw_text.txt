@@ -1,0 +1,195 @@
+
+
+===== word/document.xml =====
+
+<w:tblPr><w:tblStyle w:val="Table1"/><w:tblW w:w="9891.0" w:type="dxa"/><w:jc w:val="left"/><w:tblBorders><w:top w:color="000000" w:space="0" w:sz="8" w:val="single"/><w:left w:color="000000" w:space="0" w:sz="8" w:val="single"/><w:bottom w:color="000000" w:space="0" w:sz="8" w:val="single"/><w:right w:color="000000" w:space="0" w:sz="8" w:val="single"/><w:insideH w:color="000000" w:space="0" w:sz="8" w:val="single"/><w:insideV w:color="000000" w:space="0" w:sz="8" w:val="single"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="0600"/></w:tblPr><w:tblGrid><w:gridCol w:w="9891"/><w:tblGridChange w:id="0"><w:tblGrid><w:gridCol w:w="9891"/></w:tblGrid></w:tblGridChange></w:tblGrid><w:tr><w:trPr><w:cantSplit w:val="0"/><w:tblHeader w:val="0"/></w:trPr><w:tc><w:tcPr><w:shd w:fill="auto" w:val="clear"/><w:tcMar><w:top w:w="100.0" w:type="dxa"/><w:left w:w="100.0" w:type="dxa"/><w:bottom w:w="100.0" w:type="dxa"/><w:right w:w="100.0" w:type="dxa"/></w:tcMar><w:vAlign w:val="top"/></w:tcPr><w:p w:rsidR="00000000" w:rsidDel="00000000" w:rsidP="00000000" w:rsidRDefault="00000000" w:rsidRPr="00000000" w14:paraId="00000002"><w:pPr><w:widowControl w:val="0"/><w:spacing w:line="240" w:lineRule="auto"/><w:jc w:val="center"/><w:rPr><w:b w:val="1"/><w:bCs w:val="1"/><w:sz w:val="28"/><w:szCs w:val="28"/></w:rPr></w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:b w:val="1"/><w:bCs w:val="1"/><w:sz w:val="28"/><w:szCs w:val="28"/><w:rtl w:val="0"/></w:rPr><w:t xml:space="preserve">Revêtement cutané
+Année 2024-2025
+Q1
+<w:t xml:space="preserve">Quelle(s) affirmation(s) sont correcte(s) concernant les caractéristiques des lésions élémentaires en dermatologie ?
+Une papule est supérieure à 1 cm de diamètre
+Les nodules sont des lésions non palpables
+Une vésicule contient un liquide clair et est de petite taille (1-2 cm)
+Les pustules sont d’origine infectieuse
+Les macules rouges s’effacent à la vitropression
+Q2
+<w:t xml:space="preserve">Quelle(s) lésion(s) ne s’efface(nt) pas à la vitropression ?
+L’érythème maculo-papuleux
+Les macules vasculaires
+Le purpura
+La télangiectasie
+Les macules hypochromiques
+Q3
+<w:t xml:space="preserve">Quelle(s) affirmation(s) est(sont) correcte(s) concernant les caractéristiques des lésions présentes dans l’image ?
+Les lésions sont érythématosquameuses
+Il s’agit du phénomène de Koebner
+Il s’agit du signe de Nikolsky
+Il s’agit du phénomène de Darier
+Ces lésions peuvent apparaître en cas de psoriasis
+Q4
+<w:t xml:space="preserve">Quelle(s) affirmation(s) est(sont) correcte(s) concernant les caractéristiques des lésions présentes dans l’image ?
+Vous évoquez une varicelle
+Il s’agit de nodules
+Des lésions vasculaires sont présentes au centre des lésions
+Il s’agit de cocardes
+Un signe de Nikolsky est présent
+Q5
+<w:t xml:space="preserve">Quelle(s) image(s) correspond(ent) à un dermographisme ?
+ 
+<w:tab/><w:t xml:space="preserve">C)  
+<w:tab/><w:t xml:space="preserve">E) 
+<w:t xml:space="preserve">D) 
+Q6 Quelle(s) est (sont) la (les) proposition(s) exacte(s) concernant les lésions visualisées sur cette photographie ?
+ces lésions correspondent à des vésicules
+ces lésions correspondent à des pustules non folliculaires
+ces lésions sont liées à un afflux de polynucléaires neutrophiles de l’épiderme
+ces lésions peuvent être intraépidermiques
+ces lésions sont systématiquement associées à la présence d’une bactérie
+Q7 Concernant les vésicules, quelle(s) est (sont) la (les) proposition(s) exacte(s) ?
+les vésicules sont regroupées en bouquet au cours de l’herpès
+les vésicules sont disséminées  au cours de la varicelle
+les vésicules sont ombiliquées au cours de la varicelle
+les vésicules forment un nodule lorsqu’elles confluent
+les vésicules peuvent devenir des pustules si leur contenu se trouble
+Q8 Dans quelle(s) dermatose(s) peut-on observer ce signe ?
+pemphigus
+vitiligo
+nécrolyse épidermique toxique
+psoriasis
+lichen érosif
+Q9 Parmi ces lésions cutanées, lesquelles correspondent à une perte de substance ?
+une érosion
+un chancre
+une ulcération
+une végétation
+un mal perforant plantaire
+Q10 Cette lésion correspond à : 
+une érosion
+une escarre
+une plaque de nécrose
+une tumeur
+une ulcération
+Q11 Devant une lésion pigmentée, les critères en faveur d’un mélanome sont :
+apparition à l'âge adulte 
+lésion nodulaire
+monochromie
+asymétrie
+contour irrégulier
+Q12 À quel élément correspond le numéro 2 ?
+ 
+cellule de merkel
+cellule endothéliale
+cellule de langerhans
+keratinocyte
+melanocyte
+Q13 Parmi les affirmations suivantes, lesquelles sont retrouvées lors de l'héliodermie ou vieillissement cutanée photo-intuit ?
+augmentation du nombre de mélanocytes 
+vasodilatation des vaisseaux dermiques 
+altération des fibres élastiques 
+amincissement des trousseaux de collagène 
+apparition de rides 
+Q14 Concernant les fonctions sudorales sébacées, quelle(s) est/sont la/les réponse(s) exacte(s) ?
+les glandes sudorales apocrines se situent préférentiellement dans les régions axillaires et génitales 
+les glandes sudorales ont un rôle majeur dans la thermorégulation 
+les glandes sébacées sont androgèno-dépendantes 
+le sébum est essentiellement constitué de triglycérides 
+les glandes sudoripares eccrine sont annexées au follicule pileux
+Q15 : Concernant les tests allergologiques :
+Les patchs test permettent d’explorer les réactions IgE-médiées
+Le Prick-test positif reproduit une papule urticarienne
+L’histamine est utilisée en tant que témoin positif pour interpréter le prick test
+Seuls les médocs sont explorés par la méthode intradermique (IDR)
+Les IDR aux médocs peuvent être utilisés pour explorer les réactions d’hypersensibilité immédiate
+Q16) indiquez la ou les propositions vraies concernant l’anatomie unguéale :
+ce schéma est une coupe sagittale de l’appareil unguéal
+1 : bord libre
+11 : limite distale de la cuticule 
+4 : matrice distale 
+9 : matrice proximale
+Q17) concernant le prurit :
+Il est le plus souvent lié à une cause psychologique 
+Les dérivés morphiniques soulagent le prurit dans la plupart des cas
+Le prurit sine materia est par définition psychogène
+L’histamine est un des médiateurs du prurit
+Le prurit peut être la cause d’une maladie générale comme d’une hémopathie
+Q18) concernant l’histologie de la peau et ses annexes : 
+les kératinocytes sont les cellules les plus abondantes de l’épiderme 
+le derme superficiel est principalement constitué de lobules graisseux
+l’épiderme est richement vascularisé 
+les desmogléines ont un rôle essentiel dans la cohésion inter-kératinocytaire
+la microscopie optique est plus précise que la microscopie électronique pour étudier la jonction dermo-épidermique 
+Q19) concernant la biopsie cutanée :
+Pour être rentable, la biopsie doit se limiter au prélèvement de l’épiderme
+Pour une analyse histologique la biopsie doit être fixée dans le formol
+La coloration HES permet entre autre une analyse par immunofluorescence directe 
+L’étude en immunohistochimie doit se faire depuis un prélèvement congelé 
+L’analyse avec certains anticorps d’immunohistochimie est particulièrement intéressante pour diagnostiquer une maladie bulleuse auto-immune
+Q20) concernant l’érythème :
+Il concerne la quasi totalité de la surface cutanée 
+L’érythrodermie peut être d’origine virale
+L’érythème généralisé peut être d’origine médicamenteuse 
+La syphilis se manifeste par un érythème roséoliforme 
+Il n’y a pas d’intervalle de peau saine dans l’érythème scarlatiniforme 
+Q21 vous observez cet aspect clinique quelques secondes après une friction douce sur peau saine. Quel est le nom de ce signe clinique? 
+signe de Darier 
+signe de Koplik 
+signe de Nikolski
+dermographisme 
+signe de Koebner 
+Q22 une patiente de 38 ans sans antécédents consulte, car elle présente de fortes douleurs suite à une brûlure par le feu de ce jour. 
+il s’agit d’une brûlure au 1e degré 
+il s’agit d’une brûlure au 2e degré 
+il s’agit d’une brûlure au 3e degré 
+la patiente ne cicatrisera pas spontanément 
+seul l’épiderme est atteint 
+Q23
+<w:t xml:space="preserve">Parmi ces différents facteurs, lesquels sont susceptibles de retarder la cicatrisation cutanée ?
+prise d’anti inflammatoires non stéroïdiens
+diabète
+massages fréquents de la zone cicatricielle
+tabagisme
+dénutrition
+Q24
+<w:t xml:space="preserve">Dans quelle(s) indication(s) la mesure d’une pression systolique digitale peut être indiquée ?
+ischémie digitale
+suspicion de maladie de Buerger 
+phénomène de Raynaud
+suspicion de sclérodermie
+insuffisance veineuse clinique
+Q25
+<w:t xml:space="preserve">Concernant la réalisation d’un prélèvement mycologique en dermatologie, quel(s) est(sont) les propositions justes ?
+Il doit
+ être réalisé avant la mise en place d’un traitement antifongique ou après une fenêtre thérapeutique de minimum 72 heures.
+L’examen direct peut confirmer le diagnostic d’infection fongique en seulement quelques heures 
+la culture s’effectue sur les milieux gélosés de Sabouraud
+la présence de filaments mycéliens à l’examen direct est évocatrice de candidose
+pour le pityriasis versicolor, la réalisation d’une culture ne présente aucun intérêt
+Q26 A propos de la pigmentation cutanée, quelle(s) est (sont) les propositions justes ?
+les mélanocytes sont présents exclusivement dans la peau
+les mélanines constituent un filtre pour les rayonnements UV
+les phototypes foncés sont caractérisés par un très grand nombre de mélanocytes le long de la membrane basale, contrairement aux phototypes clairs
+chez les sujets de phototype clair, les mélanosomes sont peu nombreux
+chez les sujets de phototype clair, l'eumélanine est majoritaire
+27. Concernant les cancers Cancers cutanés : 
+Le carcinome basocellulaire se développe au dépend des kératinocytes
+Le carcinome épidermoïde se développe aussi
+Le carcinome basocellulaire peut franchir la membrane de la cellule et envahir les tissus avoisinants
+Le carcinome basocellulaire peut métastaser
+Le carcinome épidermoïde peut métastaser
+Q28 Parmi ces cellules, la ou lesquelles ont un rôle dans l’immunité cutanée ?
+les kératinocytes
+les mélanocytes
+les lymphocytes T
+les cellules dendritiques
+les mastocytes
+29. Concernant l’Eczéma allergique de contact :
+Il existe une phase de sensibilisation cliniquement silencieusement
+L’haptène, à la surface de l’épiderme, est internalisé par les lymphocytes T naïfs
+Les cellules dendritiques interviennent dans le processus de sensibilisation
+Des expositions répétées avec l’haptène depuis plusieurs semaines sont nécessaires avant l’apparition de l’eczéma de contact
+L’initiation de l’allergène est indispensable à la genèse de l’eczéma de contact
+Q30 Concernant les systèmes de réparation de l’ADN, laquelle (lesquelles) de ces propositions est (sont) exactes ?
+ces systèmes de réparation sont physiologiques
+la réparation peut se faire par excision du dommage induits sur l'ADN
+lesdeux seuls systèmes de réparation se font par excision de base ou de nucléotides
+certaines maladies génétiques sont dues à des défauts de ces systèmes de réparation
+les écrans solaires diminuent les dommages induits sur l'ADN

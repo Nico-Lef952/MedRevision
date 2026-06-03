@@ -1,0 +1,1101 @@
+{
+  "questions": [
+    {
+      "type": "qrm",
+      "question": "Quelle(s) affirmation(s) sont correcte(s) concernant les caractéristiques des lésions élémentaires en dermatologie ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. Une papule est supérieure à 1 cm de diamètre",
+          "is_correct": false
+        },
+        {
+          "text": "B. Les nodules sont des lésions non palpables",
+          "is_correct": false
+        },
+        {
+          "text": "C. Une vésicule contient un liquide clair et est de petite taille (1-2 cm)",
+          "is_correct": false
+        },
+        {
+          "text": "D. Les pustules sont d’origine infectieuse",
+          "is_correct": false
+        },
+        {
+          "text": "E. Les macules rouges s’effacent à la vitropression",
+          "is_correct": true
+        }
+      ],
+      "answer": "E",
+      "explanation": "Une papule est une lésion solide, palpable, surélevée, de diamètre inférieur à 1 cm. Les nodules sont des lésions solides, palpables, généralement profondes, de diamètre supérieur à 1 cm. Une vésicule est une petite collection de liquide clair, de taille inférieure à 0.5-1 cm ; une lésion de 1-2 cm contenant du liquide serait plutôt une bulle. Les pustules ne sont pas systématiquement d'origine infectieuse (ex: psoriasis pustuleux). Les macules rouges inflammatoires (érythème) s'effacent à la vitropression car elles sont dues à une vasodilatation. Le purpura, en revanche, ne s'efface pas.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Sémiologie cutanée",
+        "Lésions élémentaires"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Quelle(s) lésion(s) ne s’efface(nt) pas à la vitropression ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. L’érythème maculo-papuleux",
+          "is_correct": false
+        },
+        {
+          "text": "B. Les macules vasculaires",
+          "is_correct": false
+        },
+        {
+          "text": "C. Le purpura",
+          "is_correct": true
+        },
+        {
+          "text": "D. La télangiectasie",
+          "is_correct": false
+        },
+        {
+          "text": "E. Les macules hypochromiques",
+          "is_correct": false
+        }
+      ],
+      "answer": "C",
+      "explanation": "La vitropression permet de distinguer les lésions dues à une vasodilatation (qui s'effacent) de celles dues à une extravasation de sang (qui ne s'effacent pas). L'érythème maculo-papuleux et la télangiectasie sont des lésions vasculaires dues à une vasodilatation, elles s'effacent donc. Les macules vasculaires sont un terme générique ; si elles représentent une dilatation vasculaire, elles s'effacent. Le purpura est une extravasation de sang dans le derme, il ne s'efface donc pas à la vitropression. Les macules hypochromiques sont des lésions pigmentaires, la vitropression n'est pas pertinente pour leur classification dans ce contexte.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Sémiologie cutanée",
+        "Vitropression",
+        "Purpura"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Quelle(s) affirmation(s) est(sont) correcte(s) concernant les caractéristiques des lésions présentes dans l’image ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. Les lésions sont érythématosquameuses",
+          "is_correct": true
+        },
+        {
+          "text": "B. Il s’agit du phénomène de Koebner",
+          "is_correct": true
+        },
+        {
+          "text": "C. Il s’agit du signe de Nikolsky",
+          "is_correct": false
+        },
+        {
+          "text": "D. Il s’agit du phénomène de Darier",
+          "is_correct": false
+        },
+        {
+          "text": "E. Ces lésions peuvent apparaître en cas de psoriasis",
+          "is_correct": true
+        }
+      ],
+      "answer": "A, B, E",
+      "explanation": "L'image n'est pas fournie. Cependant, si elle montre des lésions typiques de psoriasis, alors les propositions A, B et E seraient correctes. Le psoriasis est caractérisé par des lésions érythématosquameuses. Le phénomène de Koebner correspond à l'apparition de lésions psoriasiques sur des zones de traumatisme cutané. Le psoriasis est une étiologie fréquente de ce type de lésions. Le signe de Nikolsky est une décollement épidermique par pression tangentielle, observé dans le pemphigus ou la nécrolyse épidermique toxique, et le phénomène de Darier est l'apparition d'une papule urticarienne après friction d'un mastocytome. Ni l'un ni l'autre ne sont associés au psoriasis.",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Sémiologie cutanée",
+        "Psoriasis",
+        "Phénomène de Koebner",
+        "Signe de Nikolsky",
+        "Phénomène de Darier"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Quelle(s) affirmation(s) est(sont) correcte(s) concernant les caractéristiques des lésions présentes dans l’image ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. Vous évoquez une varicelle",
+          "is_correct": false
+        },
+        {
+          "text": "B. Il s’agit de nodules",
+          "is_correct": false
+        },
+        {
+          "text": "C. Des lésions vasculaires sont présentes au centre des lésions",
+          "is_correct": false
+        },
+        {
+          "text": "D. Il s’agit de cocardes",
+          "is_correct": true
+        },
+        {
+          "text": "E. Un signe de Nikolsky est présent",
+          "is_correct": false
+        }
+      ],
+      "answer": "D",
+      "explanation": "L'image n'est pas fournie. Si l'image montre des lésions en 'cocarde' (ou 'cible'), typiques de l'érythème polymorphe, alors la proposition D est correcte. Les cocardes sont des lésions annulaires avec au moins trois zones concentriques de couleurs différentes (un centre foncé, un anneau pâle et un halo érythémateux). La varicelle est caractérisée par des vésicules disséminées. Les nodules sont des lésions solides et palpables, différentes des cocardes. Le signe de Nikolsky est un décollement épidermique, non associé aux cocardes. Les lésions vasculaires au centre ne sont pas une caractéristique constante ou définissant des cocardes.",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Sémiologie cutanée",
+        "Cocardes",
+        "Érythème polymorphe",
+        "Signe de Nikolsky"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Quelle(s) image(s) correspond(ent) à un dermographisme ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. C",
+          "is_correct": false
+        },
+        {
+          "text": "B. E",
+          "is_correct": false
+        },
+        {
+          "text": "C. D",
+          "is_correct": false
+        }
+      ],
+      "answer": "Impossible de répondre sans l'image.",
+      "explanation": "Cette question nécessite la présence d'images (C, D, E) pour identifier celle qui représente un dermographisme. Le dermographisme est une réaction urticarienne linéaire qui apparaît quelques secondes après une friction mécanique de la peau.",
+      "difficulty": 1,
+      "rang": "A",
+      "concepts": [
+        "Sémiologie cutanée",
+        "Dermographisme"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Quelle(s) est (sont) la (les) proposition(s) exacte(s) concernant les lésions visualisées sur cette photographie ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. ces lésions correspondent à des vésicules",
+          "is_correct": false
+        },
+        {
+          "text": "B. ces lésions correspondent à des pustules non folliculaires",
+          "is_correct": true
+        },
+        {
+          "text": "C. ces lésions sont liées à un afflux de polynucléaires neutrophiles de l’épiderme",
+          "is_correct": true
+        },
+        {
+          "text": "D. ces lésions peuvent être intraépidermiques",
+          "is_correct": true
+        },
+        {
+          "text": "E. ces lésions sont systématiquement associées à la présence d’une bactérie",
+          "is_correct": false
+        }
+      ],
+      "answer": "B, C, D",
+      "explanation": "L'image n'est pas fournie, mais la question et les options décrivent des pustules. Une pustule est une collection de pus, distincte d'une vésicule (qui contient du liquide clair). Les pustules sont souvent le résultat d'un afflux de polynucléaires neutrophiles (PNN) dans l'épiderme, comme mentionné dans le cours 'Biopsie Cutanée' ('Pustule = Conséquence d'une spongiose avec PNN ou éosinophiles'). Les pustules peuvent être intra-épidermiques (ex: psoriasis pustuleux). Elles ne sont pas systématiquement associées à une infection bactérienne ; des pustules stériles existent (ex: psoriasis).",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Sémiologie cutanée",
+        "Pustules",
+        "Polynucléaires neutrophiles",
+        "Histologie de l'épiderme"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Concernant les vésicules, quelle(s) est (sont) la (les) proposition(s) exacte(s) ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. les vésicules sont regroupées en bouquet au cours de l’herpès",
+          "is_correct": true
+        },
+        {
+          "text": "B. les vésicules sont disséminées au cours de la varicelle",
+          "is_correct": true
+        },
+        {
+          "text": "C. les vésicules sont ombiliquées au cours de la varicelle",
+          "is_correct": false
+        },
+        {
+          "text": "D. les vésicules forment un nodule lorsqu’elles confluent",
+          "is_correct": false
+        },
+        {
+          "text": "E. les vésicules peuvent devenir des pustules si leur contenu se trouble",
+          "is_correct": true
+        }
+      ],
+      "answer": "A, B, E",
+      "explanation": "Les vésicules herpétiques sont typiquement regroupées en 'bouquet'. Les lésions vésiculeuses de la varicelle sont disséminées et apparaissent par poussées successives ('en ciel étoilé'). Les vésicules ombiliquées sont caractéristiques du molluscum contagiosum, pas de la varicelle. Les vésicules confluent pour former des bulles ou des croûtes, non des nodules. Le contenu d'une vésicule, initialement clair, peut se troubler (devenir purulent) en cas d'infection secondaire ou d'inflammation intense, transformant la vésicule en pustule.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Sémiologie cutanée",
+        "Vésicules",
+        "Herpès",
+        "Varicelle"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Dans quelle(s) dermatose(s) peut-on observer ce signe ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. pemphigus",
+          "is_correct": true
+        },
+        {
+          "text": "B. vitiligo",
+          "is_correct": false
+        },
+        {
+          "text": "C. nécrolyse épidermique toxique",
+          "is_correct": true
+        },
+        {
+          "text": "D. psoriasis",
+          "is_correct": false
+        },
+        {
+          "text": "E. lichen érosif",
+          "is_correct": false
+        }
+      ],
+      "answer": "A, C",
+      "explanation": "L'image n'est pas fournie. Si 'ce signe' fait référence au signe de Nikolsky (décollement épidermique par pression tangentielle), alors le pemphigus et la nécrolyse épidermique toxique (NET) sont les réponses correctes. Le cours 'Biopsie Cutanée' et 'Histologie du Revêtement Cutané' mentionnent explicitement que le signe de Nikolsky est positif dans le pemphigus. La NET, ainsi que le syndrome de Stevens-Johnson (SJS), sont également caractérisées par un signe de Nikolsky positif. Les autres dermatoses listées (vitiligo, psoriasis, lichen érosif) ne présentent pas ce signe.",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Sémiologie cutanée",
+        "Signe de Nikolsky",
+        "Pemphigus",
+        "Nécrolyse épidermique toxique"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Parmi ces lésions cutanées, lesquelles correspondent à une perte de substance ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. une érosion",
+          "is_correct": true
+        },
+        {
+          "text": "B. un chancre",
+          "is_correct": true
+        },
+        {
+          "text": "C. une ulcération",
+          "is_correct": true
+        },
+        {
+          "text": "D. une végétation",
+          "is_correct": false
+        },
+        {
+          "text": "E. un mal perforant plantaire",
+          "is_correct": true
+        }
+      ],
+      "answer": "A, B, C, E",
+      "explanation": "Une perte de substance cutanée implique la destruction et la disparition de tissu. Une érosion est une perte de substance superficielle n'atteignant que l'épiderme, cicatrisant sans cicatrice. Une ulcération est une perte de substance plus profonde atteignant le derme, cicatrisant avec une cicatrice. Un chancre est une forme d'ulcération (ex: chancre syphilitique). Un mal perforant plantaire est une ulcération chronique, souvent neuropathique, touchant la plante des pieds. Une végétation, en revanche, est une excroissance de tissu, non une perte de substance.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Sémiologie cutanée",
+        "Pertes de substance"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Cette lésion correspond à :",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. une érosion",
+          "is_correct": false
+        },
+        {
+          "text": "B. une escarre",
+          "is_correct": false
+        },
+        {
+          "text": "C. une plaque de nécrose",
+          "is_correct": false
+        },
+        {
+          "text": "D. une tumeur",
+          "is_correct": false
+        },
+        {
+          "text": "E. une ulcération",
+          "is_correct": false
+        }
+      ],
+      "answer": "Impossible de répondre sans l'image.",
+      "explanation": "Cette question nécessite une image pour identifier la lésion cutanée. Sans visuel, il est impossible de déterminer si elle correspond à une érosion, une escarre, une plaque de nécrose, une tumeur ou une ulcération.",
+      "difficulty": 1,
+      "rang": "A",
+      "concepts": [
+        "Sémiologie cutanée",
+        "Lésions élémentaires"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Devant une lésion pigmentée, les critères en faveur d’un mélanome sont :",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. apparition à l'âge adulte",
+          "is_correct": false
+        },
+        {
+          "text": "B. lésion nodulaire",
+          "is_correct": false
+        },
+        {
+          "text": "C. monochromie",
+          "is_correct": false
+        },
+        {
+          "text": "D. asymétrie",
+          "is_correct": true
+        },
+        {
+          "text": "E. contour irrégulier",
+          "is_correct": true
+        }
+      ],
+      "answer": "D, E",
+      "explanation": "Le cours 'Physiologie Cutanée : Effets des UV' détaille la règle ABCDE pour la détection du mélanome : A pour Asymétrie, B pour Bordure irrégulière (contour irrégulier), C pour Couleur hétérogène, D pour Diamètre > 6 mm, E pour Évolutivité. L'apparition à l'âge adulte n'est pas un critère spécifique de la règle ABCDE, bien que les mélanomes touchent souvent les sujets jeunes (20-50 ans). Une lésion nodulaire peut être un mélanome mais n'est pas un critère de suspicion ABCDE. La monochromie est l'inverse de la couleur hétérogène, donc fausse.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Mélanome",
+        "Règle ABCDE",
+        "Carcinogénèse cutanée"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "À quel élément correspond le numéro 2 ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. cellule de merkel",
+          "is_correct": false
+        },
+        {
+          "text": "B. cellule endothéliale",
+          "is_correct": false
+        },
+        {
+          "text": "C. cellule de langerhans",
+          "is_correct": false
+        },
+        {
+          "text": "D. keratinocyte",
+          "is_correct": false
+        },
+        {
+          "text": "E. melanocyte",
+          "is_correct": true
+        }
+      ],
+      "answer": "E",
+      "explanation": "L'image n'est pas fournie. Cependant, dans une question d'histologie cutanée où une cellule de la couche basale est désignée comme '2', et qu'elle est typiquement 'blanche' ou claire à l'HES, il s'agit le plus souvent d'un mélanocyte. Le cours 'Histologie du Revêtement Cutané' indique que les mélanocytes sont situés dans la couche basale et apparaissent comme de 'petites cellules BLANCHES à l'HES'. Les kératinocytes sont majoritaires et polygonaux. Les cellules de Merkel sont également dans la basale mais sont rares. Les cellules de Langerhans sont suprabasales. Les cellules endothéliales se trouvent dans les vaisseaux sanguins du derme, pas de l'épiderme.",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Histologie du revêtement cutané",
+        "Mélanocytes",
+        "Épiderme"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Parmi les affirmations suivantes, lesquelles sont retrouvées lors de l'héliodermie ou vieillissement cutané photo-induit ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. augmentation du nombre de mélanocytes",
+          "is_correct": false
+        },
+        {
+          "text": "B. vasodilatation des vaisseaux dermiques",
+          "is_correct": false
+        },
+        {
+          "text": "C. altération des fibres élastiques",
+          "is_correct": true
+        },
+        {
+          "text": "D. amincissement des trousseaux de collagène",
+          "is_correct": false
+        },
+        {
+          "text": "E. apparition de rides",
+          "is_correct": true
+        }
+      ],
+      "answer": "C, E",
+      "explanation": "Le cours 'Physiologie Cutanée : Effets des UV' décrit l'héliodermie comme un vieillissement cutané photo-induit. Il est caractérisé par une peau épaisse, rugueuse, jaunâtre, des rides profondes (E), une diminution des fibres élastiques (C) et un épaississement des fibres de collagène (donc D est fausse). Le nombre de mélanocytes n'augmente pas dans l'héliodermie (A est fausse), mais il peut y avoir une pigmentation irrégulière (lentigo solaire). La vasodilatation est plus associée à la phase aiguë de l'exposition solaire, moins au vieillissement chronique.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Héliodermie",
+        "Vieillissement cutané",
+        "Effets des UV",
+        "Fibres élastiques",
+        "Fibres de collagène"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Concernant les fonctions sudorales sébacées, quelle(s) est/sont la/les réponse(s) exacte(s) ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. les glandes sudorales apocrines se situent préférentiellement dans les régions axillaires et génitales",
+          "is_correct": true
+        },
+        {
+          "text": "B. les glandes sudorales ont un rôle majeur dans la thermorégulation",
+          "is_correct": true
+        },
+        {
+          "text": "C. les glandes sébacées sont androgèno-dépendantes",
+          "is_correct": true
+        },
+        {
+          "text": "D. le sébum est essentiellement constitué de triglycérides",
+          "is_correct": true
+        },
+        {
+          "text": "E. les glandes sudoripares eccrine sont annexées au follicule pileux",
+          "is_correct": false
+        }
+      ],
+      "answer": "A, B, C, D",
+      "explanation": "Le cours 'Histologie du Revêtement Cutané' précise plusieurs points : Les glandes sudorales apocrines sont associées aux poils et se trouvent dans les zones axillaires et génitales, produisant des substances odoriférantes (A est vraie). Les glandes sudorales, en particulier les eccrines, jouent un rôle essentiel dans la thermorégulation via la production de sueur (B est vraie). Les glandes sébacées sont androgéno-dépendantes, comme en témoigne le lien entre testostérone et acné (C est vraie). Le sébum est un produit lipidique, donc composé majoritairement de triglycérides, d'esters de cire, de cholestérol et de squalène (D est vraie). Les glandes sudoripares eccrines sont indépendantes des poils (E est fausse) ; ce sont les apocrines qui sont associées aux follicules pileux.",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Glandes sébacées",
+        "Glandes sudorales",
+        "Histologie des annexes cutanées",
+        "Thermorégulation"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Concernant les tests allergologiques :",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. Les patchs test permettent d’explorer les réactions IgE-médiées",
+          "is_correct": false
+        },
+        {
+          "text": "B. Le Prick-test positif reproduit une papule urticarienne",
+          "is_correct": true
+        },
+        {
+          "text": "C. L’histamine est utilisée en tant que témoin positif pour interpréter le prick test",
+          "is_correct": true
+        },
+        {
+          "text": "D. Seuls les médocs sont explorés par la méthode intradermique (IDR)",
+          "is_correct": false
+        },
+        {
+          "text": "E. Les IDR aux médocs peuvent être utilisés pour explorer les réactions d’hypersensibilité immédiate",
+          "is_correct": true
+        }
+      ],
+      "answer": "B, C, E",
+      "explanation": "Cette question aborde les tests allergologiques, qui ne sont pas spécifiquement couverts par les cours fournis. Les patchs tests explorent les hypersensibilités retardées (Type IV, à médiation cellulaire), non les réactions IgE-médiées (A est fausse). Le Prick-test cherche les hypersensibilités immédiates (Type I, IgE-médiées) et se manifeste par une papule urticarienne avec érythème (B est vraie). L'histamine est systématiquement utilisée comme témoin positif dans le Prick-test pour valider la réactivité cutanée (C est vraie). Les intradermo-réactions (IDR) peuvent être utilisées pour explorer diverses réactions, pas seulement les médicaments (D est fausse). Enfin, les IDR peuvent effectivement servir à explorer des réactions d'hypersensibilité immédiate à certains médicaments (E est vraie), notamment lorsque le prick-test est négatif ou douteux, mais avec une dilution progressive et une grande prudence en raison du risque de réaction systémique.",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Tests allergologiques",
+        "Hypersensibilité immédiate",
+        "Hypersensibilité retardée",
+        "Prick-test",
+        "IDR"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "indiquez la ou les propositions vraies concernant l’anatomie unguéale :",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. ce schéma est une coupe sagittale de l’appareil unguéal",
+          "is_correct": true
+        },
+        {
+          "text": "B. 1 : bord libre",
+          "is_correct": true
+        },
+        {
+          "text": "C. 11 : limite distale de la cuticule",
+          "is_correct": false
+        },
+        {
+          "text": "D. 4 : matrice distale",
+          "is_correct": false
+        },
+        {
+          "text": "E. 9 : matrice proximale",
+          "is_correct": false
+        }
+      ],
+      "answer": "A, B",
+      "explanation": "L'image n'est pas fournie. Cependant, en se basant sur la description typique et le schéma de l'appareil unguéal fourni dans le cours 'Sémiologie Unguéale' : Si le schéma est une coupe sagittale de l'appareil unguéal (A est vraie). Le numéro '1' correspond généralement au bord libre (B est vraie) dans les schémas d'anatomie unguéale. Les numéros 11, 4 et 9 sont peu probables d'identifier correctement les structures comme indiqué dans les options, en comparaison avec la numérotation du cours qui associe 'Lit de l'ongle' à 4, 'Lunule' à 9 et 'Matrice distale' à 8. Le cours ne mentionne pas le numéro 11. Donc C, D et E sont fausses selon la nomenclature du cours.",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Anatomie unguéale",
+        "Tablette unguéale",
+        "Matrice unguéale",
+        "Bord libre"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "concernant le prurit :",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. Il est le plus souvent lié à une cause psychologique",
+          "is_correct": false
+        },
+        {
+          "text": "B. Les dérivés morphiniques soulagent le prurit dans la plupart des cas",
+          "is_correct": false
+        },
+        {
+          "text": "C. Le prurit sine materia est par définition psychogène",
+          "is_correct": false
+        },
+        {
+          "text": "D. L’histamine est un des médiateurs du prurit",
+          "is_correct": true
+        },
+        {
+          "text": "E. Le prurit peut être la cause d’une maladie générale comme d’une hémopathie",
+          "is_correct": true
+        }
+      ],
+      "answer": "D, E",
+      "explanation": "Cette question n'est pas directement couverte par les cours fournis. Le prurit est rarement purement psychologique et nécessite une recherche étiologique (A est fausse). Les dérivés morphiniques peuvent déclencher ou aggraver le prurit (B est fausse). Le prurit sine materia (sans lésion cutanée primitive) peut être d'origine systémique (rénale, hépatique, endocrinienne, hématologique, médicamenteuse, neurologique), pas uniquement psychogène (C est fausse). L'histamine est un médiateur majeur du prurit, notamment dans l'urticaire (D est vraie). Le prurit est un symptôme fréquent de maladies générales, y compris les hémopathies (lymphomes, polyglobulie de Vaquez), les maladies hépatiques et rénales (E est vraie).",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Prurit",
+        "Médiateurs du prurit",
+        "Prurit systémique"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "concernant l’histologie de la peau et ses annexes :",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. les kératinocytes sont les cellules les plus abondantes de l’épiderme",
+          "is_correct": true
+        },
+        {
+          "text": "B. le derme superficiel est principalement constitué de lobules graisseux",
+          "is_correct": false
+        },
+        {
+          "text": "C. l’épiderme est richement vascularisé",
+          "is_correct": false
+        },
+        {
+          "text": "D. les desmogléines ont un rôle essentiel dans la cohésion inter-kératinocytaire",
+          "is_correct": true
+        },
+        {
+          "text": "E. la microscopie optique est plus précise que la microscopie électronique pour étudier la jonction dermo-épidermique",
+          "is_correct": false
+        }
+      ],
+      "answer": "A, D",
+      "explanation": "Le cours 'Histologie du Revêtement Cutané' fournit ces informations : Les kératinocytes représentent environ 80% des cellules épidermiques (A est vraie). Les lobules graisseux constituent l'hypoderme, pas le derme superficiel (B est fausse). L'épiderme n'est pas vascularisé et est nourri par capillarité depuis le derme superficiel (C est fausse). Les desmogléines sont des protéines transmembranaires des desmosomes qui assurent la cohésion intercellulaire des kératinocytes (D est vraie). La jonction dermo-épidermique n'est pas visible en microscopie optique standard (HES) et est bien mieux étudiée en microscopie électronique, plus précise pour les structures ultrastructurales (E est fausse).",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Histologie de la peau",
+        "Kératinocytes",
+        "Épiderme",
+        "Derme",
+        "Desmosomes",
+        "JDE"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "concernant la biopsie cutanée :",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. Pour être rentable, la biopsie doit se limiter au prélèvement de l’épiderme",
+          "is_correct": false
+        },
+        {
+          "text": "B. Pour une analyse histologique la biopsie doit être fixée dans le formol",
+          "is_correct": true
+        },
+        {
+          "text": "C. La coloration HES permet entre autre une analyse par immunofluorescence directe",
+          "is_correct": false
+        },
+        {
+          "text": "D. L’étude en immunohistochimie doit se faire depuis un prélèvement congelé",
+          "is_correct": false
+        },
+        {
+          "text": "E. L’analyse avec certains anticorps d’immunohistochimie est particulièrement intéressante pour diagnostiquer une maladie bulleuse auto-immune",
+          "is_correct": true
+        }
+      ],
+      "answer": "B, E",
+      "explanation": "Le cours 'Biopsie Cutanée' est clair sur ces points : Une biopsie doit prélever la lésion entière et parfois atteindre le derme voire l'hypoderme pour être diagnostique, pas seulement l'épiderme (A est fausse). Pour l'histologie standard, le prélèvement est fixé dans le formol à 10% (B est vraie). La coloration HES est une technique d'histologie standard ; l'immunofluorescence directe (IFD) est une technique différente qui nécessite un tissu frais ou conservé dans le liquide de Michel, jamais dans le formol (C est fausse). L'étude en immunohistochimie peut se faire sur prélèvement congelé (pour l'IFD) ou sur tissu fixé au formol et inclus en paraffine (pour l'IHC classique), donc 'doit se faire depuis un prélèvement congelé' est trop exclusif (D est fausse). L'IFD et l'ELISA, qui sont des techniques immunohistochimiques, sont fondamentales pour le diagnostic des maladies bulleuses auto-immunes (E est vraie), en détectant les anticorps fixés dans le tissu ou circulants.",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Biopsie cutanée",
+        "Histologie",
+        "Immunofluorescence",
+        "Maladies bulleuses auto-immunes"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "concernant l’érythème :",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. Il concerne la quasi totalité de la surface cutanée",
+          "is_correct": false
+        },
+        {
+          "text": "B. L’érythrodermie peut être d’origine virale",
+          "is_correct": true
+        },
+        {
+          "text": "C. L’érythème généralisé peut être d’origine médicamenteuse",
+          "is_correct": true
+        },
+        {
+          "text": "D. La syphilis se manifeste par un érythème roséoliforme",
+          "is_correct": true
+        },
+        {
+          "text": "E. Il n’y a pas d’intervalle de peau saine dans l’érythème scarlatiniforme",
+          "is_correct": true
+        }
+      ],
+      "answer": "B, C, D, E",
+      "explanation": "Un érythème est une rougeur cutanée qui s'efface à la vitropression. Il peut être localisé ou généralisé. L'érythrodermie est un érythème généralisé concernant plus de 90% de la surface cutanée (donc A est fausse pour l'érythème en général). L'érythrodermie peut avoir diverses causes, y compris virales (ex: rougeole atypique, VIH) (B est vraie). Un érythème généralisé est une manifestation fréquente des toxidermies (réactions médicamenteuses) (C est vraie). La syphilis secondaire (roséole syphilitique) est caractérisée par un érythème roséoliforme (D est vraie). L'érythème scarlatiniforme est un érythème diffus et uniforme, sans intervalle de peau saine, souvent associé à une desquamation ultérieure (E est vraie).",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Sémiologie cutanée",
+        "Érythème",
+        "Érythrodermie",
+        "Toxidermie",
+        "Syphilis"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "vous observez cet aspect clinique quelques secondes après une friction douce sur peau saine. Quel est le nom de ce signe clinique?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. signe de Darier",
+          "is_correct": false
+        },
+        {
+          "text": "B. signe de Koplik",
+          "is_correct": false
+        },
+        {
+          "text": "C. signe de Nikolski",
+          "is_correct": false
+        },
+        {
+          "text": "D. dermographisme",
+          "is_correct": true
+        },
+        {
+          "text": "E. signe de Koebner",
+          "is_correct": false
+        }
+      ],
+      "answer": "D",
+      "explanation": "L'image n'est pas fournie, mais la description 'quelques secondes après une friction douce sur peau saine' est la définition classique du dermographisme. Il s'agit d'une forme d'urticaire physique où une pression ou friction sur la peau induit l'apparition d'une papule urticarienne linéaire. Le signe de Darier est l'apparition d'une urticaire après friction d'un mastocytome. Le signe de Koplik sont des taches blanches sur la muqueuse buccale lors de la rougeole. Le signe de Nikolsky est un décollement épidermique. Le signe de Koebner est l'apparition de lésions sur une zone traumatisée.",
+      "difficulty": 1,
+      "rang": "A",
+      "concepts": [
+        "Sémiologie cutanée",
+        "Dermographisme",
+        "Urticaire physique"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "une patiente de 38 ans sans antécédents consulte, car elle présente de fortes douleurs suite à une brûlure par le feu de ce jour.",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. il s’agit d’une brûlure au 1e degré",
+          "is_correct": false
+        },
+        {
+          "text": "B. il s’agit d’une brûlure au 2e degré",
+          "is_correct": true
+        },
+        {
+          "text": "C. il s’agit d’une brûlure au 3e degré",
+          "is_correct": false
+        },
+        {
+          "text": "D. la patiente ne cicatrisera pas spontanément",
+          "is_correct": false
+        },
+        {
+          "text": "E. seul l’épiderme est atteint",
+          "is_correct": false
+        }
+      ],
+      "answer": "B",
+      "explanation": "L'image n'est pas fournie. Le cours 'Les Brûlures' indique que la douleur est un critère essentiel de profondeur. Les brûlures au 1er degré et 2ème degré superficiel sont très douloureuses, tandis que les brûlures au 2ème degré profond sont modérément douloureuses et les brûlures au 3ème degré sont indolores (destruction des terminaisons nerveuses). 'De fortes douleurs' excluent le 3ème degré (C est fausse). Les brûlures par le feu sont rarement limitées au 1er degré (atteinte superficielle de l'épiderme, type coup de soleil), donc A est moins probable. Une brûlure au 2ème degré (superficiel ou profond) est très douloureuse et est une cause fréquente de brûlure par le feu (B est vraie). Les brûlures du 2ème degré superficiel et profond cicatrisent spontanément (D est fausse). Pour le 2ème degré, l'épiderme et le derme sont atteints (E est fausse).",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Brûlures",
+        "Profondeur des brûlures",
+        "Douleur",
+        "Cicatrisation"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Parmi ces différents facteurs, lesquels sont susceptibles de retarder la cicatrisation cutanée ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. prise d’anti inflammatoires non stéroïdiens",
+          "is_correct": true
+        },
+        {
+          "text": "B. diabète",
+          "is_correct": true
+        },
+        {
+          "text": "C. massages fréquents de la zone cicatricielle",
+          "is_correct": false
+        },
+        {
+          "text": "D. tabagisme",
+          "is_correct": true
+        },
+        {
+          "text": "E. dénutrition",
+          "is_correct": true
+        }
+      ],
+      "answer": "A, B, D, E",
+      "explanation": "Cette question n'est pas directement couverte par les cours fournis. Les anti-inflammatoires non stéroïdiens (AINS) peuvent retarder la cicatrisation en inhibant la phase inflammatoire initiale, essentielle au processus (A est vraie). Le diabète est un facteur majeur de retard de cicatrisation en raison de l'altération microvasculaire, de la neuropathie et du risque infectieux (B est vraie). Les massages, une fois la cicatrisation bien engagée, sont généralement bénéfiques pour améliorer l'élasticité et réduire les adhérences, ils ne la retardent pas s'ils sont effectués correctement (C est fausse). Le tabagisme altère la cicatrisation par la vasoconstriction induite par la nicotine et l'hypoxie tissulaire due au monoxyde de carbone (D est vraie). La dénutrition, en particulier protéino-énergétique ou en vitamines/oligo-éléments (vitamine C, zinc), compromet la synthèse de collagène et la fonction immunitaire, retardant la cicatrisation (E est vraie).",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Cicatrisation cutanée",
+        "Facteurs de retard de cicatrisation"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Dans quelle(s) indication(s) la mesure d’une pression systolique digitale peut être indiquée ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. ischémie digitale",
+          "is_correct": true
+        },
+        {
+          "text": "B. suspicion de maladie de Buerger",
+          "is_correct": true
+        },
+        {
+          "text": "C. phénomène de Raynaud",
+          "is_correct": true
+        },
+        {
+          "text": "D. suspicion de sclérodermie",
+          "is_correct": true
+        },
+        {
+          "text": "E. insuffisance veineuse clinique",
+          "is_correct": false
+        }
+      ],
+      "answer": "A, B, C, D",
+      "explanation": "Cette question n'est pas directement couverte par les cours fournis. La mesure de la pression systolique digitale (PSD) est utilisée pour évaluer l'état de la vascularisation artérielle des doigts et des orteils. Elle est indiquée dans l'exploration de l'ischémie digitale (A est vraie). La maladie de Buerger (thromboangéite oblitérante) est une vasculite touchant les petites et moyennes artères, la PSD est utile pour son diagnostic et son suivi (B est vraie). Le phénomène de Raynaud, qu'il soit primitif ou secondaire, est une vasoconstriction digitale excessive, et la PSD permet d'objectiver le degré d'atteinte vasculaire (C est vraie). La sclérodermie est une connectivite avec une atteinte vasculaire fréquente, incluant un phénomène de Raynaud secondaire, justifiant la mesure de la PSD (D est vraie). L'insuffisance veineuse clinique concerne le système veineux et n'est pas explorée par la PSD, qui évalue la circulation artérielle (E est fausse).",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Ischémie digitale",
+        "Maladie de Buerger",
+        "Phénomène de Raynaud",
+        "Sclérodermie"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Concernant la réalisation d’un prélèvement mycologique en dermatologie, quel(s) est(sont) les propositions justes ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. Il doit être réalisé avant la mise en place d’un traitement antifongique ou après une fenêtre thérapeutique de minimum 72 heures.",
+          "is_correct": true
+        },
+        {
+          "text": "B. L’examen direct peut confirmer le diagnostic d’infection fongique en seulement quelques heures",
+          "is_correct": true
+        },
+        {
+          "text": "C. la culture s’effectue sur les milieux gélosés de Sabouraud",
+          "is_correct": true
+        },
+        {
+          "text": "D. la présence de filaments mycéliens à l’examen direct est évocatrice de candidose",
+          "is_correct": false
+        },
+        {
+          "text": "E. pour le pityriasis versicolor, la réalisation d’une culture ne présente aucun intérêt",
+          "is_correct": true
+        }
+      ],
+      "answer": "A, B, C, E",
+      "explanation": "Cette question n'est pas directement couverte par les cours fournis. Le prélèvement mycologique doit être réalisé idéalement avant tout traitement antifongique ou après une période d'arrêt (fenêtre thérapeutique) pour éviter les faux négatifs. 72 heures est un minimum, souvent plus long est recommandé (A est vraie). L'examen direct permet d'observer rapidement (quelques heures) la présence d'éléments fongiques (filaments, spores, levures) et d'orienter le diagnostic (B est vraie). Le milieu de Sabouraud est le milieu de culture standard pour les champignons en mycologie (C est vraie). La candidose se caractérise à l'examen direct par des levures bourgeonnantes et des pseudofilaments, non par des filaments mycéliens typiques qui sont plus évocateurs de dermatophytes (D est fausse). Pour le pityriasis versicolor, dû à Malassezia, la culture est difficile et de peu d'intérêt diagnostique ; le diagnostic repose principalement sur l'examen direct (aspect 'spaghetti et boulettes') et la lumière de Wood (E est vraie).",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Mycologie cutanée",
+        "Prélèvement mycologique",
+        "Dermatophytes",
+        "Candida",
+        "Pityriasis versicolor"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "A propos de la pigmentation cutanée, quelle(s) est (sont) les propositions justes ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. les mélanocytes sont présents exclusivement dans la peau",
+          "is_correct": false
+        },
+        {
+          "text": "B. les mélanines constituent un filtre pour les rayonnements UV",
+          "is_correct": true
+        },
+        {
+          "text": "C. les phototypes foncés sont caractérisés par un très grand nombre de mélanocytes le long de la membrane basale, contrairement aux phototypes clairs",
+          "is_correct": false
+        },
+        {
+          "text": "D. chez les sujets de phototype clair, les mélanosomes sont peu nombreux",
+          "is_correct": true
+        },
+        {
+          "text": "E. chez les sujets de phototype clair, l'eumélanine est majoritaire",
+          "is_correct": false
+        }
+      ],
+      "answer": "B, D",
+      "explanation": "Le cours 'Physiologie Cutanée : Pigmentation Cutanée' indique que les mélanocytes sont présents dans la peau mais aussi dans la rétine, l'oreille interne et le SNC (A est fausse). Les mélanines forment un bouclier autour du noyau des kératinocytes, absorbant les UV et protégeant le matériel génétique (B est vraie). La différence de phototype ne repose pas sur le nombre de mélanocytes, qui est identique entre phototypes clairs et foncés, mais sur la quantité et le type de mélanine produite (C est fausse). Chez les sujets de phototype clair, les mélanosomes sont moins nombreux et plus petits (D est vraie) et les phéomélanines sont majoritaires, contrairement aux eumélanines chez les phototypes foncés (E est fausse).",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Pigmentation cutanée",
+        "Mélanocytes",
+        "Mélanines",
+        "Phototypes",
+        "Mélanosomes"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Concernant les cancers Cancers cutanés :",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. Le carcinome basocellulaire se développe au dépend des kératinocytes",
+          "is_correct": true
+        },
+        {
+          "text": "B. Le carcinome épidermoïde se développe aussi",
+          "is_correct": true
+        },
+        {
+          "text": "C. Le carcinome basocellulaire peut franchir la membrane de la cellule et envahir les tissus avoisinants",
+          "is_correct": true
+        },
+        {
+          "text": "D. Le carcinome basocellulaire peut métastaser",
+          "is_correct": false
+        },
+        {
+          "text": "E. Le carcinome épidermoïde peut métastaser",
+          "is_correct": true
+        }
+      ],
+      "answer": "A, B, C, E",
+      "explanation": "Le cours 'Physiologie Cutanée : Effets des UV' et 'Histologie du Revêtement Cutané' détaillent les cancers cutanés : Le carcinome basocellulaire se développe à partir des kératinocytes de la couche basale (A est vraie). Le carcinome épidermoïde se développe à partir des kératinocytes de la couche spineuse (B est vraie). Le carcinome basocellulaire est localement destructeur, il peut donc envahir les tissus avoisinants et être dangereux localement (C est vraie), mais il ne métastase PAS (D est fausse). En revanche, le carcinome épidermoïde peut métastaser, surtout s'il atteint l'hypoderme (E est vraie).",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Cancers cutanés",
+        "Carcinome basocellulaire",
+        "Carcinome épidermoïde",
+        "Métastases"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Parmi ces cellules, la ou lesquelles ont un rôle dans l’immunité cutanée ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. les kératinocytes",
+          "is_correct": true
+        },
+        {
+          "text": "B. les mélanocytes",
+          "is_correct": false
+        },
+        {
+          "text": "C. les lymphocytes T",
+          "is_correct": true
+        },
+        {
+          "text": "D. les cellules dendritiques",
+          "is_correct": true
+        },
+        {
+          "text": "E. les mastocytes",
+          "is_correct": true
+        }
+      ],
+      "answer": "A, C, D, E",
+      "explanation": "Le cours 'Histologie du Revêtement Cutané' et 'Physiologie Cutanée : Effets des UV' mentionne : Les kératinocytes ont un rôle immunitaire en produisant des cytokines et en participant à l'immunosuppression induite par les UV via l'IL-10 (A est vraie). Les mélanocytes sont principalement impliqués dans la pigmentation et la protection UV (B est fausse). Les lymphocytes T sont des acteurs clés de l'immunité adaptative cutanée (C est vraie). Les cellules dendritiques, dont les cellules de Langerhans, sont des cellules présentatrices d'antigènes essentielles à l'immunité cutanée (D est vraie). Les mastocytes jouent un rôle dans l'immunité innée et les réactions allergiques via la libération d'histamine (E est vraie).",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Immunité cutanée",
+        "Kératinocytes",
+        "Lymphocytes T",
+        "Cellules dendritiques",
+        "Cellules de Langerhans",
+        "Mastocytes"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Concernant l’Eczéma allergique de contact :",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. Il existe une phase de sensibilisation cliniquement silencieusement",
+          "is_correct": true
+        },
+        {
+          "text": "B. L’haptène, à la surface de l’épiderme, est internalisé par les lymphocytes T naïfs",
+          "is_correct": false
+        },
+        {
+          "text": "C. Les cellules dendritiques interviennent dans le processus de sensibilisation",
+          "is_correct": true
+        },
+        {
+          "text": "D. Des expositions répétées avec l’haptène depuis plusieurs semaines sont nécessaires avant l’apparition de l’eczéma de contact",
+          "is_correct": false
+        },
+        {
+          "text": "E. L’initiation de l’allergène est indispensable à la genèse de l’eczéma de contact",
+          "is_correct": true
+        }
+      ],
+      "answer": "A, C, E",
+      "explanation": "Cette question n'est pas directement couverte par les cours fournis. L'eczéma allergique de contact est une réaction d'hypersensibilité retardée (Type IV). La première exposition à l'allergène induit une phase de sensibilisation asymptomatique (A est vraie). L'haptène (l'allergène) est capturé par les cellules présentatrices d'antigènes (CPA), notamment les cellules de Langerhans (qui sont des cellules dendritiques), qui le présentent aux lymphocytes T naïfs (C est vraie). Les lymphocytes T naïfs n'internalisent pas directement l'haptène (B est fausse). La phase de sensibilisation dure environ 10 à 15 jours après la première exposition ; une fois sensibilisée, une nouvelle exposition peut déclencher une réaction en 24-48h, donc 'plusieurs semaines' n'est pas nécessaire pour la sensibilisation initiale ni pour l'apparition après resensibilisation (D est fausse). L'exposition initiale (initiation) à l'allergène est indispensable pour la sensibilisation et le développement ultérieur de l'eczéma de contact (E est vraie).",
+      "difficulty": 3,
+      "rang": "A",
+      "concepts": [
+        "Eczéma allergique de contact",
+        "Hypersensibilité retardée",
+        "Cellules dendritiques",
+        "Haptène"
+      ]
+    },
+    {
+      "type": "qrm",
+      "question": "Concernant les systèmes de réparation de l’ADN, laquelle (lesquelles) de ces propositions est (sont) exactes ?",
+      "vignette": null,
+      "options": [
+        {
+          "text": "A. ces systèmes de réparation sont physiologiques",
+          "is_correct": true
+        },
+        {
+          "text": "B. la réparation peut se faire par excision du dommage induits sur l'ADN",
+          "is_correct": true
+        },
+        {
+          "text": "C. lesdeux seuls systèmes de réparation se font par excision de base ou de nucléotides",
+          "is_correct": false
+        },
+        {
+          "text": "D. certaines maladies génétiques sont dues à des défauts de ces systèmes de réparation",
+          "is_correct": true
+        },
+        {
+          "text": "E. les écrans solaires diminuent les dommages induits sur l'ADN",
+          "is_correct": true
+        }
+      ],
+      "answer": "A, B, D, E",
+      "explanation": "Le cours 'Physiologie Cutanée : Effets des UV' mentionne que 'les systèmes de réparation ADN sont mis en place', indiquant qu'ils sont physiologiques et essentiels pour lutter contre les dommages, notamment ceux des UV (A est vraie). La réparation par excision de base (BER) et par excision de nucléotides (NER) sont des mécanismes majeurs de réparation de l'ADN (B est vraie). Cependant, ce ne sont pas les 'deux seuls' systèmes ; d'autres existent comme la réparation des mésappariements, la recombinaison homologue, et la jonction non-homologue des extrémités (C est fausse). Des maladies génétiques comme le Xeroderma Pigmentosum sont dues à des défauts de ces systèmes de réparation (D est vraie). Les écrans solaires agissent en filtrant les UV, ce qui réduit la quantité de rayonnement atteignant l'ADN et donc diminue les dommages (E est vraie).",
+      "difficulty": 2,
+      "rang": "A",
+      "concepts": [
+        "Réparation de l'ADN",
+        "Effets des UV",
+        "Carcinogénèse cutanée",
+        "Écrans solaires"
+      ]
+    }
+  ]
+}

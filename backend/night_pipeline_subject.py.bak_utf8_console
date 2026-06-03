@@ -1,0 +1,314 @@
+# -*- coding: utf-8 -*-
+
+# UTF-8 console fix for Windows
+import sys
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
+import argparse
+import json
+import shutil
+import subprocess
+import sys
+import time
+from datetime import datetime
+from pathlib import Path
+
+
+LOG_DIR = Path("night_logs")
+LOG_DIR.mkdir(exist_ok=True)
+
+LOG_FILE = LOG_DIR / f"night_pipeline_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+
+
+def log(msg=""):
+    text = str(msg)
+    print(text, flush=True)
+    with LOG_FILE.open("a", encoding="utf-8") as f:
+        f.write(text + "\n")
+
+
+def run_cmd(cmd, retries=999, sleep_on_fail=300):
+    # Force l'affichage immédiat des logs des sous-scripts Python
+    if cmd and cmd[0].lower().endswith(("python.exe", "python")) and "-u" not in cmd:
+        cmd = [cmd[0], "-u"] + cmd[1:]
+
+    attempt = 0
+
+    while True:
+        attempt += 1
+        log("\n" + "=" * 100)
+        log("CMD : " + " ".join(cmd))
+        log("=" * 100)
+
+        process = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace"
+        )
+
+        for line in process.stdout:
+            line = line.rstrip()
+            log(line)
+
+        code = process.wait()
+
+        if code == 0:
+            log("OK")
+            return True
+
+        log(f"ERREUR code {code} | tentative {attempt}/{retries}")
+
+        if attempt >= retries:
+            raise RuntimeError("Commande échouée définitivement : " + " ".join(cmd))
+
+        log(f"Pause {sleep_on_fail} secondes puis reprise...")
+        time.sleep(sleep_on_fail)
+
+
+def backup_file(path):
+    p = Path(path)
+    if not p.exists():
+        return
+
+    backup_dir = Path("night_backups")
+    backup_dir.mkdir(exist_ok=True)
+
+    dest = backup_dir / f"{p.name}.{datetime.now().strftime('%Y%m%d_%H%M%S')}.bak"
+    shutil.move(str(p), str(dest))
+    log(f"Backup : {p} -> {dest}")
+
+
+def read_coverage():
+    p = Path("fact_coverage_report.json")
+    if not p.exists():
+        return None
+
+    data = json.loads(p.read_text(encoding="utf-8"))
+
+    total_uncovered = sum(int(c.get("uncovered", 0)) for c in data)
+    total_under = sum(int(c.get("under_target", 0)) for c in data)
+    total_facts = sum(int(c.get("fact_count", 0)) for c in data)
+    total_questions = sum(int(c.get("question_count", 0)) for c in data)
+
+    worst = sorted(
+        data,
+        key=lambda c: (int(c.get("uncovered", 0)), int(c.get("under_target", 0))),
+        reverse=True
+    )[:10]
+
+    return {
+        "data": data,
+        "total_uncovered": total_uncovered,
+        "total_under": total_under,
+        "total_facts": total_facts,
+        "total_questions": total_questions,
+        "worst": worst
+    }
+
+
+def print_coverage_summary(title):
+    cov = read_coverage()
+
+    if not cov:
+        log("Aucun rapport de couverture trouvé.")
+        return None
+
+    log("\n" + "#" * 100)
+    log(title)
+    log("#" * 100)
+    log(f"Faits totaux : {cov['total_facts']}")
+    log(f"Questions : {cov['total_questions']}")
+    log(f"Non couverts : {cov['total_uncovered']}")
+    log(f"Sous-cible : {cov['total_under']}")
+    log("")
+
+    for c in cov["worst"]:
+        log(
+            f"{int(c.get('uncovered', 0)):3} non couverts | "
+            f"{int(c.get('under_target', 0)):3} sous-cible | "
+            f"{int(c.get('fact_count', 0)):3} faits | "
+            f"{int(c.get('question_count', 0)):3} questions | "
+            f"{c.get('course_title')}"
+        )
+
+    return cov
+
+
+def coverage_loop(args, label):
+    for round_id in range(1, args.max_rounds + 1):
+        log("\n" + "=" * 100)
+        log(f"{label} | ROUND {round_id}/{args.max_rounds}")
+        log("=" * 100)
+
+        run_cmd([
+            sys.executable, "fact_pipeline.py", "check",
+            "--only-subject", args.subject
+        ])
+
+        cov = print_coverage_summary(f"COUVERTURE APRÈS CHECK — {label}")
+
+        if cov and cov["total_uncovered"] == 0:
+            log("Couverture OK : 0 fait non couvert.")
+            return True
+
+        log("Il reste des faits non couverts -> génération ciblée.")
+
+        run_cmd([
+            sys.executable, "fact_pipeline.py", "generate",
+            "--limit-calls", str(args.generate_limit_calls),
+            "--batch", str(args.generate_batch),
+            "--delay", str(args.generate_delay),
+            "--model", args.model
+        ])
+
+    run_cmd([
+        sys.executable, "fact_pipeline.py", "check",
+        "--only-subject", args.subject
+    ])
+
+    cov = print_coverage_summary("COUVERTURE FINALE APRÈS MAX ROUNDS")
+
+    if cov and cov["total_uncovered"] == 0:
+        return True
+
+    log("ATTENTION : il reste des faits non couverts après les rounds.")
+    return False
+
+
+def main():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--subject", default="Revêtement cutané")
+    parser.add_argument("--model", default="gemini-3.1-flash-lite")
+
+    parser.add_argument("--force-build", action="store_true")
+    parser.add_argument("--build-delay", type=int, default=30)
+
+    parser.add_argument("--generate-limit-calls", type=int, default=100)
+    parser.add_argument("--generate-batch", type=int, default=3)
+    parser.add_argument("--generate-delay", type=int, default=20)
+    parser.add_argument("--max-rounds", type=int, default=10)
+
+    parser.add_argument("--skip-audit", action="store_true")
+    parser.add_argument("--audit-batch-size", type=int, default=30)
+    parser.add_argument("--audit-delay", type=int, default=15)
+    parser.add_argument("--unsupported-threshold", type=float, default=0.85)
+
+    parser.add_argument("--qroc-max-words", type=int, default=2)
+    parser.add_argument("--dedupe-threshold", type=float, default=0.88)
+
+    args = parser.parse_args()
+
+    log("PIPELINE DE NUIT")
+    log(f"Subject : {args.subject}")
+    log(f"Model : {args.model}")
+    log(f"Log : {LOG_FILE}")
+
+    # 1. Build facts
+    build_cmd = [
+        sys.executable, "fact_pipeline.py", "build",
+        "--only-subject", args.subject,
+        "--delay", str(args.build_delay),
+        "--model", args.model
+    ]
+
+    if args.force_build:
+        build_cmd.append("--force")
+
+    run_cmd(build_cmd)
+
+    # 2. Couverture initiale jusqu'à 0 non couvert
+    coverage_loop(args, "COUVERTURE INITIALE")
+
+    # 3. Audit preuve dans le cours
+    if not args.skip_audit:
+        log("\n" + "=" * 100)
+        log("AUDIT : réponses justifiées par les cours")
+        log("=" * 100)
+
+        # On évite de réutiliser un vieux rapport d'une autre matière.
+        backup_file("course_evidence_audit_results.json")
+        backup_file("course_evidence_audit_report.md")
+
+        run_cmd([
+            sys.executable, "audit_course_evidence.py",
+            "--only-subject", args.subject,
+            "--batch-size", str(args.audit_batch_size),
+            "--delay", str(args.audit_delay),
+            "--model", args.model
+        ])
+
+        run_cmd([
+            sys.executable, "audit_course_evidence.py",
+            "--delete-unsupported",
+            "--threshold", str(args.unsupported_threshold),
+            "--apply"
+        ])
+
+    # 4. QROC longues
+    log("\n" + "=" * 100)
+    log("NETTOYAGE QROC LONGUES")
+    log("=" * 100)
+
+    run_cmd([
+        sys.executable, "clean_long_qroc.py",
+        "--only-subject", args.subject,
+        "--max-words", str(args.qroc_max_words),
+        "--apply"
+    ])
+
+    # 5. Doublons
+    log("\n" + "=" * 100)
+    log("NETTOYAGE DOUBLONS")
+    log("=" * 100)
+
+    run_cmd([
+        sys.executable, "dedupe_questions.py",
+        "--only-subject", args.subject,
+        "--threshold", str(args.dedupe_threshold),
+        "--apply"
+    ])
+
+    # 6. Recheck final après nettoyage
+    coverage_loop(args, "APRÈS NETTOYAGE")
+
+    # 7. Nettoyage final léger après éventuelle régénération
+    log("\n" + "=" * 100)
+    log("NETTOYAGE FINAL LÉGER")
+    log("=" * 100)
+
+    run_cmd([
+        sys.executable, "clean_long_qroc.py",
+        "--only-subject", args.subject,
+        "--max-words", str(args.qroc_max_words),
+        "--apply"
+    ])
+
+    run_cmd([
+        sys.executable, "dedupe_questions.py",
+        "--only-subject", args.subject,
+        "--threshold", str(args.dedupe_threshold),
+        "--apply"
+    ])
+
+    run_cmd([
+        sys.executable, "fact_pipeline.py", "check",
+        "--only-subject", args.subject
+    ])
+
+    print_coverage_summary("BILAN FINAL")
+
+    log("\nTERMINE.")
+    log(f"Rapport couverture : fact_coverage_report.md")
+    log(f"Log complet : {LOG_FILE}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,8 @@
+PIPELINE DE NUIT
+Subject : Revêtement cutané
+Model : gemini-3.1-flash-lite
+Log : night_logs\night_pipeline_20260517_223728.log
+
+====================================================================================================
+CMD : C:\Program Files\Python313\python.exe fact_pipeline.py build --only-subject Revêtement cutané --delay 30 --model gemini-3.1-flash-lite --force
+====================================================================================================

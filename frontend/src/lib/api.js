@@ -49,6 +49,7 @@ export const subjectsApi = {
 
 // Courses API
 export const coursesApi = {
+  getById: (id) => api.get(`/api/courses/${id}`),
   getAll: (params) => api.get(`/api/courses`, { params }),
   get: (id) => api.get(`/api/courses/${id}`),
   create: (data) => api.post(`/api/courses`, data),
@@ -66,6 +67,7 @@ export const coursesApi = {
 
 // Questions API
 export const questionsApi = {
+  delete: (id) => api.delete(`/api/questions/${id}`),
   getAll: (params) => api.get(`/api/questions`, { params }),
   byStatus: (status, params) => api.get(`/api/questions/by-status`, { params: { status, ...params } }),
   due: (params) => api.get(`/api/questions/due`, { params }),
@@ -137,4 +139,21 @@ export const authApi = {
   logout: () => api.post(`/api/auth/logout`),
   me: () => api.get(`/api/auth/me`),
   refresh: () => api.post(`/api/auth/refresh`)
+};
+
+export const examsApi = {
+  getAll: () => api.get('/api/exams'),
+  create: (data) => api.post('/api/exams', data),
+  delete: (id) => api.delete(`/api/exams/${id}`),
+  getPlanning: (id) => api.get(`/api/exams/${id}/planning`),
+};
+
+export const planningApi = {
+  getGlobal: (data) => api.post('/api/planning/global', data),
+};
+
+
+
+export const annalesApi = {
+  getAll: (params = {}) => api.get('/api/annales', { params }),
 };

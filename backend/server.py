@@ -4,6 +4,7 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
+from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, APIRouter, HTTPException, Request, UploadFile, File, Depends, BackgroundTasks
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse, FileResponse
@@ -17,7 +18,7 @@ import jwt
 import secrets
 import json
 import re
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone, timedelta, date
 from typing import List, Optional, Any
 from pydantic import BaseModel, Field, ConfigDict, EmailStr
 from contextlib import asynccontextmanager
@@ -67,9 +68,50 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger(__name__)
 
 # AI Integration
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+# Intégration Gemini locale : remplace l'intégration Emergent.
+class UserMessage:
+    def __init__(self, text: str):
+        self.text = text
 
-EMERGENT_KEY = os.environ.get("EMERGENT_LLM_KEY", "")
+class LlmChat:
+    def __init__(self, api_key: str = "", session_id: str = "", system_message: str = ""):
+        self.api_key = api_key
+        self.session_id = session_id
+        self.system_message = system_message
+
+    def with_model(self, provider: str, model: str):
+        return self
+
+    async def send_message(self, message: UserMessage) -> str:
+        import asyncio
+        from google import genai
+
+        api_key = os.environ.get("GEMINI_API_KEY")
+        model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+
+        if not api_key:
+            logger.error("GEMINI_API_KEY manquante dans backend/.env")
+            return "[]"
+
+        prompt = self.system_message + "\n\n" + message.text
+
+        def call_gemini():
+            client = genai.Client(api_key=api_key)
+            response = client.models.generate_content(
+                model=model,
+                contents=prompt
+            )
+            return response.text or ""
+
+        try:
+            return await asyncio.to_thread(call_gemini)
+        except Exception as e:
+            logger.error(f"Erreur Gemini API: {e}")
+            return "[]"
+
+EMERGENT_KEY = ""
+
+
 
 async def analyze_course_with_ai(content: str, subject_name: str) -> dict:
     """Analyze course content with GPT-5.2 to extract concepts and generate questions"""
@@ -293,12 +335,14 @@ class QuizStart(BaseModel):
     mode: str  # "subject", "course", "transversal", "errors", "random"
     subject_id: Optional[str] = None
     course_id: Optional[str] = None
+    annale_id: Optional[str] = None
     question_count: int = 10
     question_types: Optional[List[str]] = None
 
 class QuizAnswer(BaseModel):
     question_id: str
-    selected_options: List[int]
+    selected_options: List[int] = []
+    dp_answers: Optional[List[List[int]]] = None
     time_spent: int = 0
 
 class FlashcardReview(BaseModel):
@@ -770,6 +814,10 @@ async def process_course_ai(course_id: str, content: str, subject_name: str, use
                     "rang": q.get("rang", "A"),
                     "vignette": q.get("vignette", ""),
                     "sub_questions": q.get("sub_questions", []),
+
+                    "image_urls": q.get("image_urls", []),
+
+                    "original_question_number": q.get("original_question_number"),
                     "created_at": datetime.now(timezone.utc).isoformat()
                 })
             
@@ -842,7 +890,9 @@ async def upload_course(
     
     # Generate unique file ID and save original file
     file_id = str(uuid.uuid4())
-    file_path = f"/app/backend/uploads/{file_id}{file_ext}"
+    uploads_dir = Path(__file__).parent / "uploads"
+    uploads_dir.mkdir(exist_ok=True)
+    file_path = str(uploads_dir / f"{file_id}{file_ext}")
     
     with open(file_path, "wb") as f:
         f.write(file_bytes)
@@ -883,34 +933,45 @@ async def upload_course(
     }
 
 @api_router.get("/courses/{course_id}")
-async def get_course(course_id: str, user: dict = Depends(get_current_user)):
-    course = await db.courses.find_one({"_id": ObjectId(course_id), "user_id": user["id"]})
+async def get_course_by_id(course_id: str, user: dict = Depends(get_current_user)):
+    try:
+        oid = ObjectId(course_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="ID de cours invalide")
+
+    course = await db.courses.find_one({"_id": oid})
+
     if not course:
-        raise HTTPException(status_code=404, detail="Course not found")
-    
-    question_count = await db.questions.count_documents({"course_id": course_id, "user_id": user["id"]})
-    
-    return {
-        "id": str(course["_id"]),
-        "title": course["title"],
-        "subject_id": course["subject_id"],
-        "content": course["content"],
-        "tags": course.get("tags", []),
-        "chapter": course.get("chapter", ""),
-        "analysis": course.get("analysis", {}),
-        "cross_references": course.get("cross_references", []),
-        "original_file": (
-            {
-                "filename": course["original_file"].get("filename"),
-                "file_type": course["original_file"].get("file_type"),
-                "file_ext": course["original_file"].get("file_ext"),
-            }
-            if course.get("original_file") else None
-        ),
-        "question_count": question_count,
-        "created_at": course.get("created_at", ""),
-        "updated_at": course.get("updated_at", "")
-    }
+        raise HTTPException(status_code=404, detail="Cours introuvable")
+
+    def safe_json(value):
+        if isinstance(value, ObjectId):
+            return str(value)
+        if isinstance(value, dict):
+            return {k: safe_json(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [safe_json(v) for v in value]
+        if hasattr(value, "isoformat"):
+            return value.isoformat()
+        return value
+
+    course = safe_json(course)
+
+    course["id"] = str(course.get("_id"))
+    course["_id"] = str(course.get("_id"))
+
+    if "content" not in course or course.get("content") is None:
+        course["content"] = ""
+
+    question_count = await db.questions.count_documents({
+        "course_id": str(course["id"])
+    })
+
+    course["question_count"] = question_count
+    course["questions_count"] = question_count
+    course["generated_questions_count"] = question_count
+
+    return course
 
 @api_router.put("/courses/{course_id}")
 async def update_course(course_id: str, data: CourseUpdate, background_tasks: BackgroundTasks, user: dict = Depends(get_current_user)):
@@ -996,7 +1057,8 @@ async def get_course_file(course_id: str, user: dict = Depends(get_current_user)
     return FileResponse(
         path=file_path,
         filename=original_file.get("filename", "document"),
-        media_type=media_type
+        media_type=media_type,
+        content_disposition_type="inline"
     )
 
 
@@ -1122,8 +1184,51 @@ async def get_questions(
         "concepts": q.get("concepts", []),
         "rang": q.get("rang", "A"),
         "vignette": q.get("vignette", ""),
-        "sub_questions": q.get("sub_questions", [])
+        "sub_questions": q.get("sub_questions", []),
+
+        "image_urls": q.get("image_urls", []),
+
+        "original_question_number": q.get("original_question_number")
     } for q in questions]
+
+
+
+@api_router.delete("/questions/{question_id}")
+async def delete_question(question_id: str, user: dict = Depends(get_current_user)):
+    try:
+        oid = ObjectId(question_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="ID de question invalide")
+
+    question = await db.questions.find_one({
+        "_id": oid,
+        "user_id": user["id"]
+    })
+
+    if not question:
+        raise HTTPException(status_code=404, detail="Question introuvable")
+
+    await db.questions.delete_one({
+        "_id": oid,
+        "user_id": user["id"]
+    })
+
+    # Nettoyage des traces liées à cette question
+    await db.question_progress.delete_many({
+        "user_id": user["id"],
+        "question_id": question_id
+    })
+
+    await db.quiz_answers.delete_many({
+        "user_id": user["id"],
+        "question_id": question_id
+    })
+
+    return {
+        "deleted": True,
+        "question_id": question_id
+    }
+
 
 # ==================== QUIZ ROUTES ====================
 
@@ -1135,6 +1240,9 @@ async def start_quiz(data: QuizStart, user: dict = Depends(get_current_user)):
         query["subject_id"] = data.subject_id
     elif data.mode == "course" and data.course_id:
         query["course_id"] = data.course_id
+    elif data.mode == "annale" and data.annale_id:
+        query["is_annale"] = True
+        query["annale_id"] = data.annale_id
     elif data.mode == "errors":
         # Get questions user got wrong
         wrong_questions = await db.quiz_answers.find({
@@ -1168,7 +1276,7 @@ async def start_quiz(data: QuizStart, user: dict = Depends(get_current_user)):
         answered_ids = await db.question_progress.find({"user_id": user["id"]}).distinct("question_id")
         query["_id"] = {"$nin": [ObjectId(qid) for qid in answered_ids]}
     
-    if data.question_types:
+    if data.question_types and data.mode != "annale":
         query["type"] = {"$in": data.question_types}
     
     # Get random questions
@@ -1188,6 +1296,7 @@ async def start_quiz(data: QuizStart, user: dict = Depends(get_current_user)):
         "mode": data.mode,
         "subject_id": data.subject_id,
         "course_id": data.course_id,
+        "annale_id": data.annale_id,
         "question_ids": [str(q["_id"]) for q in questions],
         "answers": [],
         "score": 0,
@@ -1207,6 +1316,10 @@ async def start_quiz(data: QuizStart, user: dict = Depends(get_current_user)):
             "options": q.get("options", []),
             "vignette": q.get("vignette", ""),
             "sub_questions": q.get("sub_questions", []),
+
+            "image_urls": q.get("image_urls", []),
+
+            "original_question_number": q.get("original_question_number"),
             "course_id": q.get("course_id", ""),
             "subject_id": q.get("subject_id", ""),
             "difficulty": q.get("difficulty", 2),
@@ -1225,6 +1338,78 @@ async def submit_answer(session_id: str, data: QuizAnswer, user: dict = Depends(
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
     
+    # Special correction for DP questions
+    if question.get("type") == "dp":
+        sub_questions = question.get("sub_questions", [])
+        dp_answers = data.dp_answers or []
+        dp_results = []
+        correct_count = 0
+
+        for i, sub_q in enumerate(sub_questions):
+            sub_options = sub_q.get("options", [])
+            sub_correct_indices = [
+                idx for idx, opt in enumerate(sub_options)
+                if opt.get("is_correct", False)
+            ]
+
+            selected = dp_answers[i] if i < len(dp_answers) else []
+            sub_is_correct = sorted(selected) == sorted(sub_correct_indices)
+
+            if sub_is_correct:
+                correct_count += 1
+
+            dp_results.append({
+                "index": i,
+                "question": sub_q.get("question", ""),
+                "selected_options": selected,
+                "correct_options": sub_correct_indices,
+                "is_correct": sub_is_correct,
+                "explanation": sub_q.get("explanation", ""),
+                "answer": sub_q.get("answer", "")
+            })
+
+        is_correct = bool(sub_questions) and correct_count == len(sub_questions)
+
+        answer_doc = {
+            "user_id": user["id"],
+            "session_id": session_id,
+            "question_id": data.question_id,
+            "selected_options": [],
+            "dp_answers": dp_answers,
+            "dp_results": dp_results,
+            "is_correct": is_correct,
+            "dp_score": correct_count,
+            "dp_total": len(sub_questions),
+            "time_spent": data.time_spent,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+
+        await db.quiz_answers.insert_one(answer_doc)
+
+        await db.quiz_sessions.update_one(
+            {"_id": ObjectId(session_id)},
+            {
+                "$push": {"answers": answer_doc},
+                "$inc": {"score": 1 if is_correct else 0}
+            }
+        )
+
+        await update_question_progress(
+            data.question_id,
+            QuestionProgressUpdate(is_correct=is_correct, time_spent=data.time_spent),
+            user
+        )
+
+        return {
+            "is_dp": True,
+            "is_correct": is_correct,
+            "dp_score": correct_count,
+            "dp_total": len(sub_questions),
+            "dp_results": dp_results,
+            "explanation": question.get("explanation", ""),
+            "answer": question.get("answer", "")
+        }
+
     # Check answer
     correct_indices = []
     options = question.get("options", [])
@@ -1602,6 +1787,10 @@ async def get_due_questions(
             "difficulty": q.get("difficulty", 2),
             "vignette": q.get("vignette", ""),
             "sub_questions": q.get("sub_questions", []),
+
+            "image_urls": q.get("image_urls", []),
+
+            "original_question_number": q.get("original_question_number"),
             "status": p.get("status", "new"),
             "consecutive_correct": p.get("consecutive_correct", 0),
         })
@@ -1659,6 +1848,10 @@ def _serialize_question(q: dict, p: dict) -> dict:
         "difficulty": q.get("difficulty", 2),
         "vignette": q.get("vignette", ""),
         "sub_questions": q.get("sub_questions", []),
+
+        "image_urls": q.get("image_urls", []),
+
+        "original_question_number": q.get("original_question_number"),
         "status": p.get("status", "new"),
         "bookmarked": p.get("bookmarked", False),
         "snoozed_until": p.get("snoozed_until"),
@@ -1709,7 +1902,7 @@ async def start_exam(data: ExamStart, user: dict = Depends(get_current_user)):
     query = {"user_id": user["id"]}
     if data.subject_id:
         query["subject_id"] = data.subject_id
-    if data.question_types:
+    if data.question_types and data.mode != "annale":
         query["type"] = {"$in": data.question_types}
     
     pipeline = [
@@ -1749,6 +1942,10 @@ async def start_exam(data: ExamStart, user: dict = Depends(get_current_user)):
             "options": [{"text": o.get("text", "")} for o in q.get("options", [])],  # No is_correct exposed
             "vignette": q.get("vignette", ""),
             "sub_questions": q.get("sub_questions", []),
+
+            "image_urls": q.get("image_urls", []),
+
+            "original_question_number": q.get("original_question_number"),
             "difficulty": q.get("difficulty", 2),
         } for q in questions],
         "duration_minutes": data.duration_minutes,
@@ -2223,6 +2420,413 @@ async def root():
     return {"message": "MedRevision API", "version": "1.0.0"}
 
 # Include router
+
+
+# ==================== EXAMS / REVISION PLANNING ROUTES ====================
+
+class ExamCreate(BaseModel):
+    subject_id: str
+    title: Optional[str] = None
+    exam_date: str
+    daily_minutes: int = 90
+    notes: Optional[str] = ""
+
+
+def parse_exam_date(date_str: str):
+    try:
+        d = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+        if d.tzinfo is None:
+            d = d.replace(tzinfo=timezone.utc)
+        return d
+    except Exception:
+        raise HTTPException(status_code=400, detail="Date d'examen invalide")
+
+
+@api_router.get("/exams")
+async def get_exams(user: dict = Depends(get_current_user)):
+    exams = await db.exams.find({"user_id": user["id"]}).sort("exam_date", 1).to_list(100)
+    today = datetime.now(timezone.utc).date()
+    result = []
+
+    for e in exams:
+        subject = await db.subjects.find_one({"_id": ObjectId(e["subject_id"]), "user_id": user["id"]})
+        exam_date = parse_exam_date(e["exam_date"]).date()
+        days_left = max(0, (exam_date - today).days)
+
+        result.append({
+            "id": str(e["_id"]),
+            "title": e.get("title", ""),
+            "subject_id": e["subject_id"],
+            "subject_name": subject.get("name") if subject else "Matière inconnue",
+            "exam_date": e["exam_date"],
+            "daily_minutes": e.get("daily_minutes", 90),
+            "notes": e.get("notes", ""),
+            "days_left": days_left
+        })
+
+    return result
+
+
+@api_router.post("/exams")
+async def create_exam(data: ExamCreate, user: dict = Depends(get_current_user)):
+    subject = await db.subjects.find_one({"_id": ObjectId(data.subject_id), "user_id": user["id"]})
+    if not subject:
+        raise HTTPException(status_code=404, detail="Matière introuvable")
+
+    exam_date = parse_exam_date(data.exam_date)
+
+    exam_doc = {
+        "user_id": user["id"],
+        "subject_id": data.subject_id,
+        "title": data.title or f"Examen {subject.get('name', '')}",
+        "exam_date": exam_date.isoformat(),
+        "daily_minutes": data.daily_minutes,
+        "notes": data.notes or "",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(timezone.utc).isoformat()
+    }
+
+    res = await db.exams.insert_one(exam_doc)
+
+    exam_doc.pop("_id", None)
+
+    return {
+        "id": str(res.inserted_id),
+        **exam_doc,
+        "subject_name": subject.get("name", "Matière inconnue")
+    }
+
+
+@api_router.delete("/exams/{exam_id}")
+async def delete_exam(exam_id: str, user: dict = Depends(get_current_user)):
+    res = await db.exams.delete_one({"_id": ObjectId(exam_id), "user_id": user["id"]})
+    if res.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Examen introuvable")
+    return {"message": "Examen supprimé"}
+
+
+@api_router.get("/exams/{exam_id}/planning")
+async def get_exam_planning(exam_id: str, user: dict = Depends(get_current_user)):
+    exam = await db.exams.find_one({"_id": ObjectId(exam_id), "user_id": user["id"]})
+    if not exam:
+        raise HTTPException(status_code=404, detail="Examen introuvable")
+
+    subject = await db.subjects.find_one({"_id": ObjectId(exam["subject_id"]), "user_id": user["id"]})
+    if not subject:
+        raise HTTPException(status_code=404, detail="Matière introuvable")
+
+    courses = await db.courses.find({
+        "user_id": user["id"],
+        "subject_id": exam["subject_id"]
+    }).sort([("chapter", 1), ("title", 1)]).to_list(500)
+
+    today = datetime.now(timezone.utc).date()
+    exam_date = parse_exam_date(exam["exam_date"]).date()
+    days_left = (exam_date - today).days
+
+    if days_left <= 0:
+        raise HTTPException(status_code=400, detail="La date d'examen est déjà passée ou est aujourd'hui")
+
+    daily_minutes = max(30, int(exam.get("daily_minutes", 90)))
+    revision_days = [today + timedelta(days=i) for i in range(days_left)]
+
+    tasks = []
+
+    for c in courses:
+        course_id = str(c["_id"])
+        q_count = await db.questions.count_documents({
+            "user_id": user["id"],
+            "course_id": course_id
+        })
+
+        tasks.append({
+            "type": "review_course",
+            "label": "Relire / reprendre le cours",
+            "duration_minutes": 30,
+            "course_id": course_id,
+            "course_title": c.get("title", "Sans titre"),
+            "chapter": c.get("chapter", "Autres"),
+            "question_count": q_count
+        })
+
+        if q_count > 0:
+            tasks.append({
+                "type": "quiz",
+                "label": "Quiz ciblé",
+                "duration_minutes": 20,
+                "course_id": course_id,
+                "course_title": c.get("title", "Sans titre"),
+                "chapter": c.get("chapter", "Autres"),
+                "question_count": min(15, q_count)
+            })
+
+    tasks.append({
+        "type": "global_review",
+        "label": "Revoir les erreurs + notions faibles",
+        "duration_minutes": 45,
+        "course_id": None,
+        "course_title": "Révision globale",
+        "chapter": "Synthèse",
+        "question_count": 0
+    })
+
+    tasks.append({
+        "type": "mock_exam",
+        "label": "Session type examen",
+        "duration_minutes": 60,
+        "course_id": None,
+        "course_title": "Examen blanc",
+        "chapter": "Synthèse",
+        "question_count": 0
+    })
+
+    planning = {
+        d.isoformat(): {"date": d.isoformat(), "total_minutes": 0, "tasks": []}
+        for d in revision_days
+    }
+
+    day_index = 0
+
+    for task in tasks:
+        placed = False
+        attempts = 0
+
+        while not placed and attempts < len(revision_days):
+            d = revision_days[day_index % len(revision_days)]
+            key = d.isoformat()
+
+            if planning[key]["total_minutes"] + task["duration_minutes"] <= daily_minutes:
+                planning[key]["tasks"].append(task)
+                planning[key]["total_minutes"] += task["duration_minutes"]
+                placed = True
+
+            day_index += 1
+            attempts += 1
+
+        if not placed:
+            d = revision_days[day_index % len(revision_days)]
+            key = d.isoformat()
+            planning[key]["tasks"].append(task)
+            planning[key]["total_minutes"] += task["duration_minutes"]
+            day_index += 1
+
+    return {
+        "exam": {
+            "id": str(exam["_id"]),
+            "title": exam.get("title", ""),
+            "subject_id": exam["subject_id"],
+            "subject_name": subject.get("name", "Matière inconnue"),
+            "exam_date": exam["exam_date"],
+            "daily_minutes": daily_minutes,
+            "days_left": days_left
+        },
+        "summary": {
+            "course_count": len(courses),
+            "task_count": len(tasks),
+            "revision_days": len(revision_days)
+        },
+        "days": list(planning.values())
+    }
+
+
+
+
+# ==================== GLOBAL REVISION PLANNING ====================
+
+class GlobalPlanningRequest(BaseModel):
+    first_pass_end_date: str
+    days_per_subject: int = 2
+    daily_minutes: int = 90
+
+
+def parse_simple_date(date_str: str):
+    try:
+        return datetime.fromisoformat(date_str.replace("Z", "+00:00")).date()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Date invalide")
+
+
+@api_router.post("/planning/global")
+async def get_global_planning(data: GlobalPlanningRequest, user: dict = Depends(get_current_user)):
+    today = datetime.now(timezone.utc).date()
+    first_pass_end = parse_simple_date(data.first_pass_end_date)
+
+    if first_pass_end < today:
+        raise HTTPException(status_code=400, detail="La date de fin de relecture est déjà passée")
+
+    daily_minutes = max(30, int(data.daily_minutes or 90))
+    days_per_subject = max(1, int(data.days_per_subject or 2))
+
+    subjects = await db.subjects.find({"user_id": user["id"]}).sort("name", 1).to_list(100)
+    exams = await db.exams.find({"user_id": user["id"]}).to_list(100)
+
+    exam_by_subject = {}
+    exam_groups = {}
+
+    for e in exams:
+        d = parse_exam_date(e["exam_date"]).date()
+        sid = e["subject_id"]
+        exam_by_subject[sid] = d
+        exam_groups.setdefault(d.isoformat(), []).append(sid)
+
+    # Priorité : matières avec examen proche d'abord, puis les autres
+    subjects.sort(key=lambda sub: (
+        exam_by_subject.get(str(sub["_id"]), date.max),
+        sub.get("name", "")
+    ))
+
+    planning = {}
+
+    def ensure_day(d, phase):
+        key = d.isoformat()
+        if key not in planning:
+            planning[key] = {
+                "date": key,
+                "phase": phase,
+                "total_minutes": 0,
+                "tasks": []
+            }
+        return planning[key]
+
+    # Phase 1 : relecture générale, 2 jours par matière
+    current_day = today
+
+    for subject in subjects:
+        subject_id = str(subject["_id"])
+        subject_name = subject.get("name", "Matière")
+
+        courses = await db.courses.find({
+            "user_id": user["id"],
+            "subject_id": subject_id
+        }).sort([("chapter", 1), ("title", 1)]).to_list(500)
+
+        subject_days = [current_day + timedelta(days=i) for i in range(days_per_subject)]
+
+        for i, d in enumerate(subject_days):
+            if d > first_pass_end:
+                break
+
+            day = ensure_day(d, "Première relecture")
+            day["tasks"].append({
+                "type": "subject_review",
+                "label": f"Relecture {i + 1}/{days_per_subject}",
+                "subject_id": subject_id,
+                "subject_name": subject_name,
+                "course_title": subject_name,
+                "duration_minutes": daily_minutes,
+                "details": f"Reprendre les cours de {subject_name}, faire les quiz ciblés si disponibles."
+            })
+            day["total_minutes"] += daily_minutes
+
+        current_day = current_day + timedelta(days=days_per_subject)
+
+    # Phase 2 : révisions finales avant les examens
+    if exam_groups:
+        exam_dates = sorted([datetime.fromisoformat(d).date() for d in exam_groups.keys()])
+        first_exam_date = exam_dates[0]
+
+        final_days = []
+        d = first_pass_end + timedelta(days=1)
+        while d < first_exam_date:
+            final_days.append(d)
+            d += timedelta(days=1)
+
+        # Exemple attendu :
+        # examens du 28 -> 27
+        # examens du 29 -> 25-26
+        end = len(final_days)
+
+        for idx, exam_date in enumerate(exam_dates):
+            needed_days = 1 if idx == 0 else 2
+            start = max(0, end - needed_days)
+            allocated_days = final_days[start:end]
+            end = start
+
+            subject_ids = exam_groups.get(exam_date.isoformat(), [])
+
+            for d in allocated_days:
+                day = ensure_day(d, "Révision finale")
+                for sid in subject_ids:
+                    subject = next((s for s in subjects if str(s["_id"]) == sid), None)
+                    subject_name = subject.get("name", "Matière") if subject else "Matière"
+
+                    day["tasks"].append({
+                        "type": "final_review",
+                        "label": f"Révision examen du {exam_date.strftime('%d/%m')}",
+                        "subject_id": sid,
+                        "subject_name": subject_name,
+                        "course_title": subject_name,
+                        "duration_minutes": max(30, daily_minutes // max(1, len(subject_ids))),
+                        "details": "Revoir erreurs, fiches, notions faibles, puis faire un quiz transversal."
+                    })
+                    day["total_minutes"] += max(30, daily_minutes // max(1, len(subject_ids)))
+
+        # Jours d'examen
+        for exam_date in exam_dates:
+            day = ensure_day(exam_date, "Jour d'examen")
+            for sid in exam_groups.get(exam_date.isoformat(), []):
+                subject = next((s for s in subjects if str(s["_id"]) == sid), None)
+                subject_name = subject.get("name", "Matière") if subject else "Matière"
+
+                day["tasks"].append({
+                    "type": "exam_day",
+                    "label": "Examen",
+                    "subject_id": sid,
+                    "subject_name": subject_name,
+                    "course_title": subject_name,
+                    "duration_minutes": 0,
+                    "details": "Relire uniquement les points faibles, pas de grosse charge."
+                })
+
+    days = [planning[k] for k in sorted(planning.keys())]
+
+    return {
+        "settings": {
+            "first_pass_end_date": first_pass_end.isoformat(),
+            "days_per_subject": days_per_subject,
+            "daily_minutes": daily_minutes,
+        },
+        "summary": {
+            "subject_count": len(subjects),
+            "exam_count": len(exams),
+            "days_count": len(days)
+        },
+        "days": days
+    }
+
+
+
+
+@api_router.get("/annales")
+async def get_annales(subject_id: str = None, user: dict = Depends(get_current_user)):
+    match = {
+        "user_id": user["id"],
+        "is_annale": True
+    }
+
+    if subject_id:
+        match["subject_id"] = subject_id
+
+    pipeline = [
+        {"$match": match},
+        {"$group": {
+            "_id": "$annale_id",
+            "annale_id": {"$first": "$annale_id"},
+            "title": {"$first": "$annale_title"},
+            "year": {"$first": "$annale_year"},
+            "subject_id": {"$first": "$subject_id"},
+            "question_count": {"$sum": 1}
+        }},
+        {"$sort": {"year": -1, "title": 1}}
+    ]
+
+    annales = await db.questions.aggregate(pipeline).to_list(500)
+
+    return annales
+
+
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+
 app.include_router(api_router)
 
 # CORS - Must specify origins explicitly when using credentials

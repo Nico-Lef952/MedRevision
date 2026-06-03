@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)file:///C:/Users/nlefe/Downloads/ECG_cours_complet_illustre.html -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECG — Cours Complet Illustré</title>
+<link href="./ECG — Cours Complet Illustré_files/css2" rel="stylesheet">
+<style>
+:root{--navy:#0f2744;--blue:#1a4b8c;--blue-mid:#2563b0;--blue-light:#3b82d4;--blue-pale:#dbeafe;--blue-ultra:#eff6ff;--red:#c0392b;--red-pale:#fef2f2;--orange:#d97706;--orange-pale:#fffbeb;--green:#166534;--green-pale:#f0fdf4;--green-mid:#16a34a;--purple:#6d28d9;--purple-pale:#f5f3ff;--gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;--gray-400:#94a3b8;--gray-600:#475569;--gray-700:#334155;--gray-800:#1e293b;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:var(--gray-50);color:var(--gray-800);line-height:1.7;font-size:15px}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 55%,var(--blue-mid) 100%);padding:52px 44px 44px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:350px;height:350px;border-radius:50%;background:rgba(255,255,255,0.03)}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.12);color:#93c5fd;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:16px}
+.hero h1{font-family:'DM Serif Display',serif;font-size:50px;color:white;line-height:1.1;margin-bottom:8px}
+.hero h1 em{color:#60a5fa;font-style:normal}
+.hero-sub{color:#93c5fd;font-size:15px;font-weight:300;margin-bottom:22px;max-width:600px}
+.hero-pills{display:flex;gap:10px;flex-wrap:wrap}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:7px 14px;color:white;font-size:12px;font-weight:500}
+.pill b{color:#60a5fa}
+.toc{background:var(--navy);position:sticky;top:0;z-index:100;border-bottom:2px solid var(--blue-mid)}
+.toc-inner{max-width:1100px;margin:0 auto;display:flex;overflow-x:auto;gap:0}
+.toc-link{color:#93c5fd;font-size:11.5px;font-weight:600;padding:11px 15px;text-decoration:none;white-space:nowrap;border-right:1px solid rgba(255,255,255,.08);transition:background .15s}
+.toc-link:hover,.toc-link:focus{background:rgba(255,255,255,.1);color:white}
+.container{max-width:1100px;margin:0 auto;padding:44px 24px}
+.sec-head{display:flex;align-items:center;gap:14px;margin:60px 0 22px;padding-bottom:12px;border-bottom:3px solid var(--blue-mid)}
+.sec-icon{width:46px;height:46px;border-radius:12px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
+.sec-head h2{font-family:'DM Serif Display',serif;font-size:27px;color:var(--navy)}
+.sec-tag{margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-mid);background:var(--blue-pale);padding:4px 10px;border-radius:6px;white-space:nowrap}
+.subsec{margin:32px 0 12px;font-family:'DM Serif Display',serif;font-size:20px;color:var(--blue);display:flex;align-items:center;gap:9px}
+.subsec::before{content:'';display:inline-block;width:4px;height:20px;background:var(--blue-light);border-radius:2px;flex-shrink:0}
+.subsubsec{margin:18px 0 8px;font-size:15px;font-weight:700;color:var(--navy);padding-left:12px;border-left:3px solid var(--blue-pale)}
+p{margin:8px 0;font-size:14.5px;line-height:1.7;color:var(--gray-800)}
+ul,ol{padding-left:22px;margin:8px 0}
+li{margin:5px 0;font-size:14.5px;line-height:1.6}
+strong{color:var(--navy)}
+code{font-family:'DM Mono',monospace;background:var(--gray-100);padding:2px 6px;border-radius:4px;font-size:12.5px;color:var(--blue)}
+.callout{border-radius:10px;padding:14px 18px;margin:12px 0;display:flex;gap:12px;align-items:flex-start;line-height:1.6}
+.ci{font-size:18px;flex-shrink:0;margin-top:2px}
+.callout p,.callout li{font-size:14px}
+.callout.info{background:var(--blue-ultra);border-left:4px solid var(--blue-light);color:#1e3a6e}
+.callout.warn{background:var(--orange-pale);border-left:4px solid var(--orange);color:#78350f}
+.callout.danger{background:var(--red-pale);border-left:4px solid var(--red);color:#7f1d1d}
+.callout.ok{background:var(--green-pale);border-left:4px solid var(--green-mid);color:#14532d}
+.callout.purple{background:var(--purple-pale);border-left:4px solid var(--purple);color:#3b0764}
+.ecg-wrap{background:#fff9f0;border:1px solid #e2c87c;border-radius:12px;padding:15px 18px;margin:14px 0}
+.ecg-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-600);margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ecg-badge{padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.06em}
+.eb-n{background:#16a34a;color:white}.eb-p{background:#c0392b;color:white}.eb-i{background:#2563b0;color:white}.eb-w{background:#d97706;color:white}
+.ecg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:12px;margin:12px 0}
+.ecg-box{background:#fff9f0;border:1px solid #e2c87c;border-radius:10px;padding:11px 13px}
+svg.ecg{display:block;width:100%}
+.tw{overflow-x:auto;margin:14px 0;border-radius:12px;box-shadow:0 1px 8px rgba(0,0,0,.07)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+thead th{background:var(--navy);color:white;padding:10px 13px;text-align:left;font-weight:600;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase}
+thead th:first-child{border-radius:12px 0 0 0}thead th:last-child{border-radius:0 12px 0 0}
+tbody tr:nth-child(even){background:var(--gray-50)}tbody tr:hover{background:var(--blue-ultra)}
+td{padding:9px 13px;border-bottom:1px solid var(--gray-200);vertical-align:top;line-height:1.55;font-size:13.5px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:12px 0}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:12px 0}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:12px 0}
+@media(max-width:700px){.g2,.g3,.g4{grid-template-columns:1fr}.ecg-grid{grid-template-columns:1fr}.riskgrid{grid-template-columns:1fr 1fr}}
+.card{background:white;border:1px solid var(--gray-200);border-radius:11px;padding:17px;box-shadow:0 1px 5px rgba(0,0,0,.05)}
+.card h4{font-family:'DM Serif Display',serif;font-size:16px;color:var(--navy);margin-bottom:9px}
+.card p,.card li{font-size:13.5px;line-height:1.6}.card ul{padding-left:16px}.card li{margin:4px 0}
+.mnem{background:linear-gradient(135deg,#fef3c7,#fffbeb);border:2px solid #f59e0b;border-radius:12px;padding:17px 21px;margin:14px 0}
+.mnem h4{color:#78350f;font-weight:700;margin-bottom:10px;font-size:15px}
+.mnem-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;align-items:flex-start}
+.ml{text-align:center;min-width:75px}.ml .L{font-family:'DM Serif Display',serif;font-size:42px;color:#d97706;line-height:1;display:block}
+.ml .M{font-size:11px;font-weight:600;color:#78350f;display:block;margin-top:4px;max-width:95px}
+.keybox{background:linear-gradient(135deg,var(--navy),#1e3a6e);border-radius:14px;padding:24px 28px;margin:20px 0;color:white}
+.keybox h3{font-family:'DM Serif Display',serif;font-size:20px;color:#93c5fd;margin-bottom:14px}
+.kitem{display:flex;gap:10px;margin:7px 0;font-size:13.5px;line-height:1.6}
+.kitem::before{content:'▸';color:#60a5fa;flex-shrink:0;margin-top:2px}
+.kitem strong{color:#93c5fd}
+.riskgrid{display:grid;grid-template-columns:repeat(4,1fr);border-radius:12px;overflow:hidden;border:2px solid var(--navy);margin:20px 0}
+.rcol .rl{padding:12px;text-align:center;font-family:'DM Serif Display',serif;font-size:40px;color:white;line-height:1}
+.rcol .rt{padding:6px 11px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:white;text-align:center}
+.rcol .ri{background:white;padding:11px 13px}
+.rcol .ri li{font-size:11.5px;line-height:1.5;margin:4px 0;padding-left:10px;position:relative;color:var(--gray-700)}
+.rcol .ri li::before{content:'·';position:absolute;left:2px;color:var(--gray-400)}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;margin:1px}
+.tr{background:var(--red-pale);color:var(--red)}.tg{background:var(--green-pale);color:var(--green)}
+.tb{background:var(--blue-pale);color:var(--blue)}.to{background:var(--orange-pale);color:var(--orange)}
+.tp{background:var(--purple-pale);color:var(--purple)}
+hr{border:none;border-top:1px solid var(--gray-200);margin:26px 0}
+.footer{text-align:center;padding:40px;color:var(--gray-400);font-size:12px;border-top:1px solid var(--gray-200);margin-top:60px}
+.svg-defs{position:absolute;width:0;height:0;overflow:hidden}
+/* Patho card */
+.pccard{border-radius:11px;overflow:hidden;margin:10px 0;box-shadow:0 2px 7px rgba(0,0,0,.07)}
+.pchead{padding:11px 16px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:9px}
+.pcbody{background:white;padding:14px 16px;font-size:13.5px}
+.pcbody ul{padding-left:18px}.pcbody li{margin:5px 0;line-height:1.5}
+/* Highlight */
+.hl-box{border-radius:11px;padding:18px 22px;margin:14px 0}
+</style>
+</head>
+<body>
+
+<svg class="svg-defs" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="sg" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0L0 0 0 10" fill="none" stroke="#e8c9a0" stroke-width=".5"></path></pattern>
+    <pattern id="bg" width="50" height="50" patternUnits="userSpaceOnUse"><rect width="50" height="50" fill="url(#sg)"></rect><path d="M50 0L0 0 0 50" fill="none" stroke="#d4a97a" stroke-width="1"></path></pattern>
+    <marker id="arr" markerWidth="7" markerHeight="5" refX="5" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#94a3b8"></polygon></marker>
+    <marker id="arrB" markerWidth="7" markerHeight="5" refX="5" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#2563b0"></polygon></marker>
+    <marker id="arrR" markerWidth="7" markerHeight="5" refX="5" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#c0392b"></polygon></marker>
+    <marker id="arrG" markerWidth="7" markerHeight="5" refX="5" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#16a34a"></polygon></marker>
+  </defs>
+</svg>
+
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Médecine · 2ème année · Cardiologie</div>
+  <h1>L'<em>ECG</em> — Cours complet illustré</h1>
+  <p class="hero-sub">Le script de la vidéo transformé en cours écrit exhaustif — chaque concept expliqué en détail avec un tracé ECG à l'appui.</p>
+  <div class="hero-pills">
+    <div class="pill"><b>①</b> VIP — Validité</div>
+    <div class="pill"><b>②</b> Général : régularité · sinusal · FC · axe</div>
+    <div class="pill"><b>③</b> Onde P · PR/BAV · QRS · ST · T</div>
+    <div class="pill"><b>④</b> RICK — ne rien rater</div>
+  </div>
+</div>
+
+<nav class="toc"><div class="toc-inner">
+  <a href="file:///C:/Users/nlefe/Downloads/ECG_cours_complet_illustre.html#bases" class="toc-link">⚡ Bases</a>
+  <a href="file:///C:/Users/nlefe/Downloads/ECG_cours_complet_illustre.html#deriv" class="toc-link">📡 12 dérivations</a>
+  <a href="file:///C:/Users/nlefe/Downloads/ECG_cours_complet_illustre.html#vip" class="toc-link">🎫 VIP</a>
+  <a href="file:///C:/Users/nlefe/Downloads/ECG_cours_complet_illustre.html#general" class="toc-link">🔭 Général</a>
+  <a href="file:///C:/Users/nlefe/Downloads/ECG_cours_complet_illustre.html#ondep" class="toc-link">🅿 Onde P</a>
+  <a href="file:///C:/Users/nlefe/Downloads/ECG_cours_complet_illustre.html#pr" class="toc-link">🔗 PR · BAV</a>
+  <a href="file:///C:/Users/nlefe/Downloads/ECG_cours_complet_illustre.html#qrs" class="toc-link">💓 QRS</a>
+  <a href="file:///C:/Users/nlefe/Downloads/ECG_cours_complet_illustre.html#st" class="toc-link">📈 Segment ST</a>
+  <a href="file:///C:/Users/nlefe/Downloads/ECG_cours_complet_illustre.html#ondet" class="toc-link">🌊 Onde T</a>
+  <a href="file:///C:/Users/nlefe/Downloads/ECG_cours_complet_illustre.html#rick" class="toc-link">🚨 RICK</a>
+  <a href="file:///C:/Users/nlefe/Downloads/ECG_cours_complet_illustre.html#pieges" class="toc-link">⚡ Pièges QCM</a>
+</div></nav>
+
+<div class="container">
+
+<!-- ════════════════════════════════ SECTION : BASES ════════════════════════════════ -->
+<div id="bases" class="sec-head"><div class="sec-icon">⚡</div><h2>Les bases — D'où viennent les ondes ECG ?</h2><span class="sec-tag">Fondamentaux</span></div>
+
+<p>La première fois qu'on voit un ECG, on se pose plusieurs questions : d'où viennent ces ondes et ces segments ? Pourquoi y a-t-il autant de tracés différents alors qu'on n'a qu'un seul cœur ? Et pourquoi le QRS et l'onde T sont-ils tous les deux positifs alors qu'ils représentent des phénomènes opposés (dépolarisation vs repolarisation) ? On va répondre à ces questions en premier pour pouvoir comprendre le reste.</p>
+
+<h3 class="subsec">Le cœur mécanique ↔ le cœur électrique</h3>
+<p>Le myocarde réalise une <strong>systole</strong> (contraction) et une <strong>diastole</strong> (relaxation) atriale, puis ventriculaire. Ces phénomènes mécaniques sont dus à des phénomènes électriques :</p>
+<ul>
+  <li>La <strong>dépolarisation</strong> → contraction → <strong>systole</strong></li>
+  <li>La <strong>repolarisation</strong> → relaxation → <strong>diastole</strong></li>
+</ul>
+<p>Théoriquement, on devrait enregistrer <strong>4 ondes</strong> : dépolarisation atriale, repolarisation atriale, dépolarisation ventriculaire, repolarisation ventriculaire. Mais en réalité, la <strong>repolarisation atriale coïncide avec la dépolarisation ventriculaire</strong> et est masquée par elle (les ventricules sont dominants) → on ne voit que <strong>3 événements</strong> sur l'ECG.</p>
+
+<h3 class="subsec">Dépolarisation et repolarisation cellulaire</h3>
+<p>Les cardiomyocytes au repos sont chargés <strong>négativement</strong>. Stimulés, ils deviennent <strong>positifs</strong> → <strong>dépolarisation</strong> → contraction. Pour retourner au repos, ils redeviennent négatifs → <strong>repolarisation</strong> → relaxation.</p>
+
+<h3 class="subsec">Le système électrique du cœur</h3>
+<p>La dépolarisation commence au <strong>nœud sinusal</strong> (pacemaker naturel). Elle se propage ensuite :</p>
+<ol>
+  <li>Aux <strong>atriums</strong> → onde P (P n'a pas de signification particulière — c'est juste la lettre choisie par celui qui a nommé les ondes)</li>
+  <li>Au <strong>nœud auriculo-ventriculaire (NAV)</strong> → ralentissement → segment PR isoélectrique</li>
+  <li>Aux branches du <strong>faisceau de His</strong> → dépolarisation simultanée des deux ventricules → QRS (l'aspect bifide du QRS rappelle les deux branches du faisceau de His)</li>
+  <li>Repolarisation ventriculaire → <strong>onde T</strong></li>
+</ol>
+<div class="callout info"><span class="ci">💡</span><div>Un blocage de conduction au niveau d'une des branches du faisceau de His = <strong>bloc de branche</strong>. La dépolarisation sera anormale et se manifeste sur le QRS (aspect élargi en M). On verra ça en détail plus loin.</div></div>
+
+<h3 class="subsec">Segments et intervalles</h3>
+<div class="g2">
+  <div class="card"><h4>📏 Segment PR</h4><p>Entre la <em>fin de l'onde P</em> et le <em>début du QRS</em>. Toutes les cellules atriales sont dépolarisées, plus aucune propagation dans les cardiomyocytes → <strong>isoélectrique</strong>. C'est la <strong>ligne de référence</strong> pour mesurer tout décalage du ST.</p></div>
+  <div class="card"><h4>📏 Segment ST</h4><p>Entre la <em>fin du QRS</em> et le <em>début de l'onde T</em>. Toutes les cellules ventriculaires sont dépolarisées, plus aucune propagation → <strong>isoélectrique</strong> en temps normal. Tout décalage est pathologique.</p></div>
+</div>
+<div class="callout warn"><span class="ci">⚠️</span><div><strong>Ne pas confondre !</strong> L'<em>intervalle PR</em> (du <em>début</em> de P au <em>début</em> du QRS, contient l'onde P) vs le <em>segment PR</em> (de la <em>fin</em> de P au début du QRS, isoélectrique). L'intervalle PR mesure le temps de conduction auriculo-ventriculaire → s'il est trop long = BAV.</div></div>
+
+<h3 class="subsec">Tracé ECG normal — Cycle complet annoté</h3>
+<div class="ecg-wrap">
+  <div class="ecg-label"><span class="ecg-badge eb-n">NORMAL</span> Un cycle ECG complet avec toutes les ondes, segments, intervalles et le Point J</div>
+  <svg viewBox="0 0 860 230" class="ecg" xmlns="http://www.w3.org/2000/svg">
+    <rect width="860" height="230" fill="#fff9f0"></rect><rect width="860" height="230" fill="url(#bg)"></rect>
+    <line x1="10" y1="125" x2="850" y2="125" stroke="#d4a97a" stroke-width=".8" stroke-dasharray="4,4"></line>
+    <path d="M40,125 Q55,125 62,117 Q73,100 83,100 Q93,100 100,110 Q106,119 110,125" fill="none" stroke="#1a4b8c" stroke-width="2.5" stroke-linecap="round"></path>
+    <line x1="110" y1="125" x2="170" y2="125" stroke="#1a4b8c" stroke-width="2.5"></line>
+    <polyline points="170,125 178,125 182,137 194,30 206,137 212,125 232,125" fill="none" stroke="#1a4b8c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <line x1="232" y1="125" x2="292" y2="125" stroke="#1a4b8c" stroke-width="2.5"></line>
+    <path d="M292,125 Q305,125 318,113 Q334,88 350,88 Q366,88 380,106 Q391,118 400,125" fill="none" stroke="#1a4b8c" stroke-width="2.5" stroke-linecap="round"></path>
+    <line x1="400" y1="125" x2="470" y2="125" stroke="#1a4b8c" stroke-width="2.5"></line>
+    <path d="M470,125 Q485,125 492,117 Q503,100 513,100 Q523,100 530,110 Q536,119 540,125" fill="none" stroke="#93c5fd" stroke-width="2"></path>
+    <line x1="540" y1="125" x2="600" y2="125" stroke="#93c5fd" stroke-width="2"></line>
+    <polyline points="600,125 608,125 612,137 624,30 636,137 642,125 662,125" fill="none" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <line x1="662" y1="125" x2="722" y2="125" stroke="#93c5fd" stroke-width="2"></line>
+    <path d="M722,125 Q735,125 748,113 Q764,88 780,88 Q796,88 810,106 Q820,118 830,125" fill="none" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"></path>
+    <text x="81" y="90" font-family="Outfit" font-size="16" font-weight="700" fill="#c0392b">P</text>
+    <text x="192" y="22" font-family="Outfit" font-size="16" font-weight="700" fill="#c0392b">R</text>
+    <text x="172" y="152" font-family="Outfit" font-size="13" font-weight="700" fill="#c0392b">Q</text>
+    <text x="210" y="152" font-family="Outfit" font-size="13" font-weight="700" fill="#c0392b">S</text>
+    <text x="348" y="78" font-family="Outfit" font-size="16" font-weight="700" fill="#c0392b">T</text>
+    <circle cx="232" cy="125" r="4" fill="#c0392b"></circle>
+    <line x1="232" y1="121" x2="256" y2="103" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="3,2"></line>
+    <text x="259" y="100" font-family="Outfit" font-size="11" fill="#c0392b">Point J</text>
+    <line x1="110" y1="168" x2="170" y2="168" stroke="#7c3aed" stroke-width="1.8"></line><line x1="110" y1="162" x2="110" y2="174" stroke="#7c3aed" stroke-width="1.8"></line><line x1="170" y1="162" x2="170" y2="174" stroke="#7c3aed" stroke-width="1.8"></line>
+    <text x="140" y="185" font-family="Outfit" font-size="11" font-weight="600" fill="#7c3aed" text-anchor="middle">Segment PR</text>
+    <line x1="40" y1="196" x2="170" y2="196" stroke="#0f766e" stroke-width="1.8"></line><line x1="40" y1="190" x2="40" y2="202" stroke="#0f766e" stroke-width="1.8"></line><line x1="170" y1="190" x2="170" y2="202" stroke="#0f766e" stroke-width="1.8"></line>
+    <text x="105" y="213" font-family="Outfit" font-size="10" font-weight="600" fill="#0f766e" text-anchor="middle">Intervalle PR (3–5 mm)</text>
+    <line x1="170" y1="168" x2="232" y2="168" stroke="#d97706" stroke-width="1.8"></line><line x1="170" y1="162" x2="170" y2="174" stroke="#d97706" stroke-width="1.8"></line><line x1="232" y1="162" x2="232" y2="174" stroke="#d97706" stroke-width="1.8"></line>
+    <text x="201" y="185" font-family="Outfit" font-size="11" font-weight="600" fill="#d97706" text-anchor="middle">QRS (&lt;3mm)</text>
+    <line x1="232" y1="168" x2="292" y2="168" stroke="#2563b0" stroke-width="1.8"></line><line x1="232" y1="162" x2="232" y2="174" stroke="#2563b0" stroke-width="1.8"></line><line x1="292" y1="162" x2="292" y2="174" stroke="#2563b0" stroke-width="1.8"></line>
+    <text x="262" y="185" font-family="Outfit" font-size="11" font-weight="600" fill="#2563b0" text-anchor="middle">Segment ST</text>
+    <path d="M194,14 Q409,8 624,14" fill="none" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="5,3"></path>
+    <text x="409" y="12" font-family="Outfit" font-size="10" font-weight="600" fill="#16a34a" text-anchor="middle">Intervalle RR → FC = 300 ÷ nb grands carreaux</text>
+  </svg>
+</div>
+
+<h3 class="subsec">Pourquoi QRS et T sont-ils positifs tous les deux ?</h3>
+<p>Le vecteur de dépolarisation est orienté <strong>vers le bas et la gauche</strong>. Comme il s'approche de la majorité des électrodes positives, la majorité des ondes ECG sont positives → P et QRS sont positifs.</p>
+<p>Mais l'onde T représente une <em>repolarisation</em> (charge négative). Pourquoi est-elle aussi positive ? Parce que la direction de la repolarisation est <strong>opposée</strong> à celle de la dépolarisation. On a inversé à la fois la charge ET la direction : <code>(−charge) × (−direction) = +positif</code>, comme <code>−1 × −1 = +1</code>.</p>
+<div class="callout ok"><span class="ci">✅</span><div><strong>Concordance QRS/T :</strong> QRS et onde T doivent toujours être dans la <strong>même direction</strong> (les deux positifs, ou les deux négatifs). On appelle ça la <strong>concordance</strong>. Si QRS positif et T négatif → <strong>discordance</strong> → anormal. Retenez bien cette notion, on en aura besoin pour l'onde T et le bloc de branche gauche.</div></div>
+
+</div><!-- /container -->
+<div class="container">
+
+<!-- ════════════════════════════════ SECTION : 12 DERIVATIONS ════════════════════════════════ -->
+<div id="deriv" class="sec-head"><div class="sec-icon">📡</div><h2>Les 12 dérivations</h2><span class="sec-tag">Placement · Territoires · Miroirs</span></div>
+
+<h3 class="subsec">Principe : une dérivation = une caméra</h3>
+<p>Une dérivation est le tracé obtenu par la <strong>différence de potentiel entre deux électrodes</strong>. On peut l'imaginer comme une caméra placée là où se trouve l'électrode positive, pointée vers le cœur. Dans D2 (électrode positive à la cheville gauche), la caméra est en bas à gauche — elle voit la partie inférieure du cœur. Si l'IDM est inférieur, D2 le verra. Si l'IDM est latéral, D2 ne le verra pas → il faut d'autres dérivations.</p>
+<p>C'est pourquoi on a <strong>10 électrodes</strong> → <strong>12 dérivations</strong> : 6 précordiales (V1-V6) + 6 frontales (D1, D2, D3, aVL, aVR, aVF). L'électrode noire (cheville droite) est la masse → pas de dérivation propre.</p>
+
+<h3 class="subsec">Placement de V1 à V6</h3>
+<div class="callout info"><span class="ci">🖐️</span><div><strong>Méthode pour trouver V1 :</strong> (1) Palper la <em>fourchette sternale</em> (base de la gorge, début du sternum) → (2) Descendre le sternum → trouver l'<em>angle de Louis</em> (excroissance osseuse) → (3) À sa droite = 2ème EIC droit → (4) Descendre 2 côtes → <strong>4ème EIC droit = V1</strong>. V2 : autre côté du sternum (4ème EIC gauche). V3 : entre V2 et V4. V4 : 5ème EIC, ligne médio-claviculaire. V5 : même plan, début des selles costales. V6 : même plan, centre de l'aisselle.</div></div>
+
+<h3 class="subsec">Placement des électrodes frontales</h3>
+<div class="mnem">
+  <h4>🔥 Mnémotechnique — Feu sur les Cendres, Soleil sur la Prairie · Rouge = Right</h4>
+  <p style="font-size:13.5px;color:#78350f;margin-bottom:10px">Le feu (rouge) = en haut. Les cendres (noir) = en bas. Le soleil (jaune) = en haut à gauche. La prairie (vert) = en bas à gauche. <strong>Rouge commence par R comme Right → rouge est à droite du patient.</strong></p>
+  <div class="g4">
+    <div class="card" style="text-align:center;border-top:4px solid #c00000"><div style="font-size:28px">🔴</div><strong style="color:#c00000">Rouge</strong><p>Poignet <strong>droit</strong></p></div>
+    <div class="card" style="text-align:center;border-top:4px solid #374151"><div style="font-size:28px">⚫</div><strong>Noir</strong><p>Cheville <strong>droite</strong> = masse</p></div>
+    <div class="card" style="text-align:center;border-top:4px solid #d97706"><div style="font-size:28px">🟡</div><strong style="color:#d97706">Jaune</strong><p>Poignet <strong>gauche</strong></p></div>
+    <div class="card" style="text-align:center;border-top:4px solid #16a34a"><div style="font-size:28px">🟢</div><strong style="color:#16a34a">Vert</strong><p>Cheville <strong>gauche</strong></p></div>
+  </div>
+</div>
+
+<h3 class="subsec">Territoires artériels et dérivations correspondantes</h3>
+<p>Chaque groupe de dérivations explore un territoire précis. En cas d'occlusion coronaire, les anomalies apparaissent dans les dérivations de ce territoire. <strong>Toute anomalie doit être visible sur ≥ 2 dérivations contiguës</strong> pour être significative.</p>
+<div class="tw"><table>
+  <thead><tr><th>Territoire</th><th>Dérivations</th><th>Artère</th><th>Mnémotechnique</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Inférieur</strong></td><td><span class="tag tb">D2</span><span class="tag tb">D3</span><span class="tag tb">aVF</span></td><td>Coronaire droite</td><td>D = Droite = Dessous</td></tr>
+    <tr><td><strong>Antéro-septal</strong></td><td><span class="tag tb">V1</span><span class="tag tb">V2</span></td><td>IVA (branche gauche)</td><td>V1-V2 proches du sternum</td></tr>
+    <tr><td><strong>Antéro-apical</strong></td><td><span class="tag tb">V3</span><span class="tag tb">V4</span></td><td>IVA</td><td>Apex = pointe du cœur</td></tr>
+    <tr><td><strong>Latéral haut</strong></td><td><span class="tag tb">D1</span><span class="tag tb">aVL</span></td><td>Circonflexe</td><td>Circonflexe Contourne → latéral</td></tr>
+    <tr><td><strong>Latéral bas</strong></td><td><span class="tag tb">V5</span><span class="tag tb">V6</span></td><td>Circonflexe</td><td>Même artère, basse</td></tr>
+    <tr><td><strong>Postérieur</strong></td><td><span class="tag to">V7 V8 V9</span> (additionn.)</td><td>Circ. / Cor. droite</td><td>À faire si sous-décalage antérieur</td></tr>
+    <tr><td><strong>Droit</strong></td><td><span class="tag to">V3R V4R</span> (additionn.)</td><td>Coronaire droite</td><td>À faire si sous-décalage latéral bas</td></tr>
+  </tbody>
+</table></div>
+<div class="callout ok"><span class="ci">🪞</span><div><strong>Images en miroir :</strong> Un sus-décalage ST dans un territoire génère souvent un sous-décalage dans le territoire opposé. <strong>Inférieur ↔ Latéral haut · Antérieur ↔ Postérieur · Droit ↔ Latéral bas.</strong> Ne jamais conclure à un sous-décalage isolé sans chercher d'abord son miroir en sus-décalage !</div></div>
+
+</div>
+<div class="container">
+
+<!-- ════════════════════════════════ VIP ════════════════════════════════ -->
+<div id="vip" class="sec-head"><div class="sec-icon">🎫</div><h2>Étape 1 — Validité : VIP</h2><span class="sec-tag">Avant toute interprétation</span></div>
+
+<p>Notre interprétation se fait en <strong>4 étapes</strong>. La première : vérifier si l'ECG est <strong>valide</strong>. C'est comme entrer dans un club VIP — si l'ECG n'est pas VIP, le vigile l'arrête à l'entrée et on le refait. Un ECG invalide n'est <strong>jamais interprété</strong>.</p>
+
+<div class="mnem">
+  <h4>🎤 VIP — 3 critères de validité</h4>
+  <div class="mnem-row">
+    <div class="ml"><span class="L">V</span><span class="M">Vitesse (25mm/s) + Voltage (10mm/mV)</span></div>
+    <div style="font-size:34px;color:#d97706;line-height:2;padding-top:4px">+</div>
+    <div class="ml"><span class="L">I</span><span class="M">Inversion des électrodes absente</span></div>
+    <div style="font-size:34px;color:#d97706;line-height:2;padding-top:4px">+</div>
+    <div class="ml"><span class="L">P</span><span class="M">Parasitage absent</span></div>
+  </div>
+</div>
+
+<h3 class="subsec">V — Vitesse : doit être 25 mm/s</h3>
+<p>La vitesse à laquelle le papier sort de la machine doit être de <strong>25 mm/seconde</strong>. Si elle est à 50 mm/s, le papier défile 2× plus lentement → les tracés sont <strong>étalés et élargis</strong>. Sans corriger la vitesse, on trouve des fausses anomalies qui n'existent pas :</p>
+<ul>
+  <li>La fréquence cardiaque paraît 2× plus lente → <strong>fausse bradycardie</strong></li>
+  <li>L'espace PR paraît prolongé → <strong>faux BAV</strong></li>
+  <li>Le QRS paraît large → <strong>faux trouble de conduction intra-ventriculaire</strong></li>
+</ul>
+<p>Aucune de ces anomalies n'est réelle — c'est juste la vitesse qui est mal réglée.</p>
+
+<div class="ecg-grid">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-n">NORMAL</span> Vitesse 25 mm/s — aspect correct</div>
+    <svg viewBox="0 0 300 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="90" fill="#fff9f0"></rect><rect width="300" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="55" x2="300" y2="55" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <path d="M10,55 Q18,55 22,49 Q28,40 34,40 Q40,40 44,47 Q47,53 50,55" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <line x1="50" y1="55" x2="70" y2="55" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="70,55 74,55 76,63 82,18 88,63 91,55 104,55" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="104" y1="55" x2="130" y2="55" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <path d="M130,55 Q138,55 143,48 Q150,38 156,38 Q162,38 167,46 Q171,52 174,55" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <line x1="174" y1="55" x2="200" y2="55" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="200,55 204,55 206,63 212,18 218,63 221,55 234,55" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="234" y1="55" x2="295" y2="55" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <!-- PR measure -->
+      <line x1="50" y1="74" x2="70" y2="74" stroke="#16a34a" stroke-width="1.2"></line>
+      <text x="53" y="84" font-family="DM Mono" font-size="8" fill="#16a34a">PR=4mm ✓</text>
+      <text x="150" y="84" font-family="DM Mono" font-size="8" fill="#16a34a">QRS=2mm ✓  FC≈75 ✓</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">ERREUR</span> Vitesse 50 mm/s → tout est étalé × 2</div>
+    <svg viewBox="0 0 300 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="90" fill="#fff9f0"></rect><rect width="300" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="55" x2="300" y2="55" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <path d="M5,55 Q18,55 24,47 Q34,34 44,34 Q54,34 60,44 Q65,51 68,55" fill="none" stroke="#c0392b" stroke-width="2.2"></path>
+      <line x1="68" y1="55" x2="108" y2="55" stroke="#c0392b" stroke-width="2.2"></line>
+      <polyline points="108,55 114,55 118,67 128,16 138,67 143,55 163,55" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="163" y1="55" x2="290" y2="55" stroke="#c0392b" stroke-width="2.2"></line>
+      <line x1="68" y1="74" x2="108" y2="74" stroke="#c0392b" stroke-width="1.2"></line>
+      <text x="5" y="12" font-family="DM Mono" font-size="9" fill="#c0392b">PR long → faux BAV !!!</text>
+      <text x="5" y="24" font-family="DM Mono" font-size="9" fill="#c0392b">QRS large → faux bloc de branche !!!</text>
+      <text x="5" y="84" font-family="DM Mono" font-size="9" fill="#c0392b">Aucune anomalie réelle — just vitesse 50 mm/s</text>
+    </svg>
+  </div>
+</div>
+
+<h3 class="subsec">V — Voltage : doit être 10 mm/mV</h3>
+<p>Le voltage doit être à <strong>10 mm/mV</strong>. Si le voltage est à 5 mm/mV, l'amplitude est divisée par 2 → aspect de <strong>micro-voltage</strong> (normalement signe d'un épanchement péricardique). Mais en réalité ici, aucune anomalie — c'est juste un réglage incorrect.</p>
+
+<div class="ecg-grid">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-n">NORMAL</span> Voltage 10 mm/mV — R=40mm</div>
+    <svg viewBox="0 0 240 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="240" height="90" fill="#fff9f0"></rect><rect width="240" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="65" x2="240" y2="65" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <polyline points="30,65 34,65 36,73 42,20 48,73 51,65 64,65" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="64" y1="65" x2="90" y2="65" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <path d="M90,65 Q98,65 104,56 Q112,44 118,44 Q124,44 129,54 Q133,61 136,65" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <line x1="136" y1="65" x2="175" y2="65" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="175,65 179,65 181,73 187,20 193,73 196,65 209,65" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="42" y1="20" x2="42" y2="65" stroke="#94a3b8" stroke-width=".8" stroke-dasharray="2,2"></line>
+      <text x="46" y="38" font-family="DM Mono" font-size="8" fill="#16a34a">R=45mm</text>
+      <text x="5" y="84" font-family="DM Mono" font-size="9" fill="#16a34a">Amplitudes normales ✓</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">ERREUR</span> Voltage 5 mm/mV → faux micro-voltage (amplitudes ÷2)</div>
+    <svg viewBox="0 0 240 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="240" height="90" fill="#fff9f0"></rect><rect width="240" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="65" x2="240" y2="65" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <polyline points="30,65 34,65 36,70 42,42 48,70 51,65 64,65" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="64" y1="65" x2="90" y2="65" stroke="#c0392b" stroke-width="2.2"></line>
+      <path d="M90,65 Q98,65 104,59 Q112,52 118,52 Q124,52 129,59 Q133,63 136,65" fill="none" stroke="#c0392b" stroke-width="2.2"></path>
+      <line x1="136" y1="65" x2="175" y2="65" stroke="#c0392b" stroke-width="2.2"></line>
+      <polyline points="175,65 179,65 181,70 187,42 193,70 196,65 209,65" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="187" y1="42" x2="187" y2="65" stroke="#94a3b8" stroke-width=".8" stroke-dasharray="2,2"></line>
+      <text x="191" y="54" font-family="DM Mono" font-size="8" fill="#c0392b">R=23mm!</text>
+      <text x="5" y="84" font-family="DM Mono" font-size="9" fill="#c0392b">Faux micro-voltage — réglage à corriger !</text>
+    </svg>
+  </div>
+</div>
+
+<h3 class="subsec">I — Inversion des électrodes : vérifier 3 zones</h3>
+<p>La méthode est simple : on regarde <strong>3 zones</strong> de l'ECG. La dépolarisation va vers le bas et la gauche → D1 (proche de cet axe) doit être positive. aVR (opposé à cet axe) doit être entièrement négatif.</p>
+<div class="tw"><table>
+  <thead><tr><th>Zone</th><th>Ce qui doit être vrai</th><th>Si ce n'est pas le cas</th></tr></thead>
+  <tbody>
+    <tr><td><strong>D1</strong></td><td>Onde P <strong>positive</strong></td><td>P négative en D1 → <span class="tag tr">inversion électrodes FRONTALES</span></td></tr>
+    <tr><td><strong>aVR</strong></td><td>Tout <strong>négatif</strong> (P, QRS, T) — aVR est à l'opposé de toutes les autres dérivations</td><td>aVR positif → <span class="tag tr">inversion électrodes FRONTALES</span></td></tr>
+    <tr><td><strong>V1 → V6</strong></td><td>Pointes des ondes R = <strong>un seul sommet</strong> en reliant les pointes</td><td>Deux sommets → <span class="tag tr">inversion électrodes PRÉCORDIALES</span> (ex: V1 et V3 inversés)</td></tr>
+  </tbody>
+</table></div>
+<div class="callout ok"><span class="ci">✅</span><div><strong>Bonus clinique :</strong> Le <em>rabotage de R</em> (onde R qui ne progresse pas de V1 à V4) est une anomalie RÉELLE visible lors du contrôle V1-V6. L'ECG est valide, mais le signal est pathologique → signe d'un <strong>ancien IDM antérieur</strong>.</div></div>
+
+<div class="ecg-grid">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-n">NORMAL</span> D1 : P positive ✓ · aVR tout négatif ✓</div>
+    <svg viewBox="0 0 280 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="280" height="90" fill="#fff9f0"></rect><rect width="280" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="52" x2="280" y2="52" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <!-- D1 P positive -->
+      <text x="5" y="14" font-family="DM Mono" font-size="9" fill="#1a4b8c">D1</text>
+      <line x1="10" y1="52" x2="36" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+      <path d="M36,52 Q44,52 48,46 Q54,37 59,37 Q64,37 68,44 Q71,49 73,52" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="73" y1="52" x2="92" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+      <polyline points="92,52 96,52 98,60 104,16 110,60 113,52 124,52" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="124" y1="52" x2="135" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+      <!-- aVR tout négatif -->
+      <text x="148" y="14" font-family="DM Mono" font-size="9" fill="#1a4b8c">aVR</text>
+      <line x1="148" y1="52" x2="168" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+      <path d="M168,52 Q176,52 180,58 Q186,68 191,68 Q196,68 200,61 Q203,56 205,52" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="205" y1="52" x2="224" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+      <polyline points="224,52 228,52 230,44 236,78 242,44 245,52 256,52" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="256" y1="52" x2="275" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+      <text x="5" y="84" font-family="DM Mono" font-size="9" fill="#16a34a">D1 P positive ✓  aVR tout négatif ✓</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">INVERSION</span> D1 onde P négative → électrodes frontales inversées</div>
+    <svg viewBox="0 0 280 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="280" height="90" fill="#fff9f0"></rect><rect width="280" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="50" x2="280" y2="50" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <text x="5" y="14" font-family="DM Mono" font-size="9" fill="#c0392b">D1 — électrodes inversées</text>
+      <line x1="10" y1="50" x2="36" y2="50" stroke="#c0392b" stroke-width="2"></line>
+      <!-- P négative -->
+      <path d="M36,50 Q44,50 48,56 Q54,66 59,66 Q64,66 68,59 Q71,54 73,50" fill="none" stroke="#c0392b" stroke-width="2"></path>
+      <line x1="73" y1="50" x2="92" y2="50" stroke="#c0392b" stroke-width="2"></line>
+      <!-- QRS inversé (négatif) -->
+      <polyline points="92,50 96,50 98,42 104,80 110,42 113,50 124,50" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="124" y1="50" x2="148" y2="50" stroke="#c0392b" stroke-width="2"></line>
+      <!-- T inversée -->
+      <path d="M148,50 Q156,50 162,58 Q170,70 176,70 Q182,70 186,62 Q189,55 192,50" fill="none" stroke="#c0392b" stroke-width="2"></path>
+      <line x1="192" y1="50" x2="275" y2="50" stroke="#c0392b" stroke-width="2"></line>
+      <text x="34" y="16" font-family="DM Mono" font-size="9" fill="#c0392b">P NÉGATIVE!</text>
+      <line x1="59" y1="20" x2="59" y2="64" stroke="#c0392b" stroke-width="1" stroke-dasharray="2,2"></line>
+      <text x="5" y="82" font-family="DM Mono" font-size="9" fill="#c0392b">Tout inversé → refaire placement des électrodes !</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-n">NORMAL</span> V1→V6 : un seul sommet de la progression R ✓</div>
+    <svg viewBox="0 0 300 100" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="100" fill="#fff9f0"></rect><rect width="300" height="100" fill="url(#bg)"></rect>
+      <line x1="0" y1="72" x2="300" y2="72" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <polyline points="10,72 13,72 15,77 19,62 23,77 26,72 36,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="12" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V1</text>
+      <polyline points="46,72 49,72 51,76 57,58 63,76 66,72 76,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="48" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V2</text>
+      <polyline points="86,72 89,72 91,76 99,46 107,76 110,72 120,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="88" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V3</text>
+      <polyline points="130,72 133,72 135,76 145,28 155,76 158,72 168,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="132" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V4</text>
+      <polyline points="178,72 181,72 183,76 191,40 199,76 202,72 212,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="180" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V5</text>
+      <polyline points="222,72 225,72 227,76 235,52 243,76 246,72 256,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="224" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V6</text>
+      <path d="M19,62 Q57,56 99,45 Q145,27 199,39 Q243,50 265,60" fill="none" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="4,3"></path>
+      <text x="136" y="14" font-family="Outfit" font-size="11" font-weight="700" fill="#16a34a" text-anchor="middle">↑ 1 seul sommet ✓</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">INVERSION</span> 2 sommets → électrodes précordiales inversées (ex: V1↔V3)</div>
+    <svg viewBox="0 0 300 100" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="100" fill="#fff9f0"></rect><rect width="300" height="100" fill="url(#bg)"></rect>
+      <line x1="0" y1="72" x2="300" y2="72" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <polyline points="10,72 13,72 15,76 19,54 23,76 26,72 36,72" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="12" y="88" font-family="DM Mono" font-size="8" fill="#c0392b">V1</text>
+      <polyline points="46,72 49,72 51,76 57,65 63,76 66,72 76,72" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="48" y="88" font-family="DM Mono" font-size="8" fill="#c0392b">V2</text>
+      <polyline points="86,72 89,72 91,76 99,32 107,76 110,72 120,72" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="88" y="88" font-family="DM Mono" font-size="8" fill="#c0392b">V3</text>
+      <polyline points="130,72 133,72 135,76 145,28 155,76 158,72 168,72" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="132" y="88" font-family="DM Mono" font-size="8" fill="#c0392b">V4</text>
+      <polyline points="178,72 181,72 183,76 191,38 199,76 202,72 212,72" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="180" y="88" font-family="DM Mono" font-size="8" fill="#c0392b">V5</text>
+      <polyline points="222,72 225,72 227,76 235,52 243,76 246,72 256,72" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="224" y="88" font-family="DM Mono" font-size="8" fill="#c0392b">V6</text>
+      <path d="M19,54 Q57,64 99,31 Q145,27 199,37 Q243,50 265,60" fill="none" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="4,3"></path>
+      <text x="52" y="14" font-family="Outfit" font-size="10" font-weight="700" fill="#c0392b">↑S1</text>
+      <text x="141" y="17" font-family="Outfit" font-size="10" font-weight="700" fill="#c0392b">↑S2 → 2 sommets!</text>
+    </svg>
+  </div>
+</div>
+
+<h3 class="subsec">P — Parasitage</h3>
+<p>La ligne isoélectrique doit être <strong>parfaitement lisse</strong> au niveau du segment PR et du segment TP. En cas de parasitage, des <strong>oscillations fines et irrégulières</strong> remplacent cette ligne de base. Solution : chercher la source d'interférence et refaire l'ECG. L'électrode noire (masse, cheville droite) aide à réduire les parasites — raison pour laquelle elle existe même si elle ne produit pas de dérivation propre.</p>
+
+</div>
+<div class="container">
+
+<!-- ════ GÉNÉRAL ════ -->
+<div id="general" class="sec-head"><div class="sec-icon">🔭</div><h2>Étape 2 — Interprétation générale</h2><span class="sec-tag">Régularité · Sinusal · FC · Axe</span></div>
+<p>Une fois l'ECG validé, on évalue 4 éléments dans l'ordre. Un moyen de se souvenir : <em>entre 2 P → sinusal · entre 2 R → fréquence · entre 3 R → régularité.</em></p>
+
+<h3 class="subsec">1. Régularité du rythme</h3>
+<p>Vérifier que l'<strong>espace RR est constant</strong> sur au moins 3 intervalles. Méthode pratique : prendre un bout de papier, marquer un espace RR, faire glisser le papier et vérifier que tous les autres RR correspondent. RR constants = rythme régulier. Si on a besoin de calculer la FC sur un rythme irrégulier → prendre 3 intervalles, calculer la moyenne de grands carreaux, diviser 300 par cette moyenne.</p>
+
+<h3 class="subsec">2. Rythme sinusal — 2 conditions obligatoires</h3>
+<div class="g2">
+  <div class="card"><h4>✅ Condition 1</h4><p>Onde P <strong>positive en D1 et D2</strong>. Cela confirme que la dépolarisation vient du nœud sinusal et se propage dans la bonne direction.</p></div>
+  <div class="card"><h4>✅ Condition 2</h4><p><strong>Alternance stricte P-QRS</strong> : chaque P suivi d'un QRS, chaque QRS précédé d'un P. Jamais 2 P consécutifs sans QRS, jamais 2 QRS consécutifs sans P.</p></div>
+</div>
+<div class="callout warn"><span class="ci">⚠️</span><div>Ces deux conditions ne sont pas redondantes. Des ondes P non suivies d'un QRS = BAV. Des QRS sans onde P = ESV. Les deux conditions doivent être vérifiées indépendamment.</div></div>
+
+<h3 class="subsec">3. Fréquence cardiaque</h3>
+<div style="background:linear-gradient(135deg,var(--blue-ultra),var(--blue-pale));border-radius:12px;padding:18px 22px;margin:14px 0;text-align:center">
+  <div style="font-family:&#39;DM Serif Display&#39;,serif;font-size:32px;color:var(--navy)">FC = 300 ÷ nombre de grands carreaux (RR)</div>
+  <p style="color:var(--blue-mid);margin-top:6px;font-size:13px">Uniquement si le rythme est régulier · 1 grand carreau = 5 mm · 25 mm/s × 60 s = 300 gc/min</p>
+</div>
+<div class="callout info"><span class="ci">💡</span><div><strong>D'où vient ce 300 ?</strong> Vitesse = 25 mm/s = 5 grands carreaux/seconde → 5 × 60 = 300 grands carreaux/minute → FC = 300 / nb de gc entre 2 QRS.</div></div>
+<div class="tw"><table>
+  <thead><tr><th>Grands carreaux (RR)</th><th>FC (bpm)</th><th>Interprétation</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>300</td><td><span class="tag tr">Tachycardie extrême</span></td></tr>
+    <tr><td>2</td><td>150</td><td><span class="tag tr">Tachycardie sévère</span></td></tr>
+    <tr><td>3</td><td>100</td><td><span class="tag to">Limite tachycardie</span></td></tr>
+    <tr><td>4</td><td>75</td><td><span class="tag tg">Normal</span></td></tr>
+    <tr><td>5</td><td>60</td><td><span class="tag tg">Normal (limite basse)</span></td></tr>
+    <tr><td>6</td><td>50</td><td><span class="tag to">Bradycardie</span></td></tr>
+    <tr><td>11</td><td>27</td><td><span class="tag tr">Bradycardie sévère</span></td></tr>
+  </tbody>
+</table></div>
+
+<h3 class="subsec">4. Axe du cœur</h3>
+<p>Lire D1 et aVF pour déterminer la direction globale du vecteur de dépolarisation :</p>
+<div class="tw"><table>
+  <thead><tr><th>D1</th><th>aVF</th><th>Axe</th><th>Causes fréquentes</th></tr></thead>
+  <tbody>
+    <tr><td>✅ +</td><td>✅ +</td><td><span class="tag tg">Normal</span> 0°→+90°</td><td>—</td></tr>
+    <tr><td>✅ +</td><td>❌ −</td><td><span class="tag to">Axe gauche</span></td><td>HVG, HBAG, IDM inférieur ancien</td></tr>
+    <tr><td>❌ −</td><td>✅ +</td><td><span class="tag to">Axe droit</span></td><td>HVD, embolie pulmonaire, BAV complet</td></tr>
+    <tr><td>❌ −</td><td>❌ −</td><td><span class="tag tr">Axe extrême</span></td><td>BAV complet avec foyer d'échappement distal</td></tr>
+  </tbody>
+</table></div>
+
+</div>
+<div class="container">
+
+<!-- ════ ONDE P ════ -->
+<div id="ondep" class="sec-head"><div class="sec-icon">🅿️</div><h2>Onde P — Les 3 P</h2><span class="sec-tag">Présente · Positive · Petite</span></div>
+
+<p>L'onde P est souvent mieux visible en D2 → on l'observe à ce niveau. Elle doit remplir 3 critères qu'on appelle les 3 P :</p>
+<div class="mnem">
+  <h4>🅿️ Les 3 P de l'onde P</h4>
+  <div class="mnem-row">
+    <div class="ml"><span class="L">P</span><span class="M">Présente (avant chaque QRS)</span></div>
+    <div style="font-size:32px;color:#d97706;line-height:2">·</div>
+    <div class="ml"><span class="L">P</span><span class="M">Positive en D1 et D2</span></div>
+    <div style="font-size:32px;color:#d97706;line-height:2">·</div>
+    <div class="ml"><span class="L">P</span><span class="M">Petite : durée ET amplitude ≤ 2,5 mm</span></div>
+  </div>
+</div>
+<div class="callout info"><span class="ci">💡</span><div><strong>Le carré moyen :</strong> il y a le grand carreau (5 mm × 5 mm) et le petit carreau (1 mm × 1 mm). On introduit un "carré moyen" = 2,5 mm × 2,5 mm. L'onde P ne doit pas dépasser ce carré moyen pour être considérée comme "petite" et donc normale.</div></div>
+
+<h3 class="subsec">Onde P absente — Arbre décisionnel des troubles du rythme</h3>
+<p>Si l'onde P est absente, <strong>2 questions successives</strong> permettent d'identifier le trouble :</p>
+
+<div class="card" style="margin:14px 0">
+  <h4>❓ Question 1 : Les ondes P sont-elles REMPLACÉES par d'autres ondes ?</h4>
+  <div class="g2" style="margin-top:12px">
+    <div style="background:var(--green-pale);border-radius:9px;padding:14px;border-left:4px solid var(--green-mid)">
+      <p style="font-weight:700;color:var(--green);margin-bottom:6px">OUI → Arythmie ATRIALE</p>
+      <p style="font-size:13.5px">Les atriums sont en cause — ils génèrent ces ondes de remplacement anormales.</p>
+      <p style="font-size:13.5px;margin-top:8px"><strong>Rythme irrégulier ?</strong> → <span class="tag tr">Fibrillation atriale (FA)</span> — les atriums "vibrent" de façon anarchique. Rythme irrégulier car la conduction est imprévisible.</p>
+      <p style="font-size:13.5px;margin-top:6px"><strong>Rythme régulier ?</strong> → <span class="tag to">Flutter atrial</span> — les atriums jouent "de la flûte" de façon disciplinée. Rythme régulier (nécessite de la discipline). Ondes en dents de scie régulières.</p>
+      <p style="font-size:12px;color:var(--green);margin-top:6px">Mnémotechnique : fibrilation = vibrer = irrégulier · flutter = flûte = discipline = régulier</p>
+    </div>
+    <div style="background:var(--red-pale);border-radius:9px;padding:14px;border-left:4px solid var(--red)">
+      <p style="font-weight:700;color:var(--red);margin-bottom:6px">NON → Arythmie JONCTIONNELLE ou VENTRICULAIRE</p>
+      <p style="font-size:13.5px">Les atriums ne sont plus concernés. L'arythmie vient d'en dessous.</p>
+      <p style="font-size:13.5px;margin-top:8px"><strong>❓ Question 2 : QRS fin (&lt;3mm) ou large (≥3mm) ?</strong></p>
+      <p style="font-size:13.5px;margin-top:6px"><strong>QRS FIN</strong> → <span class="tag to">Tachycardie jonctionnelle</span> — le rythme provient du nœud AV ou de la jonction AV. La conduction se fait normalement (via le réseau de Purkinje) → QRS fin.</p>
+      <p style="font-size:13.5px;margin-top:6px"><strong>QRS LARGE ≥3mm</strong> → <span class="tag tr">Trouble du rythme VENTRICULAIRE</span> — le rythme provient des ventricules. La conduction est anormale (via les cardiomyocytes, plus lente) → QRS large.</p>
+    </div>
+  </div>
+</div>
+
+<div class="callout warn"><span class="ci">⚠️</span><div><strong>Logique de gravité :</strong> Plus on descend dans l'arbre, plus c'est grave. Atriale (P remplacées) → Jonctionnelle (P absentes, QRS fin) → Ventriculaire (P absentes, QRS large) → de plus en plus dangereux.</div></div>
+
+<h3 class="subsec">Troubles du rythme ventriculaire — Différencier ESV, TV, TdP, FV</h3>
+<p>Quand on a un QRS large sans onde P, il faut déterminer lequel des 4 troubles du rythme ventriculaire il s'agit. La <strong>régularité, l'amplitude et la durée</strong> du QRS permettent de les différencier :</p>
+
+<div class="tw"><table>
+  <thead><tr><th>Trouble</th><th>Durée QRS</th><th>Amplitude QRS</th><th>Onde P</th><th>Gravité</th></tr></thead>
+  <tbody>
+    <tr><td><strong>ESV</strong> — Extrasystole ventriculaire</td><td>Large, CONSTANTE (par ESV)</td><td>Constante</td><td>Absente · QRS prématuré + pause compensatrice</td><td><span class="tag to">Variable (voir 3P)</span></td></tr>
+    <tr><td><strong>TV</strong> — Tachycardie ventriculaire</td><td>Large, <strong>CONSTANTE</strong></td><td><strong>CONSTANTE</strong></td><td>Absente</td><td><span class="tag tr">Grave</span></td></tr>
+    <tr><td><strong>TdP</strong> — Torsade de pointes</td><td>Large, <strong>CONSTANTE</strong></td><td><strong>VARIABLE</strong> (torsion)</td><td>Absente</td><td><span class="tag tr">Grave</span></td></tr>
+    <tr><td><strong>FV</strong> — Fibrillation ventriculaire</td><td>Large, <strong>VARIABLE</strong></td><td><strong>VARIABLE</strong></td><td>Absente</td><td><span class="tag tr">Extrêmement grave → Mort</span></td></tr>
+  </tbody>
+</table></div>
+<div class="callout danger"><span class="ci">🚨</span><div><strong>Évolution mortelle :</strong> ESV → TV → Torsade de Pointes → FV → Tracé plat (asystolie) → MORT. Chaque étape peut survenir en secondes. Reconnaître et agir immédiatement. Seule l'ESV peut être bénigne.</div></div>
+
+<!-- Tracés des 5 troubles -->
+<div class="ecg-grid">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-n">NORMAL</span> Rythme sinusal normal — P présente, QRS fin, régulier</div>
+    <svg viewBox="0 0 300 85" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="85" fill="#fff9f0"></rect><rect width="300" height="85" fill="url(#bg)"></rect>
+      <line x1="0" y1="52" x2="300" y2="52" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <path d="M8,52 Q16,52 20,46 Q26,37 31,37 Q36,37 40,44 Q43,49 45,52" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="45" y1="52" x2="64" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+      <polyline points="64,52 68,52 70,60 75,16 80,60 83,52 94,52" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="94" y1="52" x2="116" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+      <path d="M116,52 Q122,52 127,46 Q133,37 138,37 Q143,37 147,44 Q150,49 152,52" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="152" y1="52" x2="170" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+      <polyline points="170,52 174,52 176,60 181,16 186,60 189,52 200,52" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="200" y1="52" x2="220" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+      <path d="M220,52 Q226,52 231,46 Q237,37 242,37" fill="none" stroke="#93c5fd" stroke-width="2"></path>
+      <text x="5" y="79" font-family="DM Mono" font-size="9" fill="#16a34a">P présente ✓  QRS fin ✓  Régulier ✓  Sinusal ✓</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">FA</span> Fibrillation atriale — P anarchiques, QRS fins, rythme IRRÉGULIER</div>
+    <svg viewBox="0 0 340 85" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="340" height="85" fill="#fff9f0"></rect><rect width="340" height="85" fill="url(#bg)"></rect>
+      <line x1="0" y1="50" x2="340" y2="50" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <!-- Ligne de base anarchique (fibrilles) -->
+      <path d="M5,50 Q8,48 11,52 Q14,49 17,51 Q20,48 23,52 Q26,49 29,51 Q32,48 35,52 Q38,49 41,51 Q44,48" fill="none" stroke="#c0392b" stroke-width="1"></path>
+      <!-- QRS normal mais irréguliers -->
+      <polyline points="44,50 47,50 49,58 54,16 59,58 62,50 72,50" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <path d="M72,50 Q75,48 78,52 Q81,49 84,51 Q87,48 90,52 Q93,48" fill="none" stroke="#c0392b" stroke-width="1"></path>
+      <!-- QRS plus tôt (irrégulier) -->
+      <polyline points="93,50 96,50 98,58 103,16 108,58 111,50 121,50" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <path d="M121,50 Q125,48 129,52 Q133,49 137,52 Q141,49 145,51 Q149,48 153,52 Q157,48 161,51" fill="none" stroke="#c0392b" stroke-width="1"></path>
+      <!-- QRS plus tard -->
+      <polyline points="163,50 166,50 168,58 173,16 178,58 181,50 194,50" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <path d="M194,50 Q197,48 200,52 Q203,49 206,51 Q209,48 212,52 Q215,48" fill="none" stroke="#c0392b" stroke-width="1"></path>
+      <polyline points="217,50 220,50 222,58 227,16 232,58 235,50 244,50" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <path d="M244,50 Q248,48 252,52 Q256,49 260,52 Q264,48 268,51 Q272,48 276,52" fill="none" stroke="#c0392b" stroke-width="1"></path>
+      <polyline points="278,50 281,50 283,58 288,16 293,58 296,50 308,50" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <path d="M308,50 Q312,48 316,52 Q320,49 324,51 Q328,48 332,52 Q336,48" fill="none" stroke="#c0392b" stroke-width="1"></path>
+      <!-- RR irréguliers -->
+      <line x1="54" y1="74" x2="103" y2="74" stroke="#c0392b" stroke-width="1" stroke-dasharray="2,2"></line>
+      <line x1="103" y1="74" x2="173" y2="74" stroke="#d97706" stroke-width="1" stroke-dasharray="2,2"></line>
+      <line x1="173" y1="74" x2="227" y2="74" stroke="#c0392b" stroke-width="1" stroke-dasharray="2,2"></line>
+      <text x="62" y="83" font-family="DM Mono" font-size="7" fill="#c0392b">←RR1→</text>
+      <text x="108" y="83" font-family="DM Mono" font-size="7" fill="#d97706">←RR2 différent!→</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">FLUTTER</span> Flutter atrial — ondes en dents de scie régulières (F waves), QRS fins réguliers</div>
+    <svg viewBox="0 0 340 85" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="340" height="85" fill="#fff9f0"></rect><rect width="340" height="85" fill="url(#bg)"></rect>
+      <line x1="0" y1="58" x2="340" y2="58" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <!-- Dents de scie régulières -->
+      <polyline points="5,58 15,42 25,58 35,42 45,58 55,42 65,58 75,42 85,58 95,42 105,58 115,42 125,58 135,42 145,58 155,42 165,58 175,42 185,58 195,42 205,58 215,42 225,58 235,42 245,58 255,42 265,58 275,42 285,58 295,42 305,58 315,42 325,58 335,42" fill="none" stroke="#d97706" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- QRS réguliers (1 pour 2 ondes F) -->
+      <polyline points="25,58 28,58 30,66 35,22 40,66 43,58 53,58" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polyline points="125,58 128,58 130,66 135,22 140,66 143,58 153,58" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polyline points="225,58 228,58 230,66 235,22 240,66 243,58 253,58" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="35" y1="77" x2="135" y2="77" stroke="#16a34a" stroke-width="1.2"></line>
+      <line x1="35" y1="73" x2="35" y2="81" stroke="#16a34a" stroke-width="1.2"></line><line x1="135" y1="73" x2="135" y2="81" stroke="#16a34a" stroke-width="1.2"></line>
+      <line x1="135" y1="77" x2="235" y2="77" stroke="#16a34a" stroke-width="1.2"></line><line x1="235" y1="73" x2="235" y2="81" stroke="#16a34a" stroke-width="1.2"></line>
+      <text x="62" y="84" font-family="DM Mono" font-size="8" fill="#16a34a">RR régulier ✓</text>
+      <text x="5" y="14" font-family="DM Mono" font-size="9" fill="#d97706">Ondes F en dents de scie (~300/min)</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">ESV</span> Extrasystole ventriculaire — QRS large, prématuré, sans onde P, pause compensatrice</div>
+    <svg viewBox="0 0 360 95" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="360" height="95" fill="#fff9f0"></rect><rect width="360" height="95" fill="url(#bg)"></rect>
+      <line x1="0" y1="58" x2="360" y2="58" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <!-- B1 normal -->
+      <path d="M8,58 Q15,58 19,52 Q25,43 30,43 Q35,43 39,50 Q42,55 44,58" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="44" y1="58" x2="62" y2="58" stroke="#1a4b8c" stroke-width="2"></line>
+      <polyline points="62,58 66,58 68,66 73,20 78,66 81,58 92,58" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="92" y1="58" x2="114" y2="58" stroke="#1a4b8c" stroke-width="2"></line>
+      <!-- B2 normal -->
+      <path d="M114,58 Q121,58 125,52 Q131,43 136,43 Q141,43 145,50 Q148,55 150,58" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="150" y1="58" x2="168" y2="58" stroke="#1a4b8c" stroke-width="2"></line>
+      <polyline points="168,58 172,58 174,66 179,20 184,66 187,58 198,58" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="198" y1="58" x2="216" y2="58" stroke="#1a4b8c" stroke-width="2"></line>
+      <!-- ESV : large, bizarre, sans onde P, prématurée -->
+      <polyline points="216,58 220,58 222,72 230,8 235,80 240,50 247,65 252,58 265,58" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- Pause compensatrice longue -->
+      <line x1="265" y1="58" x2="318" y2="58" stroke="#1a4b8c" stroke-width="2"></line>
+      <!-- Reprise normale -->
+      <path d="M318,58 Q324,58 328,52 Q334,43 339,43 Q344,43 348,50 Q351,55 353,58" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="353" y1="58" x2="360" y2="58" stroke="#1a4b8c" stroke-width="2"></line>
+      <!-- Labels -->
+      <text x="218" y="8" font-family="Outfit" font-size="10" font-weight="700" fill="#c0392b">ESV (large, prématurée)</text>
+      <line x1="265" y1="82" x2="318" y2="82" stroke="#d97706" stroke-width="1" stroke-dasharray="3,2"></line>
+      <text x="268" y="91" font-family="DM Mono" font-size="8" fill="#d97706">pause compensatrice</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">TV</span> Tachycardie ventriculaire — QRS larges, durée ET amplitude constantes</div>
+    <svg viewBox="0 0 340 85" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="340" height="85" fill="#fff9f0"></rect><rect width="340" height="85" fill="url(#bg)"></rect>
+      <line x1="0" y1="55" x2="340" y2="55" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <polyline points="10,55 14,55 16,66 23,10 29,68 34,55 47,55" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="47" y1="55" x2="57" y2="55" stroke="#c0392b" stroke-width="2.2"></line>
+      <polyline points="57,55 61,55 63,66 70,10 76,68 81,55 94,55" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="94" y1="55" x2="104" y2="55" stroke="#c0392b" stroke-width="2.2"></line>
+      <polyline points="104,55 108,55 110,66 117,10 123,68 128,55 141,55" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="141" y1="55" x2="151" y2="55" stroke="#c0392b" stroke-width="2.2"></line>
+      <polyline points="151,55 155,55 157,66 164,10 170,68 175,55 188,55" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="188" y1="55" x2="198" y2="55" stroke="#c0392b" stroke-width="2.2"></line>
+      <polyline points="198,55 202,55 204,66 211,10 217,68 222,55 235,55" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="235" y1="55" x2="245" y2="55" stroke="#c0392b" stroke-width="2.2"></line>
+      <polyline points="245,55 249,55 251,66 258,10 264,68 269,55 282,55" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="282" y1="55" x2="292" y2="55" stroke="#c0392b" stroke-width="2.2"></line>
+      <polyline points="292,55 296,55 298,66 305,10 311,68 316,55 329,55" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="5" y="79" font-family="DM Mono" font-size="9" fill="#c0392b">Durée constante ✓  Amplitude constante ✓  Pas d'onde P</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">TORSADE</span> Torsade de pointes — durée constante, AMPLITUDE VARIABLE (vrille autour de l'axe)</div>
+    <svg viewBox="0 0 340 105" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="340" height="105" fill="#fff9f0"></rect><rect width="340" height="105" fill="url(#bg)"></rect>
+      <line x1="0" y1="58" x2="340" y2="58" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <!-- QRS qui grandissent puis basculent -->
+      <polyline points="5,58 8,58 10,63 14,46 18,65 21,58 28,58" fill="none" stroke="#c0392b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polyline points="30,58 33,58 35,66 40,38 46,68 50,58 58,58" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polyline points="60,58 63,58 65,70 71,24 77,72 82,58 90,58" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polyline points="92,58 95,58 97,72 103,14 109,75 114,58 122,58" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- Bascule -->
+      <polyline points="124,58 127,58 129,46 135,98 141,44 146,58 154,58" fill="none" stroke="#6d28d9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polyline points="156,58 159,58 161,44 167,100 173,42 178,58 186,58" fill="none" stroke="#6d28d9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polyline points="188,58 191,58 193,46 199,96 205,44 210,58 218,58" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polyline points="220,58 223,58 225,68 231,22 237,70 242,58 250,58" fill="none" stroke="#c0392b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polyline points="252,58 255,58 257,65 262,38 267,66 272,58 280,58" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polyline points="282,58 285,58 287,63 291,46 295,64 298,58 305,58" fill="none" stroke="#c0392b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- Axe sinusoïdal -->
+      <path d="M5,58 Q32,36 62,58 Q92,80 124,58 Q156,36 188,58 Q220,80 252,58 Q284,36 310,58" fill="none" stroke="#d97706" stroke-width="1" stroke-dasharray="4,3" opacity=".7"></path>
+      <text x="5" y="12" font-family="DM Mono" font-size="9" fill="#d97706">Axe qui "vrille" sinusoïdalement</text>
+      <text x="5" y="100" font-family="DM Mono" font-size="9" fill="#c0392b">Durée constante · Amplitude VARIABLE ← définit la torsade !</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">FV</span> Fibrillation ventriculaire — chaos total, puis tracé plat → MORT sans défibrillation</div>
+    <svg viewBox="0 0 340 100" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="340" height="100" fill="#fff9f0"></rect><rect width="340" height="100" fill="url(#bg)"></rect>
+      <line x1="0" y1="55" x2="340" y2="55" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <path d="M5,55 Q10,40 15,70 Q20,30 28,80 Q33,18 42,78 Q47,20 55,65 Q61,38 68,86 Q73,22 82,62 Q87,44 94,32 Q99,74 106,46 Q112,82 118,28 Q123,68 129,54 Q135,80 141,36 Q146,66 152,52 Q158,74 164,44 Q169,62 175,55 Q181,62 187,50 Q193,72 198,42 Q203,64 209,56 Q215,62 221,58 Q226,61 232,57 Q237,60 243,58 Q248,61 254,58 Q259,60 265,58 Q280,58 340,58" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round"></path>
+      <!-- Tracé plat à la fin -->
+      <line x1="285" y1="58" x2="340" y2="58" stroke="#666" stroke-width="2.5"></line>
+      <text x="5" y="14" font-family="DM Mono" font-size="9" fill="#c0392b">DURÉE variable · AMPLITUDE variable → chaos total</text>
+      <text x="284" y="50" font-family="DM Mono" font-size="8" fill="#666">Tracé plat</text>
+      <text x="5" y="94" font-family="DM Mono" font-size="9" fill="#c0392b">→ ASYSTOLIE → MORT sans défibrillateur !</text>
+    </svg>
+  </div>
+</div>
+
+<h3 class="subsec">ESV : Malignes ou Bénignes ? — Les 3 P (bis)</h3>
+<p>Une ESV est définie par : <strong>QRS large ≥3mm + prématuré + sans onde P + pause compensatrice</strong>. Mais est-elle dangereuse ? Elle est <strong>maligne</strong> si au moins 1 des 3 P suivants est présent :</p>
+
+<div class="mnem">
+  <h4>🚨 Les 3 P de malignité des ESV</h4>
+  <p style="font-size:13.5px;color:#78350f;margin-bottom:10px">Si ≥ 1 de ces 3 P est présent → ESV maligne → risque de TV/TdP/FV !</p>
+  <div class="mnem-row">
+    <div class="ml"><span class="L">P</span><span class="M">Polymorphes (plusieurs aspects différents = plusieurs foyers)</span></div>
+    <div style="font-size:30px;color:#d97706;line-height:2">·</div>
+    <div class="ml"><span class="L">P</span><span class="M">Plusieurs regroupées (≥3 d'affilée = TV non soutenue)</span></div>
+    <div style="font-size:30px;color:#d97706;line-height:2">·</div>
+    <div class="ml"><span class="L">P</span><span class="M">Position sur l'onde T (phénomène R/T)</span></div>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="card">
+    <h4>🔴 ESV polymorphes</h4>
+    <p>Si les ESV ont des aspects <strong>différents</strong> d'une à l'autre → plusieurs foyers ectopiques. Un foyer ectopique unique génère des ESV toutes identiques. Plusieurs foyers = aspects variables = plus instable = risque de dégénérer en arythmie grave.</p>
+  </div>
+  <div class="card">
+    <h4>🔴 Phénomène R/T (position sur l'onde T)</h4>
+    <p>Le segment ST et la 1ère moitié de T = <strong>période réfractaire absolue</strong> (impossible de dépolariser à nouveau). La <strong>2ème moitié de T = période réfractaire relative</strong> = zone vulnérable. Une ESV à ce moment peut désynchroniser les cardiomyocytes → TdP. On voit alors une "onde R sur l'onde T" (R/T).</p>
+  </div>
+</div>
+
+<div class="ecg-grid">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">ESV MALIGNE</span> Phénomène R/T — ESV tombe sur l'onde T (zone vulnérable)</div>
+    <svg viewBox="0 0 320 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="320" height="90" fill="#fff9f0"></rect><rect width="320" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="55" x2="320" y2="55" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <!-- Battement normal -->
+      <path d="M8,55 Q15,55 19,49 Q25,40 30,40 Q35,40 39,47 Q42,52 44,55" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="44" y1="55" x2="62" y2="55" stroke="#1a4b8c" stroke-width="2"></line>
+      <polyline points="62,55 66,55 68,63 73,18 78,63 81,55 92,55" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="92" y1="55" x2="112" y2="55" stroke="#1a4b8c" stroke-width="2"></line>
+      <!-- Onde T du battement normal -->
+      <path d="M112,55 Q120,55 126,48 Q133,38 139,38 Q145,38 150,47 Q154,53 157,55" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <!-- ESV qui tombe SUR l'onde T (dans la 2ème moitié de T) -->
+      <polyline points="148,43 152,43 154,52 160,5 165,58 170,52 178,55" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- Zone vulnérable -->
+      <rect x="128" y="36" width="30" height="22" rx="3" fill="#fef2f2" opacity=".7"></rect>
+      <text x="131" y="30" font-family="DM Mono" font-size="8" fill="#c0392b">Zone</text>
+      <text x="131" y="40" font-family="DM Mono" font-size="8" fill="#c0392b">vulnérable</text>
+      <!-- Suite -->
+      <line x1="178" y1="55" x2="240" y2="55" stroke="#1a4b8c" stroke-width="2"></line>
+      <text x="5" y="82" font-family="DM Mono" font-size="9" fill="#c0392b">ESV tombe sur T → R/T → risque de torsade !</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-n">ESV BÉNIGNE</span> ESV isolée, un seul aspect, hors de l'onde T</div>
+    <svg viewBox="0 0 320 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="320" height="90" fill="#fff9f0"></rect><rect width="320" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="55" x2="320" y2="55" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <path d="M8,55 Q15,55 19,49 Q25,40 30,40 Q35,40 39,47 Q42,52 44,55" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="44" y1="55" x2="62" y2="55" stroke="#1a4b8c" stroke-width="2"></line>
+      <polyline points="62,55 66,55 68,63 73,18 78,63 81,55 92,55" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="92" y1="55" x2="114" y2="55" stroke="#1a4b8c" stroke-width="2"></line>
+      <path d="M114,55 Q120,55 126,48 Q133,38 139,38 Q145,38 150,47 Q154,53 157,55" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="157" y1="55" x2="178" y2="55" stroke="#1a4b8c" stroke-width="2"></line>
+      <!-- ESV normale : après la T, hors de la zone vulnérable -->
+      <polyline points="178,55 182,55 184,66 190,10 194,68 198,55 210,55" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="210" y1="55" x2="268" y2="55" stroke="#1a4b8c" stroke-width="2"></line>
+      <path d="M268,55 Q274,55 280,48 Q287,38 293,38" fill="none" stroke="#93c5fd" stroke-width="2"></path>
+      <text x="5" y="82" font-family="DM Mono" font-size="9" fill="#16a34a">ESV isolée, 1 seul aspect, hors de T → bénigne jusqu'à preuve ✓</text>
+    </svg>
+  </div>
+</div>
+
+<div class="callout ok"><span class="ci">✅</span><div>ESV bénigne = aucun des 3P présents. Le <strong>bigéminisme</strong> (une ESV tous les 2 battements) n'est pas en lui-même un critère de malignité — c'est la forme, le regroupement et la position sur T qui comptent.</div></div>
+
+<h3 class="subsec">Onde P présente mais "grande" — Hypertrophies atriales</h3>
+<p>L'onde P reflète la dépolarisation des 2 atriums successivement. La <strong>première moitié de P = atrium droit</strong> (le nœud sinusal est dans l'atrium droit donc il se dépolarise en premier), la <strong>deuxième moitié = atrium gauche</strong>.</p>
+
+<div class="g2">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">HTRD</span> Hypertrophie Atriale DROITE — onde P ample (≥2,5 mm) et pointue</div>
+    <svg viewBox="0 0 280 85" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="280" height="85" fill="#fff9f0"></rect><rect width="280" height="85" fill="url(#bg)"></rect>
+      <line x1="0" y1="60" x2="280" y2="60" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <line x1="8" y1="60" x2="30" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <!-- P ample et pointue -->
+      <path d="M30,60 Q38,60 43,50 Q49,28 55,28 Q61,28 67,44 Q71,55 73,60" fill="none" stroke="#c0392b" stroke-width="2.2"></path>
+      <line x1="73" y1="60" x2="92" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="92,60 96,60 98,68 103,22 108,68 111,60 122,60" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="122" y1="60" x2="148" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <path d="M165,60 Q173,60 178,50 Q184,28 190,28 Q196,28 202,44 Q206,55 208,60" fill="none" stroke="#c0392b" stroke-width="2.2"></path>
+      <line x1="208" y1="60" x2="227" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="227,60 231,60 233,68 238,22 243,68 246,60 257,60" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="257" y1="60" x2="275" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <!-- Mesure amplitude P -->
+      <line x1="55" y1="28" x2="55" y2="60" stroke="#c0392b" stroke-width=".8" stroke-dasharray="2,2"></line>
+      <text x="58" y="42" font-family="DM Mono" font-size="8" fill="#c0392b">≥2,5mm!</text>
+      <text x="5" y="80" font-family="DM Mono" font-size="9" fill="#c0392b">P AMPLE (amplitude↑) = Hypertrophie atriale DROITE</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">HTAG</span> Hypertrophie Atriale GAUCHE — onde P large bifide (≥2,5 mm de durée)</div>
+    <svg viewBox="0 0 280 85" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="280" height="85" fill="#fff9f0"></rect><rect width="280" height="85" fill="url(#bg)"></rect>
+      <line x1="0" y1="60" x2="280" y2="60" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <line x1="8" y1="60" x2="28" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <!-- P bifide large -->
+      <path d="M28,60 Q34,60 38,54 Q44,44 48,43 Q52,44 56,48 Q59,51 61,48 Q65,43 70,43 Q75,43 80,50 Q84,56 86,60" fill="none" stroke="#c0392b" stroke-width="2.2"></path>
+      <line x1="86" y1="60" x2="104" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="104,60 108,60 110,68 115,22 120,68 123,60 134,60" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="134" y1="60" x2="152" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <path d="M168,60 Q174,60 178,54 Q184,44 188,43 Q192,44 196,48 Q199,51 201,48 Q205,43 210,43 Q215,43 220,50 Q224,56 226,60" fill="none" stroke="#c0392b" stroke-width="2.2"></path>
+      <line x1="226" y1="60" x2="244" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="244,60 248,60 250,68 255,22 260,68 263,60 274,60" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- Durée -->
+      <line x1="28" y1="76" x2="86" y2="76" stroke="#c0392b" stroke-width="1.2"></line>
+      <line x1="28" y1="72" x2="28" y2="80" stroke="#c0392b" stroke-width="1.2"></line><line x1="86" y1="72" x2="86" y2="80" stroke="#c0392b" stroke-width="1.2"></line>
+      <text x="38" y="84" font-family="DM Mono" font-size="8" fill="#c0392b">durée ≥2,5mm!</text>
+      <text x="5" y="26" font-family="DM Mono" font-size="9" fill="#c0392b">P BIFIDE LARGE (durée↑) = Hypertrophie atriale GAUCHE</text>
+    </svg>
+  </div>
+</div>
+
+<p><strong>Explication :</strong> L'atrium droit (1ère moitié de P) ne peut pas augmenter <em>en durée</em> — l'atrium gauche vient juste après et le limite. Il ne peut qu'augmenter <em>en amplitude</em> → onde P pointue et haute. L'atrium gauche (2ème moitié de P) a de l'espace temporel et peut augmenter <em>en durée</em> → onde P large bifide.</p>
+
+</div>
+<div class="container">
+
+<!-- ════ PR / BAV ════ -->
+<div id="pr" class="sec-head"><div class="sec-icon">🔗</div><h2>Intervalle PR — BAV et WPW</h2><span class="sec-tag">Conduction AV · 4 types de BAV</span></div>
+
+<p>On rappelle : l'<strong>intervalle PR</strong> va du début de l'onde P au début du QRS. Il comprend le temps de traversée des atriums + le ralentissement au nœud AV. Normal = <strong>3 à 5 mm</strong>.</p>
+
+<div class="callout warn"><span class="ci">⚠️</span><div>Ne pas confondre intervalle PR (début de P → début de QRS, contient P) et segment PR (fin de P → début de QRS, isoélectrique = référence du ST). Pour les BAV, on mesure l'<em>intervalle</em> PR.</div></div>
+
+<h3 class="subsec">PR court — WPW (Wolff-Parkinson-White)</h3>
+<p>Un PR <strong>court (&lt;3mm)</strong> signifie que la conduction est trop rapide. Cela se produit quand il existe une <strong>voie accessoire</strong> (faisceau de Kent) qui court-circuite le nœud AV. Le signal passe directement des atriums aux ventricules sans être ralenti normalement → <strong>pré-excitation ventriculaire</strong> → début du QRS précoce.</p>
+<p>Cette pré-excitation crée une <strong>onde delta</strong> : un début de QRS qui monte progressivement (comme la lettre Δ) avant la montée franche de R. Le WPW est généralement bénin, mais peut provoquer une <strong>mort subite</strong> chez les sportifs professionnels → découverte = bilan cardiologique obligatoire.</p>
+
+<div class="mnem">
+  <h4>🐺 Mnémotechnique WPW — Le Loup sous le QRS</h4>
+  <p style="font-size:13.5px;color:#78350f">Wolf = Wolff → le Loup dit "Delta" (Δ). L'onde delta est cachée sous le début du QRS, comme un loup sous la montagne. PR raccourci car voie accessoire = court-circuit du nœud AV.</p>
+</div>
+
+<div class="ecg-grid">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-n">NORMAL</span> PR normal (3–5 mm), départ du QRS abrupt, pas d'onde delta</div>
+    <svg viewBox="0 0 280 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="280" height="90" fill="#fff9f0"></rect><rect width="280" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="60" x2="280" y2="60" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <path d="M10,60 Q18,60 22,54 Q28,44 33,44 Q38,44 42,51 Q45,57 47,60" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <line x1="47" y1="60" x2="72" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line><!-- PR 25px = ~5mm -->
+      <polyline points="72,60 76,60 78,68 84,18 90,68 93,60 106,60" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="106" y1="60" x2="135" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <path d="M135,60 Q142,60 148,52 Q155,42 161,42 Q167,42 171,51 Q175,57 178,60" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <line x1="178" y1="60" x2="204" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="204,60 208,60 210,68 216,18 222,68 225,60 238,60" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- PR mesure -->
+      <line x1="47" y1="78" x2="72" y2="78" stroke="#16a34a" stroke-width="1.2"></line>
+      <text x="50" y="88" font-family="DM Mono" font-size="8" fill="#16a34a">PR=5mm ✓</text>
+      <text x="5" y="14" font-family="DM Mono" font-size="9" fill="#16a34a">Départ QRS abrupt ✓  Pas d'onde delta ✓</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">WPW</span> PR court (&lt;3mm) + onde delta au début du QRS (montée progressive triangulaire)</div>
+    <svg viewBox="0 0 280 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="280" height="90" fill="#fff9f0"></rect><rect width="280" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="60" x2="280" y2="60" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <path d="M10,60 Q18,60 22,54 Q28,44 33,44 Q38,44 42,51 Q45,57 47,60" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <!-- PR court -->
+      <line x1="47" y1="60" x2="56" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <!-- Onde delta : montée douce triangulaire avant le vrai QRS -->
+      <path d="M56,60 L66,50 L74,20 L82,68 L86,60" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      <line x1="86" y1="60" x2="100" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <line x1="100" y1="60" x2="130" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <!-- 2e cycle -->
+      <path d="M148,60 Q156,60 160,54 Q166,44 171,44 Q176,44 180,51 Q183,57 185,60" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <line x1="185" y1="60" x2="194" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <path d="M194,60 L204,50 L212,20 L220,68 L224,60" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      <line x1="224" y1="60" x2="270" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <!-- PR court mesure -->
+      <line x1="47" y1="78" x2="56" y2="78" stroke="#c0392b" stroke-width="1.5"></line>
+      <text x="32" y="88" font-family="DM Mono" font-size="8" fill="#c0392b">PR &lt;3mm!</text>
+      <!-- Delta annotation -->
+      <text x="60" y="14" font-family="DM Mono" font-size="9" fill="#c0392b">Onde Δ delta</text>
+      <line x1="68" y1="18" x2="68" y2="48" stroke="#c0392b" stroke-width="1" stroke-dasharray="2,2"></line>
+    </svg>
+  </div>
+</div>
+
+<h3 class="subsec">Les 4 types de BAV</h3>
+<p>Un bloc auriculo-ventriculaire (BAV) est un trouble de la conduction entre les atriums et les ventricules. Il y en a 4 types, classés par gravité croissante.</p>
+
+<div class="subsubsec">BAV 1er degré — PR long constant, toutes les P passent</div>
+<p>L'intervalle PR est <strong>long (&gt;5mm)</strong> mais <strong>constant</strong> et toutes les ondes P sont conduites (aucune P bloquée). Cela signifie que le nœud AV ralentit plus que normalement, mais conduit quand même toutes les impulsions. BAV 1° → <strong>bénin</strong>. Aucun traitement.</p>
+
+<div class="ecg-box" style="margin:10px 0">
+  <div class="ecg-label"><span class="ecg-badge eb-p">BAV 1°</span> PR long (ici 8mm) mais CONSTANT — toutes les P conduites</div>
+  <svg viewBox="0 0 460 85" class="ecg" xmlns="http://www.w3.org/2000/svg">
+    <rect width="460" height="85" fill="#fff9f0"></rect><rect width="460" height="85" fill="url(#bg)"></rect>
+    <line x1="0" y1="52" x2="460" y2="52" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+    <path d="M8,52 Q15,52 18,47 Q23,39 28,39 Q33,39 37,46 Q40,50 42,52" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+    <line x1="42" y1="52" x2="82" y2="52" stroke="#1a4b8c" stroke-width="2"></line><!-- PR long = 40px -->
+    <polyline points="82,52 86,52 88,60 93,15 98,60 101,52 112,52" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <line x1="112" y1="52" x2="136" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+    <path d="M136,52 Q143,52 147,47 Q152,39 157,39 Q162,39 166,46 Q169,50 171,52" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+    <line x1="171" y1="52" x2="211" y2="52" stroke="#1a4b8c" stroke-width="2"></line><!-- PR identique -->
+    <polyline points="211,52 215,52 217,60 222,15 227,60 230,52 241,52" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <line x1="241" y1="52" x2="265" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+    <path d="M265,52 Q272,52 276,47 Q281,39 286,39 Q291,39 295,46 Q298,50 300,52" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+    <line x1="300" y1="52" x2="340" y2="52" stroke="#1a4b8c" stroke-width="2"></line><!-- PR identique -->
+    <polyline points="340,52 344,52 346,60 351,15 356,60 359,52 370,52" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <line x1="370" y1="52" x2="394" y2="52" stroke="#1a4b8c" stroke-width="2"></line>
+    <path d="M394,52 Q401,52 405,47 Q410,39 415,39" fill="none" stroke="#93c5fd" stroke-width="2"></path>
+    <!-- Mesures PR -->
+    <line x1="42" y1="72" x2="82" y2="72" stroke="#c0392b" stroke-width="1.3"></line>
+    <line x1="42" y1="68" x2="42" y2="76" stroke="#c0392b" stroke-width="1.3"></line><line x1="82" y1="68" x2="82" y2="76" stroke="#c0392b" stroke-width="1.3"></line>
+    <line x1="171" y1="72" x2="211" y2="72" stroke="#c0392b" stroke-width="1.3"></line>
+    <line x1="171" y1="68" x2="171" y2="76" stroke="#c0392b" stroke-width="1.3"></line><line x1="211" y1="68" x2="211" y2="76" stroke="#c0392b" stroke-width="1.3"></line>
+    <text x="52" y="82" font-family="DM Mono" font-size="8" fill="#c0392b">PR=8mm</text>
+    <text x="181" y="82" font-family="DM Mono" font-size="8" fill="#c0392b">PR=8mm (constant!)</text>
+  </svg>
+</div>
+
+<div class="subsubsec">BAV 2ème degré Mobitz 1 (Wenckebach) — PR s'allonge progressivement jusqu'au blocage</div>
+<p>Le PR <strong>s'allonge progressivement</strong> d'un cycle à l'autre, jusqu'à ce qu'une onde P soit <strong>bloquée</strong> (non suivie d'un QRS). Puis le cycle recommence avec un PR court. C'est comme une fatigue progressive du nœud AV. <strong>Mobitz 1 "prévient"</strong> — on voit le PR s'allonger avant le blocage. C'est un BAV <strong>fonctionnel</strong> (lié au nœud AV), généralement transitoire et bénin.</p>
+
+<div class="ecg-box" style="margin:10px 0">
+  <div class="ecg-label"><span class="ecg-badge eb-p">BAV 2° MOBITZ 1</span> PR s'allonge progressivement → P bloquée → cycle recommence</div>
+  <svg viewBox="0 0 440 95" class="ecg" xmlns="http://www.w3.org/2000/svg">
+    <rect width="440" height="95" fill="#fff9f0"></rect><rect width="440" height="95" fill="url(#bg)"></rect>
+    <line x1="0" y1="58" x2="440" y2="58" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+    <!-- P1: PR court -->
+    <path d="M8,58 Q14,58 17,52 Q22,44 27,44 Q32,44 36,51 Q39,56 41,58" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+    <line x1="41" y1="58" x2="60" y2="58" stroke="#1a4b8c" stroke-width="2"></line><!-- PR 19px -->
+    <polyline points="60,58 64,58 66,66 71,20 76,66 79,58 90,58" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <!-- P2: PR plus long -->
+    <line x1="90" y1="58" x2="112" y2="58" stroke="#1a4b8c" stroke-width="2"></line>
+    <path d="M112,58 Q118,58 121,52 Q126,44 131,44 Q136,44 140,51 Q143,56 145,58" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+    <line x1="145" y1="58" x2="175" y2="58" stroke="#1a4b8c" stroke-width="2"></line><!-- PR 30px -->
+    <polyline points="175,58 179,58 181,66 186,20 191,66 194,58 205,58" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <!-- P3: PR encore plus long -->
+    <line x1="205" y1="58" x2="227" y2="58" stroke="#1a4b8c" stroke-width="2"></line>
+    <path d="M227,58 Q233,58 236,52 Q241,44 246,44 Q251,44 255,51 Q258,56 260,58" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+    <line x1="260" y1="58" x2="300" y2="58" stroke="#1a4b8c" stroke-width="2"></line><!-- PR 40px -->
+    <polyline points="300,58 304,58 306,66 311,20 316,66 319,58 330,58" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <!-- P4: BLOQUÉE — juste P, pas de QRS -->
+    <line x1="330" y1="58" x2="350" y2="58" stroke="#1a4b8c" stroke-width="2"></line>
+    <path d="M350,58 Q356,58 359,52 Q364,44 369,44 Q374,44 378,51 Q381,56 383,58" fill="none" stroke="#c0392b" stroke-width="2.2"></path>
+    <line x1="383" y1="58" x2="435" y2="58" stroke="#1a4b8c" stroke-width="2"></line>
+    <!-- P annotations PR progressif -->
+    <text x="44" y="82" font-family="DM Mono" font-size="8" fill="#16a34a">PR1</text>
+    <text x="148" y="82" font-family="DM Mono" font-size="8" fill="#d97706">PR2↑</text>
+    <text x="263" y="82" font-family="DM Mono" font-size="8" fill="#c0392b">PR3↑↑</text>
+    <text x="354" y="38" font-family="Outfit" font-size="11" font-weight="700" fill="#c0392b">P</text>
+    <text x="350" y="26" font-family="DM Mono" font-size="8" fill="#c0392b">bloquée!</text>
+    <line x1="369" y1="30" x2="369" y2="42" stroke="#c0392b" stroke-width="1" stroke-dasharray="2,2"></line>
+  </svg>
+</div>
+
+<div class="subsubsec">BAV 2ème degré Mobitz 2 — PR constant, blocage brutal sans avertissement</div>
+<p>Le PR est <strong>constant</strong> et une onde P est soudainement bloquée, <strong>sans allongement préalable du PR</strong>. Il n'y a aucun signe avant-coureur → <strong>Mobitz 2 "ne prévient pas"</strong>. C'est un BAV <strong>structurel</strong> (lié aux branches de His), plus grave que Mobitz 1, car il peut évoluer vers un BAV complet de façon imprévisible. Pose souvent l'indication d'un pacemaker.</p>
+
+<div class="ecg-box" style="margin:10px 0">
+  <div class="ecg-label"><span class="ecg-badge eb-p">BAV 2° MOBITZ 2</span> PR constant puis P bloquée brutalement → pause</div>
+  <svg viewBox="0 0 440 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+    <rect width="440" height="90" fill="#fff9f0"></rect><rect width="440" height="90" fill="url(#bg)"></rect>
+    <line x1="0" y1="55" x2="440" y2="55" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+    <!-- B1 PR constant -->
+    <path d="M8,55 Q14,55 17,49 Q22,41 27,41 Q32,41 36,48 Q39,53 41,55" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+    <line x1="41" y1="55" x2="62" y2="55" stroke="#1a4b8c" stroke-width="2"></line>
+    <polyline points="62,55 66,55 68,63 73,18 78,63 81,55 92,55" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <!-- B2 PR constant identique -->
+    <line x1="92" y1="55" x2="114" y2="55" stroke="#1a4b8c" stroke-width="2"></line>
+    <path d="M114,55 Q120,55 123,49 Q128,41 133,41 Q138,41 142,48 Q145,53 147,55" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+    <line x1="147" y1="55" x2="168" y2="55" stroke="#1a4b8c" stroke-width="2"></line><!-- MÊME longueur -->
+    <polyline points="168,55 172,55 174,63 179,18 184,63 187,55 198,55" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <!-- P bloquée : juste P, pas de QRS, puis LONGUE PAUSE -->
+    <line x1="198" y1="55" x2="218" y2="55" stroke="#1a4b8c" stroke-width="2"></line>
+    <path d="M218,55 Q224,55 227,49 Q232,41 237,41 Q242,41 246,48 Q249,53 251,55" fill="none" stroke="#c0392b" stroke-width="2.2"></path>
+    <line x1="251" y1="55" x2="320" y2="55" stroke="#d97706" stroke-width="1.5" stroke-dasharray="5,3"></line>
+    <!-- Reprise même PR constant -->
+    <path d="M320,55 Q326,55 329,49 Q334,41 339,41 Q344,41 348,48 Q351,53 353,55" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+    <line x1="353" y1="55" x2="374" y2="55" stroke="#1a4b8c" stroke-width="2"></line>
+    <polyline points="374,55 378,55 380,63 385,18 390,63 393,55 404,55" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <line x1="404" y1="55" x2="440" y2="55" stroke="#1a4b8c" stroke-width="2"></line>
+    <!-- Annotations -->
+    <text x="44" y="80" font-family="DM Mono" font-size="8" fill="#16a34a">PR=cst</text>
+    <text x="150" y="80" font-family="DM Mono" font-size="8" fill="#16a34a">PR=cst</text>
+    <text x="220" y="36" font-family="Outfit" font-size="11" font-weight="700" fill="#c0392b">P BLOQUÉE</text>
+    <text x="254" y="50" font-family="DM Mono" font-size="8" fill="#d97706">pause longue</text>
+    <text x="356" y="80" font-family="DM Mono" font-size="8" fill="#16a34a">PR=cst (toujours identique)</text>
+  </svg>
+</div>
+
+<div class="subsubsec">BAV 3ème degré (complet) — Dissociation auriculo-ventriculaire totale</div>
+<p>Le bloc est <strong>complet</strong> : aucune impulsion n'est conduite des atriums aux ventricules. Les deux structures battent <strong>indépendamment</strong> : les atriums sous le contrôle du nœud sinusal → PP régulier, les ventricules sous le contrôle d'un <strong>foyer d'échappement ventriculaire</strong> → RR régulier, mais plus lent (30–50 bpm).</p>
+<p>Le diagnostic est là : PP régulier ET RR régulier, mais <strong>PR irrégulier</strong> (les P et les QRS ne sont pas synchronisés — chaque P peut tomber sur n'importe quelle partie du QRS ou de l'espace RR).</p>
+
+<div class="callout danger"><span class="ci">🚨</span><div><strong>Piège classique du BAV 3° :</strong> Si on mesure un espace PR qui semble normal "par coïncidence" (la P tombe juste avant un QRS), on peut croire à tort à un BAV 1°. <strong>Toujours mesurer PP et RR séparément</strong> → si PP régulier ET RR régulier mais différents entre eux + PR irrégulier → BAV 3°. Les QRS sont larges (foyer ventriculaire, conduction anormale).</div></div>
+
+<div class="ecg-wrap">
+  <div class="ecg-label"><span class="ecg-badge eb-p">BAV 3° COMPLET</span> PP régulier (bleu) + RR régulier (rouge) + PR IRRÉGULIER = Dissociation AV complète</div>
+  <svg viewBox="0 0 500 130" class="ecg" xmlns="http://www.w3.org/2000/svg">
+    <rect width="500" height="130" fill="#fff9f0"></rect><rect width="500" height="130" fill="url(#bg)"></rect>
+    <line x1="0" y1="68" x2="500" y2="68" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+    <!-- Ondes P régulières (rythme atrial 70/min) toutes les ~43px -->
+    <path d="M12,68 Q18,68 21,62 Q26,54 31,54 Q36,54 39,61 Q42,66 44,68" fill="none" stroke="#1a4b8c" stroke-width="1.8"></path>
+    <path d="M74,68 Q80,68 83,62 Q88,54 93,54 Q98,54 101,61 Q104,66 106,68" fill="none" stroke="#1a4b8c" stroke-width="1.8"></path>
+    <path d="M136,68 Q142,68 145,62 Q150,54 155,54 Q160,54 163,61 Q166,66 168,68" fill="none" stroke="#1a4b8c" stroke-width="1.8"></path>
+    <path d="M198,68 Q204,68 207,62 Q212,54 217,54 Q222,54 225,61 Q228,66 230,68" fill="none" stroke="#1a4b8c" stroke-width="1.8"></path>
+    <path d="M260,68 Q266,68 269,62 Q274,54 279,54 Q284,54 287,61 Q290,66 292,68" fill="none" stroke="#1a4b8c" stroke-width="1.8"></path><!-- P dans le QRS — partiellement cachée -->
+    <path d="M322,68 Q328,68 331,62 Q336,54 341,54 Q346,54 349,61 Q352,66 354,68" fill="none" stroke="#1a4b8c" stroke-width="1.8"></path>
+    <path d="M384,68 Q390,68 393,62 Q398,54 403,54 Q408,54 411,61 Q414,66 416,68" fill="none" stroke="#1a4b8c" stroke-width="1.8"></path>
+    <path d="M446,68 Q452,68 455,62 Q460,54 465,54 Q470,54 473,61 Q476,66 478,68" fill="none" stroke="#1a4b8c" stroke-width="1.8"></path>
+    <!-- QRS larges réguliers (foyer ventriculaire 35/min) toutes les ~130px -->
+    <polyline points="54,68 57,68 59,79 65,18 71,81 75,68 87,68" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <polyline points="196,68 199,68 201,79 207,18 213,81 217,68 229,68" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <polyline points="338,68 341,68 343,79 349,18 355,81 359,68 371,68" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <polyline points="480,68 483,68 485,79 491,18 497,81 500,68" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <!-- PP régulier -->
+    <line x1="31" y1="105" x2="93" y2="105" stroke="#1a4b8c" stroke-width="1.5"></line>
+    <line x1="31" y1="101" x2="31" y2="109" stroke="#1a4b8c" stroke-width="1.5"></line><line x1="93" y1="101" x2="93" y2="109" stroke="#1a4b8c" stroke-width="1.5"></line>
+    <line x1="93" y1="105" x2="155" y2="105" stroke="#1a4b8c" stroke-width="1.5"></line>
+    <line x1="155" y1="101" x2="155" y2="109" stroke="#1a4b8c" stroke-width="1.5"></line>
+    <text x="52" y="122" font-family="DM Mono" font-size="8" fill="#1a4b8c">PP=cst</text>
+    <text x="114" y="122" font-family="DM Mono" font-size="8" fill="#1a4b8c">PP=cst</text>
+    <!-- RR régulier mais différent de PP -->
+    <line x1="65" y1="92" x2="207" y2="92" stroke="#c0392b" stroke-width="1.5"></line>
+    <line x1="65" y1="88" x2="65" y2="96" stroke="#c0392b" stroke-width="1.5"></line><line x1="207" y1="88" x2="207" y2="96" stroke="#c0392b" stroke-width="1.5"></line>
+    <text x="100" y="88" font-family="DM Mono" font-size="9" fill="#c0392b">RR=cst MAIS plus long que PP</text>
+    <!-- Titres -->
+    <text x="5" y="14" font-family="DM Mono" font-size="9" fill="#1a4b8c">P régulières (bleu) : 70/min</text>
+    <text x="5" y="26" font-family="DM Mono" font-size="9" fill="#c0392b">QRS réguliers mais indépendants (rouge) : 35/min</text>
+    <text x="5" y="38" font-family="DM Mono" font-size="9" fill="#d97706">PR irrégulier ← clé du diagnostic ! Mesurer PP et RR séparément !</text>
+  </svg>
+</div>
+
+<div class="tw"><table>
+  <thead><tr><th>BAV</th><th>PR</th><th>Onde P bloquée ?</th><th>Bénin/Grave</th><th>Mécanisme</th></tr></thead>
+  <tbody>
+    <tr><td><strong>BAV 1°</strong></td><td>Long (&gt;5mm) · <em>constant</em></td><td>Non (aucune P bloquée)</td><td><span class="tag tg">Bénin</span></td><td>Ralentissement NAV</td></tr>
+    <tr><td><strong>BAV 2° Mobitz 1</strong></td><td>S'<em>allonge progressivement</em> → P bloquée</td><td>Oui, après allongement progressif</td><td><span class="tag to">Modéré</span> · transitoire</td><td>Fonctionnel (NAV)</td></tr>
+    <tr><td><strong>BAV 2° Mobitz 2</strong></td><td><em>Constant</em> → P bloquée brutalement</td><td>Oui, sans avertissement</td><td><span class="tag tr">Grave</span> · risque BAV 3</td><td>Structurel (branches His)</td></tr>
+    <tr><td><strong>BAV 3° (complet)</strong></td><td><em>Irrégulier</em> (PP ≠ RR, indépendants)</td><td>Toutes (dissociation complète)</td><td><span class="tag tr">Très grave</span> · pacemaker</td><td>Bloc complet His/branches</td></tr>
+  </tbody>
+</table></div>
+
+</div>
+<div class="container">
+
+<!-- ════ QRS ════ -->
+<div id="qrs" class="sec-head"><div class="sec-icon">💓</div><h2>Complexe QRS — Nomenclature, Onde Q, Rabotage R, Blocs de branches</h2><span class="sec-tag">Nécrose · BBD · BBG</span></div>
+
+<h3 class="subsec">Nomenclature du QRS</h3>
+<p>Le QRS peut prendre des aspects très différents selon les dérivations. Sa nomenclature est rigoureuse :</p>
+<ul>
+  <li><strong>R</strong> = première onde positive · <strong>R'</strong> = deuxième onde positive</li>
+  <li><strong>Q</strong> = onde négative AVANT la première R · <strong>S</strong> = onde négative APRÈS la première R</li>
+  <li><strong>QS</strong> = onde entièrement négative (aucun R)</li>
+  <li>Majuscule (Q, R, S) = onde ≥ 5mm · Minuscule (q, r, s) = onde &lt; 5mm</li>
+</ul>
+<p>La durée normale du QRS est <strong>&lt;3mm</strong> (soit &lt;0,12 seconde). Un QRS ≥3mm est large → pathologique (bloc de branche ou arythmie ventriculaire).</p>
+
+<div class="ecg-grid">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-i">NOMENCLATURE</span> Aspect rSR' (deux R) · QS · qRs classiques</div>
+    <svg viewBox="0 0 340 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="340" height="90" fill="#fff9f0"></rect><rect width="340" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="58" x2="340" y2="58" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <!-- qRs -->
+      <text x="8" y="14" font-family="DM Mono" font-size="9" fill="#1a4b8c">qRs</text>
+      <line x1="8" y1="58" x2="30" y2="58" stroke="#1a4b8c" stroke-width="2"></line>
+      <polyline points="30,58 33,58 36,64 42,18 48,64 52,72 58,58 70,58" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="35" y="76" font-family="DM Mono" font-size="8" fill="#c0392b">q</text>
+      <text x="42" y="14" font-family="DM Mono" font-size="8" fill="#c0392b">R</text>
+      <text x="52" y="76" font-family="DM Mono" font-size="8" fill="#c0392b">s</text>
+      <!-- rSR' (BBD) -->
+      <text x="110" y="14" font-family="DM Mono" font-size="9" fill="#1a4b8c">rSR' (BBD)</text>
+      <line x1="110" y1="58" x2="130" y2="58" stroke="#1a4b8c" stroke-width="2"></line>
+      <polyline points="130,58 133,58 135,64 140,44 143,64 148,72 152,58 156,44 162,58 174,58" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="138" y="40" font-family="DM Mono" font-size="8" fill="#c0392b">r</text>
+      <text x="147" y="76" font-family="DM Mono" font-size="8" fill="#c0392b">S</text>
+      <text x="156" y="40" font-family="DM Mono" font-size="8" fill="#c0392b">R'</text>
+      <!-- QS -->
+      <text x="210" y="14" font-family="DM Mono" font-size="9" fill="#1a4b8c">QS (nécrose totale)</text>
+      <line x1="210" y1="58" x2="232" y2="58" stroke="#c0392b" stroke-width="2"></line>
+      <polyline points="232,58 235,58 240,66 248,80 256,66 260,58 274,58" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="244" y="84" font-family="DM Mono" font-size="8" fill="#c0392b">QS</text>
+    </svg>
+  </div>
+</div>
+
+<h3 class="subsec">Onde Q — Les 3L de pathologie (Nécrose myocardique)</h3>
+<p>L'onde Q est physiologique dans certaines dérivations. Mais une onde Q <strong>pathologique</strong> signe une <strong>nécrose myocardique irréversible</strong> (zone de myocarde mort). Pour la distinguer d'une onde Q physiologique, on utilise les <strong>3L</strong> :</p>
+
+<div class="mnem">
+  <h4>🔴 Les 3L de l'onde Q pathologique</h4>
+  <p style="font-size:13.5px;color:#78350f;margin-bottom:10px">Au moins 1 de ces critères sur ≥ 2 dérivations contiguës = onde Q pathologique = nécrose irréversible</p>
+  <div class="mnem-row">
+    <div class="ml"><span class="L">L</span><span class="M">Longue : amplitude ≥ ¼ de R</span></div>
+    <div style="font-size:30px;color:#d97706;line-height:2">·</div>
+    <div class="ml"><span class="L">L</span><span class="M">Large : durée ≥ 1 mm</span></div>
+    <div style="font-size:30px;color:#d97706;line-height:2">·</div>
+    <div class="ml"><span class="L">L</span><span class="M">L'anglais : aspect QS (Q tout seul, pas de R)</span></div>
+  </div>
+  <p style="font-size:12px;color:#78350f;margin-top:10px">Q physiologique possible en aVR, D3, V5-V6 → vérifier les 3L avant de conclure à une nécrose</p>
+</div>
+
+<div class="ecg-grid">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-n">NORMAL</span> Onde Q physiologique — petite (&lt;¼ de R), étroite (&lt;1mm), dans V5-V6 ou D3</div>
+    <svg viewBox="0 0 240 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="240" height="90" fill="#fff9f0"></rect><rect width="240" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="60" x2="240" y2="60" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <line x1="10" y1="60" x2="50" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="50,60 53,60 55,64 60,22 66,64 69,70 72,60 86,60" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- Ratio Q/R annotation -->
+      <line x1="60" y1="22" x2="60" y2="60" stroke="#94a3b8" stroke-width=".8" stroke-dasharray="2,2"></line>
+      <line x1="60" y1="47" x2="60" y2="60" stroke="#16a34a" stroke-width="2" opacity=".4"></line><!-- ¼ R -->
+      <text x="64" y="56" font-family="DM Mono" font-size="7" fill="#16a34a">¼R</text>
+      <line x1="55" y1="64" x2="55" y2="60" stroke="#16a34a" stroke-width="1" stroke-dasharray="2,2"></line>
+      <text x="36" y="74" font-family="DM Mono" font-size="7" fill="#16a34a">Q &lt; ¼R ✓</text>
+      <text x="5" y="84" font-family="DM Mono" font-size="9" fill="#16a34a">Q petite, étroite → PHYSIOLOGIQUE ✓</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">NÉCROSE</span> Q pathologique — ≥¼ de R (longue) ou ≥1mm de large</div>
+    <svg viewBox="0 0 240 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="240" height="90" fill="#fff9f0"></rect><rect width="240" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="58" x2="240" y2="58" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <line x1="10" y1="58" x2="44" y2="58" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="44,58 48,58 52,68 60,68 64,20 70,68 74,58 88,58" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- Ratio -->
+      <line x1="64" y1="20" x2="64" y2="58" stroke="#94a3b8" stroke-width=".8" stroke-dasharray="2,2"></line>
+      <line x1="64" y1="43" x2="64" y2="58" stroke="#c0392b" stroke-width="1.5" opacity=".4"></line>
+      <text x="68" y="50" font-family="DM Mono" font-size="7" fill="#c0392b">¼R</text>
+      <!-- Q plus profonde que ¼R -->
+      <line x1="52" y1="58" x2="52" y2="68" stroke="#c0392b" stroke-width="1" stroke-dasharray="2,2"></line>
+      <text x="26" y="76" font-family="DM Mono" font-size="7" fill="#c0392b">Q DÉPASSE ¼R !</text>
+      <!-- Largeur Q -->
+      <line x1="48" y1="82" x2="60" y2="82" stroke="#c0392b" stroke-width="1.2"></line>
+      <text x="5" y="84" font-family="DM Mono" font-size="9" fill="#c0392b">Q ≥¼R ou ≥1mm → NÉCROSE !</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">NÉCROSE</span> Aspect QS — onde entièrement négative, R absente = nécrose totale du territoire</div>
+    <svg viewBox="0 0 240 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="240" height="90" fill="#fff9f0"></rect><rect width="240" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="52" x2="240" y2="52" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <line x1="10" y1="52" x2="46" y2="52" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="46,52 50,52 55,62 66,80 77,62 82,52 100,52" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="56" y="18" font-family="DM Mono" font-size="9" font-weight="500" fill="#c0392b">Aspect QS (L'anglais)</text>
+      <text x="5" y="84" font-family="DM Mono" font-size="9" fill="#c0392b">Pas de R → nécrose totale du territoire (irréversible)</text>
+    </svg>
+  </div>
+</div>
+
+<h3 class="subsec">Onde R et Rabotage — Progression normale et IDM antérieur ancien</h3>
+<p>Normalement, l'onde R <strong>progresse</strong> de V1 à V4 (elle monte), puis <strong>régresse</strong> de V4 à V6 (elle redescend). Cette progression normale forme une "cloche" avec un seul sommet. <strong>Si la progression s'arrête entre V1 et V4</strong>, on dit qu'il y a un <strong>rabotage de R</strong> → signe d'un <strong>IDM antérieur ancien</strong> (la paroi antérieure a été détruite par un IDM ancien, les cardiomyocytes sont morts → plus de dépolarisation → R ne monte plus).</p>
+
+<div class="ecg-grid">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-n">NORMAL</span> Progression R de V1 à V4 puis régression — un seul sommet</div>
+    <svg viewBox="0 0 300 100" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="100" fill="#fff9f0"></rect><rect width="300" height="100" fill="url(#bg)"></rect>
+      <line x1="0" y1="72" x2="300" y2="72" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <polyline points="8,72 11,72 13,77 17,62 21,77 24,72 34,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="10" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V1</text>
+      <polyline points="44,72 47,72 49,76 55,58 61,76 64,72 74,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="46" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V2</text>
+      <polyline points="84,72 87,72 89,76 97,46 105,76 108,72 118,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="86" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V3</text>
+      <polyline points="128,72 131,72 133,76 143,28 153,76 156,72 166,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="130" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V4</text>
+      <polyline points="176,72 179,72 181,76 189,38 197,76 200,72 210,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="178" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V5</text>
+      <polyline points="220,72 223,72 225,76 233,50 241,76 244,72 254,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="222" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V6</text>
+      <path d="M17,62 Q55,56 97,45 Q143,27 197,37 Q241,49 265,60" fill="none" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="4,3"></path>
+      <text x="136" y="14" font-family="Outfit" font-size="11" font-weight="700" fill="#16a34a" text-anchor="middle">1 seul sommet → Normal ✓</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">RABOTAGE</span> R ne progresse pas en V1→V4 → IDM antérieur ancien</div>
+    <svg viewBox="0 0 300 100" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="100" fill="#fff9f0"></rect><rect width="300" height="100" fill="url(#bg)"></rect>
+      <line x1="0" y1="72" x2="300" y2="72" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <!-- V1-V4 très petites ou aspect QS -->
+      <polyline points="8,72 11,72 13,76 17,76 21,76 24,72 34,72" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="10" y="88" font-family="DM Mono" font-size="8" fill="#c0392b">V1</text>
+      <polyline points="44,72 47,72 49,76 55,77 61,76 64,72 74,72" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="46" y="88" font-family="DM Mono" font-size="8" fill="#c0392b">V2</text>
+      <polyline points="84,72 87,72 89,76 97,75 105,76 108,72 118,72" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="86" y="88" font-family="DM Mono" font-size="8" fill="#c0392b">V3</text>
+      <!-- V4 aussi très petite -->
+      <polyline points="128,72 131,72 133,76 143,62 153,76 156,72 166,72" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="130" y="88" font-family="DM Mono" font-size="8" fill="#c0392b">V4</text>
+      <!-- V5-V6 normales -->
+      <polyline points="176,72 179,72 181,76 189,38 197,76 200,72 210,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="178" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V5</text>
+      <polyline points="220,72 223,72 225,76 233,50 241,76 244,72 254,72" fill="none" stroke="#1a4b8c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="222" y="88" font-family="DM Mono" font-size="8" fill="#1a4b8c">V6</text>
+      <!-- Zone rabotage -->
+      <rect x="6" y="26" width="162" height="12" rx="3" fill="#fef2f2" opacity=".7"></rect>
+      <text x="10" y="36" font-family="DM Mono" font-size="8" fill="#c0392b">R ne progresse pas V1-V4 → RABOTAGE → IDM antérieur ancien</text>
+    </svg>
+  </div>
+</div>
+
+<h3 class="subsec">Blocs de branches — BBD et BBG</h3>
+<p>Un QRS ≥3mm avec une onde P présente (ce n'est pas un trouble du rythme ventriculaire) = <strong>bloc de branche</strong>. L'une des deux branches du faisceau de His est bloquée, et la dépolarisation ventriculaire se fait d'un seul côté puis se "propage" lentement de l'autre → QRS large + aspect particulier :</p>
+<ul>
+  <li><strong>BBD</strong> (bloc branche droit) : aspect en <strong>M (rSR')</strong> en V1-V2 · aspect en W en V6</li>
+  <li><strong>BBG</strong> (bloc branche gauche) : aspect en <strong>M (RR')</strong> en V5-V6 · aspect en W en V1</li>
+</ul>
+
+<div class="mnem">
+  <h4>🔤 Mnémotechnique BBD/BBG — WiLLiaM MoRRow</h4>
+  <div class="g2">
+    <div style="background:var(--blue-ultra);border-radius:8px;padding:12px 16px">
+      <p style="font-weight:700;color:var(--blue);margin-bottom:6px">BBG → WiLLiaM</p>
+      <p style="font-size:13.5px"><strong>W</strong> en V1 · <strong>M</strong> en V6</p>
+      <p style="font-size:12px;color:var(--blue-mid);margin-top:4px">W puis M de gauche à droite sur l'ECG → BBG</p>
+    </div>
+    <div style="background:var(--orange-pale);border-radius:8px;padding:12px 16px">
+      <p style="font-weight:700;color:var(--orange);margin-bottom:6px">BBD → MoRRow</p>
+      <p style="font-size:13.5px"><strong>M</strong> en V1 · <strong>W</strong> en V6</p>
+      <p style="font-size:12px;color:var(--orange);margin-top:4px">M puis W de gauche à droite sur l'ECG → BBD</p>
+    </div>
+  </div>
+</div>
+
+<div class="ecg-grid">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">BBD</span> Bloc de Branche Droit — rSR' (M) en V1, QRS ≥3mm, onde P présente !</div>
+    <svg viewBox="0 0 320 100" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="320" height="100" fill="#fff9f0"></rect><rect width="320" height="100" fill="url(#bg)"></rect>
+      <line x1="0" y1="64" x2="320" y2="64" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <!-- P normale -->
+      <path d="M10,64 Q17,64 20,58 Q25,50 30,50 Q35,50 38,57 Q41,62 43,64" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="43" y1="64" x2="62" y2="64" stroke="#1a4b8c" stroke-width="2"></line>
+      <!-- QRS large rSR' (M) -->
+      <polyline points="62,64 66,64 68,71 73,46 77,71 82,64 88,64 92,48 98,20 104,64 114,64" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="114" y1="64" x2="148" y2="64" stroke="#1a4b8c" stroke-width="2"></line>
+      <path d="M148,64 Q155,64 160,57 Q166,48 172,48 Q178,48 182,56 Q186,61 189,64" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="189" y1="64" x2="210" y2="64" stroke="#1a4b8c" stroke-width="2"></line>
+      <polyline points="210,64 214,64 216,71 221,46 225,71 230,64 236,64 240,48 246,20 252,64 262,64" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- Annotations -->
+      <text x="62" y="14" font-family="DM Mono" font-size="9" fill="#c0392b">rSR' = aspect M</text>
+      <text x="67" y="44" font-family="DM Mono" font-size="8" fill="#c0392b">r</text>
+      <text x="82" y="62" font-family="DM Mono" font-size="8" fill="#c0392b">S</text>
+      <text x="97" y="16" font-family="DM Mono" font-size="8" fill="#c0392b">R'</text>
+      <!-- Durée QRS -->
+      <line x1="62" y1="84" x2="114" y2="84" stroke="#c0392b" stroke-width="1.3"></line>
+      <text x="65" y="94" font-family="DM Mono" font-size="8" fill="#c0392b">QRS ≥3mm (large)</text>
+      <!-- P présente -->
+      <text x="5" y="48" font-family="DM Mono" font-size="9" fill="#16a34a">P présente ✓</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">BBG</span> Bloc de Branche Gauche — RR' (M) en V6, QRS ≥3mm, onde P présente !</div>
+    <svg viewBox="0 0 320 100" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="320" height="100" fill="#fff9f0"></rect><rect width="320" height="100" fill="url(#bg)"></rect>
+      <line x1="0" y1="64" x2="320" y2="64" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <path d="M10,64 Q17,64 20,58 Q25,50 30,50 Q35,50 38,57 Q41,62 43,64" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="43" y1="64" x2="62" y2="64" stroke="#1a4b8c" stroke-width="2"></line>
+      <!-- QRS large RR' (M) en V6 -->
+      <polyline points="62,64 66,64 70,22 78,50 84,64 90,64 96,18 104,64 114,64" fill="none" stroke="#166534" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="114" y1="64" x2="148" y2="64" stroke="#1a4b8c" stroke-width="2"></line>
+      <path d="M148,64 Q155,64 160,57 Q166,48 172,48 Q178,48 182,56 Q186,61 189,64" fill="none" stroke="#1a4b8c" stroke-width="2"></path>
+      <line x1="189" y1="64" x2="210" y2="64" stroke="#1a4b8c" stroke-width="2"></line>
+      <polyline points="210,64 214,64 218,22 226,50 232,64 238,64 244,18 252,64 262,64" fill="none" stroke="#166534" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- Annotations -->
+      <text x="62" y="14" font-family="DM Mono" font-size="9" fill="#166534">RR' = aspect M</text>
+      <text x="69" y="18" font-family="DM Mono" font-size="8" fill="#166534">R</text>
+      <text x="98" y="14" font-family="DM Mono" font-size="8" fill="#166534">R'</text>
+      <line x1="62" y1="84" x2="114" y2="84" stroke="#166534" stroke-width="1.3"></line>
+      <text x="65" y="94" font-family="DM Mono" font-size="8" fill="#166534">QRS ≥3mm (large)</text>
+      <text x="5" y="48" font-family="DM Mono" font-size="9" fill="#16a34a">P présente ✓</text>
+    </svg>
+  </div>
+</div>
+
+<div class="callout danger"><span class="ci">🚨</span><div><strong>Distinction cruciale :</strong> Bloc de branche ≠ Trouble du rythme ventriculaire. Dans les deux cas, QRS large (≥3mm). Mais : <strong>si onde P présente</strong> = bloc de branche (conduction anormale mais rythme sinusal). <strong>Si onde P absente</strong> = arythmie ventriculaire. Regarder d'abord la présence ou absence d'onde P !</div></div>
+
+<div class="callout warn"><span class="ci">⚠️</span><div><strong>BBG et STEMI :</strong> Le BBG modifie profondément le segment ST. On ne peut pas utiliser les critères habituels du STEMI (sus-décalage ST) directement. Il faut utiliser les <strong>critères de Sgarbossa</strong> : (1) concordance ST (ST dans le même sens que QRS, même +1mm sur 1 dérivation) → STEMI. (2) Discordance excessive (ST opposé au QRS, mais &gt;¼ du QRS) → STEMI. (3) Discordance appropriée (ST opposé au QRS, ≤¼ du QRS) → BBG simple, pas de STEMI.</div></div>
+
+</div>
+<div class="container">
+
+<!-- ════ SEGMENT ST ════ -->
+<div id="st" class="sec-head"><div class="sec-icon">📈</div><h2>Segment ST — La Loi des 2 et le STEMI</h2><span class="sec-tag">Point J · STEMI · Miroirs · Péricardite</span></div>
+
+<p>Le segment ST va du <strong>point J</strong> (junction QRS/ST) à la <strong>fin du ST</strong> juste avant l'onde T. Pour mesurer un éventuel décalage, on mesure la distance verticale entre le point J et le niveau du segment PR (la ligne de référence isoélectrique).</p>
+
+<h3 class="subsec">Normal vs Sus-décalage vs Sous-décalage</h3>
+
+<div class="ecg-grid">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-n">NORMAL</span> ST au même niveau que le segment PR — point J sur la ligne</div>
+    <svg viewBox="0 0 260 100" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="260" height="100" fill="#fff9f0"></rect><rect width="260" height="100" fill="url(#bg)"></rect>
+      <line x1="0" y1="64" x2="260" y2="64" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <path d="M10,64 Q18,64 21,58 Q27,50 32,50 Q37,50 40,57 Q43,62 45,64" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <line x1="45" y1="64" x2="70" y2="64" stroke="#1a4b8c" stroke-width="2.2"></line><!-- PR -->
+      <polyline points="70,64 74,64 76,73 82,20 88,73 91,64 104,64" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="104" y1="64" x2="138" y2="64" stroke="#1a4b8c" stroke-width="2.2"></line><!-- ST au niveau PR ✓ -->
+      <path d="M138,64 Q146,64 152,56 Q160,45 166,45 Q172,45 177,54 Q181,61 184,64" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <line x1="184" y1="64" x2="258" y2="64" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <circle cx="104" cy="64" r="3.5" fill="#16a34a"></circle>
+      <text x="108" y="60" font-family="DM Mono" font-size="8" fill="#16a34a">J sur la ligne ✓</text>
+      <text x="5" y="88" font-family="DM Mono" font-size="9" fill="#16a34a">ST = niveau PR → Normal ✓</text>
+      <!-- Mesure nulle -->
+      <line x1="90" y1="84" x2="90" y2="64" stroke="#94a3b8" stroke-width=".8" stroke-dasharray="2,2"></line>
+      <text x="92" y="80" font-family="DM Mono" font-size="8" fill="#94a3b8">0mm</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">STEMI</span> Sus-décalage ST ≥2mm, convexe — IDM aigu en cours</div>
+    <svg viewBox="0 0 260 100" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="260" height="100" fill="#fff9f0"></rect><rect width="260" height="100" fill="url(#bg)"></rect>
+      <line x1="0" y1="64" x2="260" y2="64" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <path d="M10,64 Q18,64 21,58 Q27,50 32,50 Q37,50 40,57 Q43,62 45,64" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <line x1="45" y1="64" x2="70" y2="64" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="70,64 74,64 76,73 82,20 88,73 91,64 104,64" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- ST sus-décalé convexe -->
+      <path d="M104,48 Q118,42 134,43 Q150,44 164,56 Q172,62 178,64" fill="none" stroke="#c0392b" stroke-width="2.5"></path>
+      <line x1="178" y1="64" x2="258" y2="64" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <!-- Point J -->
+      <circle cx="104" cy="48" r="3.5" fill="#c0392b"></circle>
+      <text x="106" y="46" font-family="DM Mono" font-size="8" fill="#c0392b">J</text>
+      <!-- Mesure décalage -->
+      <line x1="92" y1="64" x2="92" y2="48" stroke="#c0392b" stroke-width="1.5"></line>
+      <line x1="88" y1="64" x2="96" y2="64" stroke="#c0392b" stroke-width="1.5"></line>
+      <line x1="88" y1="48" x2="96" y2="48" stroke="#c0392b" stroke-width="1.5"></line>
+      <text x="68" y="55" font-family="DM Mono" font-size="8" fill="#c0392b">≥2mm!</text>
+      <text x="5" y="88" font-family="DM Mono" font-size="9" fill="#c0392b">Sus-décalage CONVEXE → STEMI !</text>
+      <text x="5" y="98" font-family="DM Mono" font-size="8" fill="#c0392b">→ Reperfusion dans les 2h !</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-w">PÉRICARDITE</span> Sus-décalage ST CONCAVE diffus (toutes dérivations) — différent du STEMI</div>
+    <svg viewBox="0 0 260 100" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="260" height="100" fill="#fff9f0"></rect><rect width="260" height="100" fill="url(#bg)"></rect>
+      <line x1="0" y1="64" x2="260" y2="64" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <path d="M10,64 Q18,64 21,58 Q27,50 32,50 Q37,50 40,57 Q43,62 45,64" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <line x1="45" y1="64" x2="70" y2="64" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="70,64 74,64 76,73 82,20 88,73 91,64 104,64" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- ST sus-décalé CONCAVE (smiley) -->
+      <path d="M104,52 Q120,59 136,61 Q150,62 164,56 Q172,50 180,46 Q188,50 194,64" fill="none" stroke="#6d28d9" stroke-width="2.5"></path>
+      <line x1="194" y1="64" x2="258" y2="64" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <circle cx="104" cy="52" r="3.5" fill="#6d28d9"></circle>
+      <!-- Forme concave annotée -->
+      <text x="5" y="14" font-family="DM Mono" font-size="8" fill="#6d28d9">Concave = "sourire" = ↑ en bas → péricardite</text>
+      <text x="5" y="88" font-family="DM Mono" font-size="9" fill="#6d28d9">Sus-décalage CONCAVE diffus → Péricardite</text>
+      <text x="5" y="98" font-family="DM Mono" font-size="8" fill="#6d28d9">(visible dans TOUTES les dérivations ≠ STEMI localisé)</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-w">NSTEMI/MIROIR</span> Sous-décalage ST — chercher d'abord le sus-décalage miroir !</div>
+    <svg viewBox="0 0 260 100" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="260" height="100" fill="#fff9f0"></rect><rect width="260" height="100" fill="url(#bg)"></rect>
+      <line x1="0" y1="54" x2="260" y2="54" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <path d="M10,54 Q18,54 21,48 Q27,40 32,40 Q37,40 40,47 Q43,52 45,54" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <line x1="45" y1="54" x2="70" y2="54" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="70,54 74,54 76,63 82,16 88,63 91,54 104,54" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- ST sous-décalé -->
+      <path d="M104,72 Q120,77 136,78 Q152,77 168,70 Q176,64 182,54" fill="none" stroke="#d97706" stroke-width="2.5"></path>
+      <line x1="182" y1="54" x2="258" y2="54" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <circle cx="104" cy="72" r="3.5" fill="#d97706"></circle>
+      <line x1="92" y1="54" x2="92" y2="72" stroke="#d97706" stroke-width="1.5"></line>
+      <text x="65" y="72" font-family="DM Mono" font-size="8" fill="#d97706">décalage</text>
+      <text x="5" y="88" font-family="DM Mono" font-size="9" fill="#d97706">Sous-décalage → miroir de quel STEMI ?</text>
+      <text x="5" y="98" font-family="DM Mono" font-size="8" fill="#d97706">Chercher sus-décalage dans territoire opposé !</text>
+    </svg>
+  </div>
+</div>
+
+<h3 class="subsec">La Loi des 2 — Critères STEMI</h3>
+<p>Pour conclure à un STEMI, il faut respecter la <strong>loi des 2</strong> :</p>
+
+<div style="background:linear-gradient(135deg,#fef2f2,#fff);border:2px solid var(--red);border-radius:12px;padding:20px 24px;margin:16px 0">
+  <h4 style="color:var(--red);font-family:&#39;DM Serif Display&#39;,serif;font-size:20px;margin-bottom:12px">🚨 La Loi des 2 — STEMI</h4>
+  <div class="g2">
+    <ul style="font-size:14.5px;line-height:2;list-style:none;padding:0">
+      <li>✦ Sus-décalage ≥ <strong style="font-size:18px;color:var(--red)">2</strong> mm au point J</li>
+      <li>✦ Sur ≥ <strong style="font-size:18px;color:var(--red)">2</strong> dérivations contiguës du même territoire</li>
+      <li>✦ Persistant sur <strong style="font-size:18px;color:var(--red)">2</strong> ECG (5–20 min d'intervalle)</li>
+    </ul>
+    <div style="background:var(--red-pale);border-radius:9px;padding:14px;display:flex;align-items:center;justify-content:center;text-align:center">
+      <div>
+        <div style="font-family:&#39;DM Serif Display&#39;,serif;font-size:28px;color:var(--red)">→ STEMI</div>
+        <div style="color:var(--red);font-weight:700;margin-top:6px">Reperfusion dans les <strong style="font-size:20px">2</strong>h</div>
+        <p style="font-size:12px;color:#991b1b;margin-top:4px">Encore un 2 ! Pour s'en souvenir</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 class="subsec">STEMI vs NSTEMI vs Angor instable</h3>
+<div class="tw"><table>
+  <thead><tr><th>Entité</th><th>Mécanisme</th><th>ECG</th><th>Troponines</th><th>Traitement</th></tr></thead>
+  <tbody>
+    <tr><td><strong>STEMI</strong></td><td>Occlusion totale de l'artère coronaire</td><td>Sus-décalage ST (loi des 2)</td><td>Élevées</td><td><span class="tag tr">Reperfusion urgente &lt;2h</span></td></tr>
+    <tr><td><strong>NSTEMI</strong></td><td>Occlusion partielle (thrombus non occlusif)</td><td>Sous-décalage ST ou T inversée</td><td>Élevées</td><td><span class="tag to">Prise en charge rapide, pas reperfusion immédiate</span></td></tr>
+    <tr><td><strong>Angor instable</strong></td><td>Même tableau clinique que NSTEMI</td><td>Sous-décalage ST ou T inversée</td><td>Normales</td><td><span class="tag to">Hospitalisation, bilan, traitement médical</span></td></tr>
+  </tbody>
+</table></div>
+
+<h3 class="subsec">Séquence temporelle d'un IDM — De l'ischémie à la nécrose</h3>
+<p>Un IDM évolue en deux stades : l'<strong>ischémie</strong> (réversible si on intervient à temps) et la <strong>nécrose</strong> (irréversible, après ~2h sans oxygène). Les anomalies ECG reflètent ce stade :</p>
+<ul>
+  <li><strong>Ischémie</strong> : touche les dernières ondes → onde T ample ou inversée → puis sus-décalage ST → <em>c'est ici qu'il faut intervenir !</em></li>
+  <li><strong>Nécrose</strong> : touche le QRS → onde Q pathologique + rabotage de R → myocarde définitivement perdu</li>
+</ul>
+
+<div class="ecg-wrap">
+  <div class="ecg-label"><span class="ecg-badge eb-i">ÉVOLUTION</span> Séquence ECG d'un IDM : T ample (précoce) → ST sus-décalé → Onde Q (nécrose, tardif)</div>
+  <svg viewBox="0 0 700 120" class="ecg" xmlns="http://www.w3.org/2000/svg">
+    <rect width="700" height="120" fill="#fff9f0"></rect><rect width="700" height="120" fill="url(#bg)"></rect>
+    <!-- PHASE 1 : T ample (ischémie précoce) -->
+    <text x="18" y="14" font-family="Outfit" font-size="11" font-weight="700" fill="#d97706">① Ischémie précoce (minutes)</text>
+    <line x1="18" y1="75" x2="36" y2="75" stroke="#d97706" stroke-width="1.8"></line>
+    <polyline points="36,75 40,75 42,83 47,38 52,83 55,75 66,75" fill="none" stroke="#d97706" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <line x1="66" y1="75" x2="85" y2="75" stroke="#d97706" stroke-width="1.8"></line>
+    <!-- T ample (hyperacuité) -->
+    <path d="M85,75 Q93,75 99,62 Q108,40 114,40 Q120,40 126,55 Q130,67 133,75" fill="none" stroke="#d97706" stroke-width="2.2"></path>
+    <line x1="133" y1="75" x2="155" y2="75" stroke="#d97706" stroke-width="1.8"></line>
+    <text x="100" y="32" font-family="DM Mono" font-size="8" fill="#d97706">T AMPLE</text>
+    <!-- PHASE 2 : ST sus-décalé -->
+    <text x="200" y="14" font-family="Outfit" font-size="11" font-weight="700" fill="#c0392b">② Ischémie évoluée (heures)</text>
+    <line x1="200" y1="75" x2="218" y2="75" stroke="#c0392b" stroke-width="1.8"></line>
+    <polyline points="218,75 222,75 224,83 229,40 234,83 237,75 248,75" fill="none" stroke="#c0392b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <!-- ST sus-décalé -->
+    <path d="M248,56 Q260,50 274,51 Q288,52 300,64 Q306,70 310,75" fill="none" stroke="#c0392b" stroke-width="2.2"></path>
+    <line x1="310" y1="75" x2="336" y2="75" stroke="#c0392b" stroke-width="1.8"></line>
+    <text x="258" y="42" font-family="DM Mono" font-size="8" fill="#c0392b">ST SUS-DÉCALÉ → INTERVENIR !</text>
+    <circle cx="248" cy="56" r="3" fill="#c0392b"></circle>
+    <!-- PHASE 3 : Onde Q + nécrose -->
+    <text x="390" y="14" font-family="Outfit" font-size="11" font-weight="700" fill="#1a4b8c">③ Nécrose irréversible (≥2h)</text>
+    <line x1="390" y1="75" x2="410" y2="75" stroke="#1a4b8c" stroke-width="1.8"></line>
+    <!-- Onde Q pathologique -->
+    <polyline points="410,75 414,75 418,86 426,86 432,30 440,86 444,75 456,75" fill="none" stroke="#1a4b8c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <line x1="456" y1="75" x2="478" y2="75" stroke="#1a4b8c" stroke-width="1.8"></line>
+    <path d="M478,75 Q486,75 492,68 Q500,58 506,58 Q512,58 517,66 Q521,72 524,75" fill="none" stroke="#1a4b8c" stroke-width="1.8"></path>
+    <line x1="524" y1="75" x2="560" y2="75" stroke="#1a4b8c" stroke-width="1.8"></line>
+    <text x="412" y="100" font-family="DM Mono" font-size="8" fill="#c0392b">Q pathologique !</text>
+    <!-- Flèches entre phases -->
+    <text x="163" y="78" font-family="Outfit" font-size="18" fill="#94a3b8">→</text>
+    <text x="344" y="78" font-family="Outfit" font-size="18" fill="#94a3b8">→</text>
+  </svg>
+</div>
+
+<div class="callout danger"><span class="ci">🚨</span><div><strong>Le message clé :</strong> Le stade ischémie (T anormale + ST décalé) est <strong>réversible</strong> si on intervient (reperfusion). Le stade nécrose (onde Q pathologique + rabotage de R) est <strong>irréversible</strong> — le myocarde est mort. Il faut intervenir au stade ischémie, pas attendre les ondes Q.</div></div>
+
+</div>
+<div class="container">
+
+<!-- ════ ONDE T ════ -->
+<div id="ondet" class="sec-head"><div class="sec-icon">🌊</div><h2>Onde T — Ischémie et Dyskaliémie</h2><span class="sec-tag">Concordance · T∝K</span></div>
+
+<p>L'onde T est la repolarisation ventriculaire. Elle est normalement <strong>concordante</strong> avec le QRS (dans le même sens). Son amplitude normale est comprise entre <strong>1/10 et 2/3 de R</strong>.</p>
+
+<div class="callout info"><span class="ci">💡</span><div><strong>Proportions à retenir :</strong> Q &lt; 1/4 de R · T entre 1/10 et 2/3 de R. Ces deux références permettent de qualifier les anomalies de Q et T en les comparant à R.</div></div>
+
+<div class="ecg-grid">
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-n">NORMAL</span> T concordante, amplitude entre 1/10 et 2/3 de R</div>
+    <svg viewBox="0 0 240 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="240" height="90" fill="#fff9f0"></rect><rect width="240" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="65" x2="240" y2="65" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <polyline points="20,65 24,65 26,73 32,22 38,73 41,65 54,65" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="54" y1="65" x2="80" y2="65" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <path d="M80,65 Q88,65 94,57 Q102,46 108,46 Q114,46 119,55 Q123,61 126,65" fill="none" stroke="#1a4b8c" stroke-width="2.2"></path>
+      <line x1="126" y1="65" x2="180" y2="65" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="180,65 184,65 186,73 192,22 198,73 201,65 214,65" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <!-- Proportion R et T -->
+      <line x1="32" y1="22" x2="32" y2="65" stroke="#94a3b8" stroke-width=".8" stroke-dasharray="2,2"></line>
+      <line x1="108" y1="46" x2="108" y2="65" stroke="#94a3b8" stroke-width=".8" stroke-dasharray="2,2"></line>
+      <text x="35" y="38" font-family="DM Mono" font-size="7" fill="#1a4b8c">R</text>
+      <text x="111" y="54" font-family="DM Mono" font-size="7" fill="#16a34a">T (1/10 à 2/3 R) ✓</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">HYPERK</span> Onde T ample (&gt;2/3 de R) — signe d'HyperKaliémie +++</div>
+    <svg viewBox="0 0 240 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="240" height="90" fill="#fff9f0"></rect><rect width="240" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="65" x2="240" y2="65" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <polyline points="20,65 24,65 26,73 32,38 38,73 41,65 54,65" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="54" y1="65" x2="72" y2="65" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <!-- T TRÈS AMPLE dépassant R -->
+      <path d="M72,65 Q80,65 88,50 Q98,22 106,22 Q114,22 122,44 Q128,58 132,65" fill="none" stroke="#c0392b" stroke-width="2.5"></path>
+      <line x1="132" y1="65" x2="175" y2="65" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="175,65 179,65 181,73 187,38 193,73 196,65 209,65" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="32" y1="38" x2="32" y2="65" stroke="#94a3b8" stroke-width=".8" stroke-dasharray="2,2"></line>
+      <line x1="106" y1="22" x2="106" y2="65" stroke="#c0392b" stroke-width=".8" stroke-dasharray="2,2"></line>
+      <text x="35" y="46" font-family="DM Mono" font-size="7" fill="#1a4b8c">R</text>
+      <text x="109" y="36" font-family="DM Mono" font-size="8" fill="#c0392b">T &gt; R !</text>
+      <text x="5" y="83" font-family="DM Mono" font-size="9" fill="#c0392b">T AMPLE → HyperKaliémie +++</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">HYPOK</span> Onde T plate (&lt;1/10 de R) — signe d'HypoKaliémie ou ischémie</div>
+    <svg viewBox="0 0 240 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="240" height="90" fill="#fff9f0"></rect><rect width="240" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="60" x2="240" y2="60" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <polyline points="20,60 24,60 26,68 32,18 38,68 41,60 54,60" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="54" y1="60" x2="74" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <!-- T plate, quasi invisible -->
+      <path d="M74,60 Q82,60 88,58 Q96,56 102,56 Q108,56 114,58 Q118,59 120,60" fill="none" stroke="#c0392b" stroke-width="2.2"></path>
+      <line x1="120" y1="60" x2="175" y2="60" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="175,60 179,60 181,68 187,18 193,68 196,60 209,60" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="78" y="48" font-family="DM Mono" font-size="8" fill="#c0392b">T plate (&lt;1/10 R)</text>
+      <text x="5" y="82" font-family="DM Mono" font-size="9" fill="#c0392b">T PLATE → HypoKaliémie ou ischémie</text>
+    </svg>
+  </div>
+  <div class="ecg-box">
+    <div class="ecg-label"><span class="ecg-badge eb-p">DISCORDANCE</span> T négative discordante (QRS positif, T négative) — ischémie ou HypoK</div>
+    <svg viewBox="0 0 240 90" class="ecg" xmlns="http://www.w3.org/2000/svg">
+      <rect width="240" height="90" fill="#fff9f0"></rect><rect width="240" height="90" fill="url(#bg)"></rect>
+      <line x1="0" y1="55" x2="240" y2="55" stroke="#d4a97a" stroke-width=".6" stroke-dasharray="3,3"></line>
+      <polyline points="20,55 24,55 26,64 32,16 38,64 41,55 54,55" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <line x1="54" y1="55" x2="74" y2="55" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <!-- T inversée négative -->
+      <path d="M74,55 Q82,55 88,62 Q96,72 102,72 Q108,72 114,64 Q118,58 120,55" fill="none" stroke="#c0392b" stroke-width="2.2"></path>
+      <line x1="120" y1="55" x2="175" y2="55" stroke="#1a4b8c" stroke-width="2.2"></line>
+      <polyline points="175,55 179,55 181,64 187,16 193,64 196,55 209,55" fill="none" stroke="#1a4b8c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <text x="74" y="42" font-family="DM Mono" font-size="8" fill="#c0392b">T NÉGATIVE (inversée)</text>
+      <text x="74" y="52" font-family="DM Mono" font-size="7" fill="#c0392b">alors que QRS positif = discordance !</text>
+      <text x="5" y="82" font-family="DM Mono" font-size="9" fill="#c0392b">T négative discordante → NSTEMI ou HypoK</text>
+    </svg>
+  </div>
+</div>
+
+<h3 class="subsec">T normale en V1-V3 — La règle de la concordance</h3>
+<p>On sait que la concordance est la règle. En V1 à V3, le QRS peut être négatif (petit r, grande S) dans ces dérivations proches du sternum. Dans ce cas, l'onde T sera aussi <strong>négative</strong> par concordance → c'est <strong>normal</strong>. Ne pas diagnostiquer une "onde T négative" pathologique en V1-V3 sans vérifier d'abord si le QRS est aussi négatif dans ces dérivations.</p>
+
+<div class="mnem">
+  <h4>⚖️ La kaliémie et l'onde T — T∝K (T proportionnelle à K)</h4>
+  <div class="g2">
+    <div style="background:var(--red-pale);border-radius:8px;padding:14px 18px">
+      <p style="font-weight:700;color:var(--red);margin-bottom:6px">🔺 K élevé → T élevée</p>
+      <p style="font-size:13.5px"><strong>HyperKaliémie</strong> → onde T ample, pointue ("en tente de camping"). Signe précoce. L'hyperkaliémie dépolarise les cellules partiellement → onde T haute.</p>
+    </div>
+    <div style="background:var(--blue-ultra);border-radius:8px;padding:14px 18px">
+      <p style="font-weight:700;color:var(--blue);margin-bottom:6px">🔻 K bas → T basse</p>
+      <p style="font-size:13.5px"><strong>HypoKaliémie</strong> → onde T plate ou négative. L'hypokaliémie hyperpolarise les cellules → repolarisation allongée → onde T aplatie. Associée à une onde U visible.</p>
+    </div>
+  </div>
+  <p style="font-size:12px;color:#78350f;margin-top:12px">Mnémo : <strong>T ∝ K</strong> — la T est proportionnelle au K. Haute kaliémie = haute T. Basse kaliémie = basse T. En pratique : doser la kaliémie si anomalie de T + contexte clinique évocateur (insuffisance rénale, diurétiques, vomissements).</p>
+</div>
+
+<div class="tw"><table>
+  <thead><tr><th>Anomalie de l'onde T</th><th>Causes à évoquer</th><th>Urgence</th></tr></thead>
+  <tbody>
+    <tr><td><strong>T ample (&gt;2/3 de R)</strong></td><td>HyperKaliémie · Ischémie précoce · Péricardite</td><td>Kaliémie urgente</td></tr>
+    <tr><td><strong>T plate (&lt;1/10 de R)</strong></td><td>HypoKaliémie · Ischémie · Péricardite</td><td>Kaliémie + contexte</td></tr>
+    <tr><td><strong>T négative discordante</strong></td><td>HypoKaliémie · NSTEMI · Péricardite · HVG</td><td>Troponines + kaliémie</td></tr>
+    <tr><td><strong>T négative concordante</strong> (V1-V3)</td><td>Normal si QRS aussi négatif (concordance)</td><td>Aucune si concordant</td></tr>
+  </tbody>
+</table></div>
+
+</div>
+<div class="container">
+
+<!-- ════ RICK ════ -->
+<div id="rick" class="sec-head"><div class="sec-icon">🚨</div><h2>Étape 4 — RICK : ne rien rater</h2><span class="sec-tag">Check-list finale</span></div>
+
+<p>RICK est la check-list finale de relecture. Après avoir analysé chaque onde en détail, on relit l'ECG en se posant 4 questions :</p>
+<div class="mnem">
+  <h4>🔍 RICK — 4 questions de clôture</h4>
+  <div class="mnem-row">
+    <div class="ml"><span class="L">R</span><span class="M">Rythme — troubles vus ?</span></div>
+    <div style="font-size:30px;color:#d97706;line-height:2">·</div>
+    <div class="ml"><span class="L">I</span><span class="M">IDM / Ischémie — signes vus ?</span></div>
+    <div style="font-size:30px;color:#d97706;line-height:2">·</div>
+    <div class="ml"><span class="L">C</span><span class="M">Conduction — BAV et blocs ?</span></div>
+    <div style="font-size:30px;color:#d97706;line-height:2">·</div>
+    <div class="ml"><span class="L">K</span><span class="M">Kaliémie — T anormale ?</span></div>
+  </div>
+</div>
+
+<div class="riskgrid">
+  <div class="rcol">
+    <div class="rl" style="background:#c00000">R</div>
+    <div class="rt" style="background:#991b1b">Rythme</div>
+    <ul class="ri">
+      <li>FA (P anarchiques, RR irrégulier)</li>
+      <li>Flutter atrial (P en dents de scie, régulier)</li>
+      <li>Tachycardie jonctionnelle (P absente, QRS fin)</li>
+      <li>ESV (QRS large prématuré sans P)</li>
+      <li>ESV maligne : 3P (polymorphes, groupées, sur T)</li>
+      <li>TV (QRS larges réguliers, sans P)</li>
+      <li>Torsade de pointes (amplitude variable)</li>
+      <li>FV (chaos total, durée et amplitude variables)</li>
+    </ul>
+  </div>
+  <div class="rcol">
+    <div class="rl" style="background:#c05700">I</div>
+    <div class="rt" style="background:#92400e">IDM / Ischémie</div>
+    <ul class="ri">
+      <li>Onde Q patho (3L) sur ≥2 dérivations</li>
+      <li>Rabotage de R (V1-V4 sans progression)</li>
+      <li>Sus-décalage ST convexe (loi des 2 → STEMI)</li>
+      <li>Sus-décalage ST concave diffus (péricardite)</li>
+      <li>Sous-décalage ST (chercher miroir !)</li>
+      <li>T ample (ischémie précoce)</li>
+      <li>T inversée discordante (NSTEMI)</li>
+      <li>Sur ≥2 dérivations contiguës toujours !</li>
+    </ul>
+  </div>
+  <div class="rcol">
+    <div class="rl" style="background:#1a4b8c">C</div>
+    <div class="rt" style="background:#163b70">Conduction</div>
+    <ul class="ri">
+      <li>WPW (PR court + onde delta)</li>
+      <li>BAV 1° (PR long constant)</li>
+      <li>BAV 2° Mobitz 1 (PR s'allonge, prévient)</li>
+      <li>BAV 2° Mobitz 2 (blocage brutal, grave)</li>
+      <li>BAV 3° (PP + RR réguliers mais indép.)</li>
+      <li>BBD (M en V1, QRS≥3mm + P présente)</li>
+      <li>BBG (M en V6, QRS≥3mm + P présente)</li>
+      <li>BBG + ST → critères Sgarbossa !</li>
+    </ul>
+  </div>
+  <div class="rcol">
+    <div class="rl" style="background:#166534">K</div>
+    <div class="rt" style="background:#14532d">Kaliémie</div>
+    <ul class="ri">
+      <li>T ample → HyperKaliémie</li>
+      <li>T ample → ischémie précoce aussi</li>
+      <li>T plate → HypoKaliémie</li>
+      <li>T négative → HypoK ou ischémie</li>
+      <li>T ∝ K (T haute = K haut)</li>
+      <li>Doser kaliémie + contexte clinique</li>
+      <li>Insuffisance rénale / diurétiques / vomissements</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<!-- ════ PIÈGES ════ -->
+<div class="container">
+<div id="pieges" class="sec-head"><div class="sec-icon">🕳️</div><h2>Pièges fréquents — Points QCM à retenir</h2><span class="sec-tag">Ne jamais rater</span></div>
+
+<h3 class="subsec">❌ Ce qu'il ne faut jamais faire</h3>
+<div class="g2">
+  <div>
+    <div class="callout danger"><span class="ci">❌</span><div><strong>ECG normal ≠ pas de pathologie.</strong> La <em>dissection aortique</em> donne un ECG normal ou quasi-normal dans la majorité des cas. Ne jamais rassurer un patient sur la base d'un ECG normal seul si le tableau clinique est évocateur.</div></div>
+    <div class="callout danger"><span class="ci">❌</span><div><strong>Vitesse 50 mm/s non signalée</strong> → fausse bradycardie + faux BAV + faux bloc de branche. Toujours vérifier la vitesse (premier V de VIP) avant toute interprétation.</div></div>
+    <div class="callout danger"><span class="ci">❌</span><div><strong>Conclure à un NSTEMI devant un sous-décalage ST</strong> sans chercher d'abord un sus-décalage dans le territoire miroir. Inférieur ↔ Latéral haut · Antérieur ↔ Postérieur · Droit ↔ Latéral bas.</div></div>
+    <div class="callout danger"><span class="ci">❌</span><div><strong>BAV 3° : se laisser piéger par un PR "qui semble normal"</strong> par coïncidence. Toujours mesurer PP et RR séparément. Si PP ≠ RR et PR irrégulier → BAV 3° même si un PR semble correct.</div></div>
+    <div class="callout danger"><span class="ci">❌</span><div><strong>BBG + sus-décalage ST</strong> : ne pas conclure directement à BBG simple. Appliquer les critères de Sgarbossa : concordance (même +1mm) = STEMI · discordance excessive (&gt;¼ du QRS) = STEMI · discordance ≤¼ = BBG simple.</div></div>
+  </div>
+  <div>
+    <div class="callout ok"><span class="ci">✅</span><div><strong>FA = arythmie la plus fréquente</strong> (&gt;1% de la population générale, jusqu'à 10% chez les +80 ans). Potentiellement mortelle (IC, AVC embolique). À rechercher systématiquement.</div></div>
+    <div class="callout ok"><span class="ci">✅</span><div><strong>T négative en V1-V3 = normal</strong> si QRS aussi négatif dans ces dérivations (concordance). Vérifier la concordance avant de conclure à une anomalie de T.</div></div>
+    <div class="callout ok"><span class="ci">✅</span><div><strong>ESV bénigne</strong> si aucun des 3P (polymorphes, groupées, sur T). Le bigéminisme seul (une ESV tous les 2 battements) n'est pas un critère de malignité.</div></div>
+    <div class="callout ok"><span class="ci">✅</span><div><strong>Mobitz 1 prévient</strong> (PR s'allonge = fatigue progressive = signe avant-coureur = fonctionnel). <strong>Mobitz 2 ne prévient pas</strong> (blocage brutal = structural = grave = indication potentielle de pacemaker).</div></div>
+    <div class="callout ok"><span class="ci">✅</span><div><strong>Intervenir dès le stade ischémie</strong>. Stade nécrose = irréversible, myocarde perdu. Ne pas attendre les ondes Q pour agir.</div></div>
+  </div>
+</div>
+
+<h3 class="subsec">📊 Tableau récapitulatif des valeurs normales</h3>
+<div class="tw"><table>
+  <thead><tr><th>Paramètre</th><th>Valeur normale</th><th>Anormal si</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Vitesse</strong></td><td>25 mm/s</td><td>Tracés étalés si 50 mm/s</td></tr>
+    <tr><td><strong>Voltage</strong></td><td>10 mm/mV</td><td>Micro-voltage si 5 mm/mV</td></tr>
+    <tr><td><strong>Intervalle PR</strong></td><td>3 à 5 mm</td><td>&lt;3mm (WPW) · &gt;5mm (BAV 1°)</td></tr>
+    <tr><td><strong>Durée QRS</strong></td><td>&lt;3 mm</td><td>≥3mm = large (BBD/BBG ou arythmie)</td></tr>
+    <tr><td><strong>Amplitude onde P</strong></td><td>≤2,5 mm</td><td>&gt;2,5mm ample = HTAD</td></tr>
+    <tr><td><strong>Durée onde P</strong></td><td>≤2,5 mm</td><td>&gt;2,5mm large bifide = HTAG</td></tr>
+    <tr><td><strong>Onde Q</strong></td><td>&lt;1/4 de R · &lt;1mm large</td><td>≥1/4 R ou ≥1mm ou QS = nécrose</td></tr>
+    <tr><td><strong>Amplitude onde T</strong></td><td>1/10 à 2/3 de R</td><td>&gt;2/3R = HyperK · &lt;1/10R ou négative = HypoK/ischémie</td></tr>
+    <tr><td><strong>Segment ST</strong></td><td>= niveau du segment PR</td><td>Sus ou sous-décalage ≥2mm</td></tr>
+    <tr><td><strong>FC</strong></td><td>60 à 100 bpm</td><td>&lt;60 = bradycardie · &gt;100 = tachycardie</td></tr>
+  </tbody>
+</table></div>
+
+<div class="keybox">
+  <h3>🎯 Les 5 règles d'or de l'ECG</h3>
+  <div class="kitem">Ne <strong>jamais interpréter</strong> un ECG invalide (VIP d'abord !).</div>
+  <div class="kitem">Toute anomalie doit être présente sur <strong>≥2 dérivations contiguës</strong> du même territoire.</div>
+  <div class="kitem">Sus-décalage ST : appliquer la <strong>loi des 2</strong> (2mm · 2 dérivations · 2 ECG) → STEMI → reperfusion dans les <strong>2h</strong>.</div>
+  <div class="kitem"><strong>Concordance QRS/T</strong> toujours : discordance = anormal. Exception → BBG (discordance appropriée normale, concordance ou discordance excessive = STEMI).</div>
+  <div class="kitem">ECG normal ≠ pas de pathologie. <strong>Corriger avec la clinique</strong> (dissection aortique, embolie pulmonaire…).</div>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>📚 ECG — Cours complet illustré · Médecine 2ème année · Cardiologie</p>
+  <p style="margin-top:5px">VIP → Général (régularité · FC · axe) → P · PR · QRS · ST · T → RICK</p>
+  <p style="margin-top:5px">Tracés ECG SVG générés pour chaque concept</p>
+</div>
+
+
+
+</body></html>

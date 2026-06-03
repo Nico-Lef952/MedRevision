@@ -13,6 +13,8 @@ import StatsPage from './pages/StatsPage';
 import KnowledgeGraphPage from './pages/KnowledgeGraphPage';
 import AncragePage from './pages/AncragePage';
 import ExamPage from './pages/ExamPage';
+import PlanningPage from './pages/PlanningPage';
+import AnnalesPage from './pages/AnnalesPage';
 import ReferencesPage from './pages/ReferencesPage';
 import './App.css';
 
@@ -159,6 +161,27 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <ReferencesPage />
+          </ProtectedRoute>
+        }
+      />
+          <Route path="/planning" element={
+            <ProtectedRoute>
+              <PlanningPage />
+            </ProtectedRoute>
+          } />
+      <Route
+        path="/annales"
+        element={
+          <ProtectedRoute>
+            <AnnalesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/annales/play"
+        element={
+          <ProtectedRoute>
+            <QuizPage />
           </ProtectedRoute>
         }
       />

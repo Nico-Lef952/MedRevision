@@ -1,0 +1,676 @@
+# -*- coding: utf-8 -*-
+
+import argparse
+import asyncio
+import json
+import os
+import random
+import re
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+from bson import ObjectId
+from google import genai
+
+from server import db
+
+
+GROUPS = {
+    "recall": ["qi", "qrm", "qcm", "vrai_faux"],
+    "qroc": ["qroc"],
+    "clinical": ["cas_clinique"],
+    "dp": ["dp"],
+}
+
+
+def load_env():
+    env_path = Path(".env")
+    if not env_path.exists():
+        return
+
+    for line in env_path.read_text(encoding="utf-8", errors="ignore").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip())
+
+
+def count_words(text):
+    text = text or ""
+    return len(re.findall(r"\b[\w'-]+\b", text))
+
+
+def target_profile(word_count):
+    # Mode banque dense :
+    # Objectif = avoir assez de stock pour piocher 10, 30 ou 60 questions,
+    # avec assez de QROC, cas cliniques et DP.
+    # DP = nombre de dossiers progressifs, pas sous-questions.
+
+    if word_count < 900:
+        return {
+            "recall": 35,
+            "qroc": 15,
+            "clinical": 20,
+            "dp": 6,
+        }
+
+    if word_count < 2200:
+        return {
+            "recall": 60,
+            "qroc": 25,
+            "clinical": 35,
+            "dp": 10,
+        }
+
+    if word_count < 4000:
+        return {
+            "recall": 80,
+            "qroc": 35,
+            "clinical": 50,
+            "dp": 15,
+        }
+
+    return {
+        "recall": 110,
+        "qroc": 45,
+        "clinical": 65,
+        "dp": 20,
+    }
+
+
+def batch_size_for_group(group):
+    # Grosses fournées pour rentabiliser chaque requête Gemini 2.5
+    if group == "dp":
+        return 4
+    if group == "clinical":
+        return 10
+    if group == "qroc":
+        return 14
+    return 18
+
+
+def question_group(qtype):
+    for group, types in GROUPS.items():
+        if qtype in types:
+            return group
+    return "recall"
+
+
+def extract_json(text):
+    text = text or ""
+    text = text.strip()
+
+    if text.startswith("```"):
+        text = re.sub(r"^```json", "", text, flags=re.I).strip()
+        text = re.sub(r"^```", "", text).strip()
+        text = re.sub(r"```$", "", text).strip()
+
+    start = text.find("{")
+    end = text.rfind("}")
+
+    if start == -1 or end == -1:
+        raise ValueError("No JSON object found")
+
+    return json.loads(text[start:end + 1])
+
+
+def norm(text):
+    return re.sub(r"\s+", " ", (text or "").strip().lower())
+
+
+def sleep_msg(seconds, reason):
+    print("")
+    print(f"Pause {round(seconds / 60, 1)} min - {reason}")
+    print("")
+    time.sleep(seconds)
+
+
+async def get_user():
+    user = await db.users.find_one({"email": "admin@medrevision.com"})
+    if not user:
+        raise RuntimeError("Admin user not found")
+    return user
+
+
+async def get_subject(subject_id):
+    if not subject_id:
+        return None
+    try:
+        return await db.subjects.find_one({"_id": ObjectId(subject_id)})
+    except Exception:
+        return None
+
+
+async def get_course_stats(user_id, course):
+    course_id = str(course["_id"])
+    questions = await db.questions.find({
+        "user_id": user_id,
+        "course_id": course_id
+    }).to_list(5000)
+
+    counts = {
+        "recall": 0,
+        "qroc": 0,
+        "clinical": 0,
+        "dp": 0,
+    }
+
+    existing_titles = []
+
+    for q in questions:
+        g = question_group(q.get("type", ""))
+        counts[g] += 1
+        existing_titles.append({
+            "id": str(q["_id"]),
+            "type": q.get("type", ""),
+            "question": q.get("question", ""),
+            "concepts": q.get("concepts", []),
+        })
+
+    word_count = count_words(course.get("content", "") or "")
+    targets = target_profile(word_count)
+
+    deficits = {}
+    for group in counts:
+        deficits[group] = max(0, targets[group] - counts[group])
+
+    total_current = sum(counts.values())
+    total_target = sum(targets.values())
+
+    return {
+        "questions": questions,
+        "existing_titles": existing_titles,
+        "counts": counts,
+        "targets": targets,
+        "deficits": deficits,
+        "word_count": word_count,
+        "total_current": total_current,
+        "total_target": total_target,
+    }
+
+
+def choose_generation_task(stats):
+    best_group = None
+    best_ratio = 0
+
+    for group, deficit in stats["deficits"].items():
+        target = max(1, stats["targets"][group])
+        ratio = deficit / target
+
+        if deficit > 0 and ratio > best_ratio:
+            best_ratio = ratio
+            best_group = group
+
+    return best_group
+
+
+def make_prompt(course, subject_name, chapter, stats, group, amount):
+    existing = stats["existing_titles"][-400:]
+    existing_json = json.dumps(existing, ensure_ascii=False)
+
+    content = course.get("content", "") or ""
+    if len(content) > 70000:
+        content = content[:70000] + "\n\n[CONTENT TRUNCATED]"
+
+    group_instructions = {
+        "recall": """
+Generate classic exam questions.
+Allowed types: qi, qrm, qcm, vrai_faux.
+Use mostly qrm/qcm when several facts must be checked.
+Avoid ultra-simple questions if the notion can be tested more precisely.
+""",
+        "qroc": """
+Generate qroc questions.
+They must require active recall, not recognition.
+For each qroc, put the expected answer in:
+- answer
+- options[0].text
+""",
+        "clinical": """
+Generate clinical case questions.
+Use type cas_clinique.
+Each question must have a vignette.
+The question must require reasoning, not only definition recall.
+""",
+        "dp": """
+Generate DP cases.
+Use type dp.
+Each DP must include:
+- question: short DP title
+- vignette: progressive clinical vignette
+- sub_questions: 3 to 5 subquestions
+Each subquestion must have options with is_correct true/false, an answer and an explanation.
+The DP must be progressive and avoid giving the answer to the previous subquestion too early.
+"""
+    }
+
+    return f"""
+You are generating high-quality medical revision questions in French.
+
+Goal:
+Create a dense, reliable question bank for the course.
+The student wants enough questions to cover all important notions of the course.
+
+Very important:
+- Do not duplicate existing questions, even if the wording is different. Avoid asking the same notion twice unless the angle is clearly different.
+- Prioritize notions not already covered by existing questions.
+- Questions must be medically correct.
+- Questions must be relevant to the course content.
+- Avoid vague questions.
+- Avoid questions that are too easy if a more precise question is possible.
+- Use French.
+- Return valid JSON only.
+
+Subject: {subject_name}
+Section: {chapter}
+Course title: {course.get("title", "")}
+
+Current stock:
+- recall questions: {stats["counts"]["recall"]} / target {stats["targets"]["recall"]}
+- qroc questions: {stats["counts"]["qroc"]} / target {stats["targets"]["qroc"]}
+- clinical cases: {stats["counts"]["clinical"]} / target {stats["targets"]["clinical"]}
+- DP cases: {stats["counts"]["dp"]} / target {stats["targets"]["dp"]}
+
+You must generate exactly {amount} new items for group: {group}.
+
+Specific instructions:
+{group_instructions[group]}
+
+Existing questions summary:
+{existing_json}
+
+Course content:
+{content}
+
+Return exactly:
+{{
+  "coverage_strategy": "short explanation in French of what notions you targeted",
+  "questions": [
+    {{
+      "type": "qi | qrm | qcm | vrai_faux | qroc | cas_clinique | dp",
+      "question": "question text",
+      "vignette": "",
+      "options": [
+        {{"text": "option A", "is_correct": true}},
+        {{"text": "option B", "is_correct": false}}
+      ],
+      "answer": "correct answer",
+      "explanation": "clear correction",
+      "difficulty": 1,
+      "rang": "A",
+      "concepts": ["notion 1", "notion 2"],
+      "sub_questions": []
+    }}
+  ]
+}}
+"""
+
+
+def normalize_options(options):
+    if not isinstance(options, list):
+        return []
+
+    clean = []
+    for opt in options:
+        if isinstance(opt, str):
+            clean.append({"text": opt, "is_correct": False})
+        elif isinstance(opt, dict):
+            clean.append({
+                "text": opt.get("text") or opt.get("label") or opt.get("answer") or "",
+                "is_correct": bool(opt.get("is_correct", opt.get("correct", False)))
+            })
+
+    return [o for o in clean if o.get("text")]
+
+
+def normalize_sub_questions(q):
+    sub = (
+        q.get("sub_questions")
+        or q.get("subQuestions")
+        or q.get("subquestions")
+        or q.get("questions")
+        or q.get("items")
+        or []
+    )
+
+    if not isinstance(sub, list):
+        return []
+
+    clean = []
+    for sq in sub:
+        if not isinstance(sq, dict):
+            continue
+
+        sq_question = (
+            sq.get("question")
+            or sq.get("text")
+            or sq.get("prompt")
+            or sq.get("title")
+            or ""
+        )
+
+        options = normalize_options(
+            sq.get("options")
+            or sq.get("choices")
+            or sq.get("answers")
+            or []
+        )
+
+        clean.append({
+            "question": sq_question,
+            "options": options,
+            "answer": sq.get("answer", ""),
+            "explanation": sq.get("explanation", sq.get("correction", "")),
+            "type": sq.get("type", "qrm")
+        })
+
+    return [sq for sq in clean if sq.get("question")]
+
+
+def validate_question(q, group):
+    qtype = q.get("type", "")
+
+    if group == "qroc":
+        q["type"] = "qroc"
+        if not q.get("answer"):
+            q["answer"] = q.get("question", "")
+        if not q.get("options"):
+            q["options"] = [{"text": q.get("answer", ""), "is_correct": True}]
+
+    elif group == "clinical":
+        q["type"] = "cas_clinique"
+        if not q.get("vignette"):
+            print("Reject clinical: missing vignette")
+            return None
+
+    elif group == "dp":
+        q["type"] = "dp"
+
+        if not q.get("vignette"):
+            q["vignette"] = q.get("case") or q.get("clinical_case") or q.get("scenario") or ""
+
+        q["sub_questions"] = normalize_sub_questions(q)
+
+        if not q.get("vignette"):
+            print("Reject DP: missing vignette")
+            return None
+
+        if len(q.get("sub_questions", [])) < 2:
+            print("Reject DP: not enough sub_questions")
+            print("Raw keys:", list(q.keys()))
+            return None
+
+        q["options"] = normalize_options(q.get("options", []))
+        q["answer"] = q.get("answer", "")
+        q["explanation"] = q.get("explanation", "")
+
+    else:
+        if qtype not in ["qi", "qrm", "qcm", "vrai_faux"]:
+            q["type"] = "qrm"
+
+    if not q.get("question"):
+        print("Reject question: missing question text")
+        return None
+
+    q["options"] = normalize_options(q.get("options", []))
+    q["answer"] = q.get("answer", "")
+    q["explanation"] = q.get("explanation", "")
+    q["difficulty"] = q.get("difficulty", 2)
+    q["rang"] = q.get("rang", "A")
+    q["concepts"] = q.get("concepts", [])
+    q["vignette"] = q.get("vignette", "")
+    q["sub_questions"] = q.get("sub_questions", [])
+
+    return q
+
+
+async def insert_questions(user_id, course, subject_id, generated_questions, group):
+    course_id = str(course["_id"])
+
+    existing = await db.questions.find({
+        "user_id": user_id,
+        "course_id": course_id
+    }).to_list(5000)
+
+    existing_texts = {norm(q.get("question", "")) for q in existing}
+
+    docs = []
+
+    for raw in generated_questions:
+        q = validate_question(raw, group)
+        if not q:
+            continue
+
+        qn = norm(q.get("question", ""))
+        if not qn or qn in existing_texts:
+            continue
+
+        existing_texts.add(qn)
+
+        docs.append({
+            "user_id": user_id,
+            "course_id": course_id,
+            "subject_id": subject_id,
+            "type": q["type"],
+            "question": q["question"],
+            "options": q["options"],
+            "answer": q["answer"],
+            "explanation": q["explanation"],
+            "difficulty": q["difficulty"],
+            "concepts": q["concepts"],
+            "rang": q["rang"],
+            "vignette": q["vignette"],
+            "sub_questions": q["sub_questions"],
+            "created_at": datetime.now(timezone.utc).isoformat()
+        })
+
+    if docs:
+        await db.questions.insert_many(docs)
+
+    return len(docs)
+
+
+async def build_candidates(user_id, args):
+    courses = await db.courses.find({"user_id": user_id}).to_list(5000)
+    candidates = []
+
+    for course in courses:
+        title = course.get("title", "")
+        subject_id = course.get("subject_id", "")
+
+        subject = await get_subject(subject_id)
+        subject_name = subject.get("name", "Matiere inconnue") if subject else "Matiere inconnue"
+
+        if args.only_subject and args.only_subject.lower() not in subject_name.lower():
+            continue
+
+        if args.course_contains and args.course_contains.lower() not in title.lower():
+            continue
+
+        stats = await get_course_stats(user_id, course)
+
+        if stats["word_count"] < args.min_words:
+            continue
+
+        group = choose_generation_task(stats)
+        if not group:
+            continue
+
+        missing_total = sum(stats["deficits"].values())
+        priority = missing_total * 10 + stats["word_count"] / 150
+
+        candidates.append({
+            "course": course,
+            "subject_id": subject_id,
+            "subject_name": subject_name,
+            "chapter": course.get("chapter", ""),
+            "stats": stats,
+            "group": group,
+            "priority": priority,
+        })
+
+    priority_groups = [
+        ["grog"],
+        ["revêtement", "revetement", "dermato", "cutané", "cutane"],
+        ["cardio", "cardiovasculaire"],
+        ["respiratoire", "pneumo"],
+        ["digestif"],
+    ]
+
+    def subject_rank(subject_name):
+        name = (subject_name or "").lower()
+        for idx, keys in enumerate(priority_groups):
+            if any(k in name for k in keys):
+                return idx
+        return 999
+
+    # Ordre principal = matière.
+    # Dans une même matière, on garde la priorité du cours le plus incomplet.
+    candidates.sort(key=lambda c: (subject_rank(c["subject_name"]), -c["priority"]))
+    return candidates
+
+
+async def generate_for_candidate(client, model, user_id, candidate):
+    course = candidate["course"]
+    subject_name = candidate["subject_name"]
+    subject_id = candidate["subject_id"]
+    chapter = candidate["chapter"]
+    stats = candidate["stats"]
+    group = candidate["group"]
+
+    amount = min(batch_size_for_group(group), stats["deficits"][group])
+
+    print("=" * 100)
+    print(f"Course: {subject_name} -> {course.get('title', '')}")
+    print(f"Section: {chapter}")
+    print(f"Words: {stats['word_count']}")
+    print(f"Current / target total: {stats['total_current']} / {stats['total_target']}")
+    print(f"Counts: {stats['counts']}")
+    print(f"Targets: {stats['targets']}")
+    print(f"Generating group: {group} x {amount}")
+    print("=" * 100)
+
+    prompt = make_prompt(course, subject_name, chapter, stats, group, amount)
+
+    response = client.models.generate_content(
+        model=model,
+        contents=prompt
+    )
+
+    data = extract_json(response.text or "")
+    questions = data.get("questions", [])
+
+    print(f"Generated raw items: {len(questions)}")
+    print("Generated types:", [q.get("type") for q in questions if isinstance(q, dict)])
+
+    inserted = await insert_questions(user_id, course, subject_id, questions, group)
+
+    if inserted == 0:
+        Path("debug_last_gemini_response.json").write_text(
+            json.dumps(data, ensure_ascii=False, indent=2),
+            encoding="utf-8"
+        )
+        print("Debug saved: debug_last_gemini_response.json")
+
+    print(f"Strategy: {data.get('coverage_strategy', '')}")
+    print(f"Inserted: {inserted}")
+
+    return inserted
+
+
+async def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", default="")
+    parser.add_argument("--loop", action="store_true")
+    parser.add_argument("--limit-calls", type=int, default=10)
+    parser.add_argument("--delay", type=int, default=60)
+    parser.add_argument("--quota-sleep", type=int, default=3600)
+    parser.add_argument("--overload-sleep", type=int, default=900)
+    parser.add_argument("--min-words", type=int, default=80)
+    parser.add_argument("--only-subject", default="")
+    parser.add_argument("--course-contains", default="")
+
+    args = parser.parse_args()
+
+    load_env()
+
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    if not api_key:
+        raise RuntimeError("No GEMINI_API_KEY or GOOGLE_API_KEY in .env")
+
+    model = args.model or os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite")
+    client = genai.Client(api_key=api_key)
+
+    user = await get_user()
+    user_id = str(user["_id"])
+
+    calls = 0
+
+    print("")
+    print("SMART BANK GENERATOR")
+    print(f"Model: {model}")
+    print("Goal: balanced question bank per course and per type.")
+    print("Ctrl+C to stop.")
+    print("")
+
+    while True:
+        try:
+            if calls >= args.limit_calls:
+                print("Limit calls reached.")
+                return
+
+            candidates = await build_candidates(user_id, args)
+
+            if not candidates:
+                print("All matching courses have reached their targets.")
+                if args.loop:
+                    sleep_msg(1800, "checking again later")
+                    continue
+                return
+
+            print("")
+            print(f"Candidates: {len(candidates)}")
+            print("Top 5:")
+            for c in candidates[:5]:
+                st = c["stats"]
+                print(
+                    f"- {c['subject_name']} -> {c['course'].get('title', '')} "
+                    f"| group {c['group']} | total {st['total_current']}/{st['total_target']}"
+                )
+            print("")
+
+            inserted = await generate_for_candidate(client, model, user_id, candidates[0])
+            calls += 1
+
+            if inserted == 0:
+                sleep_msg(180, "nothing inserted, possible duplicates")
+            else:
+                sleep_msg(args.delay, "normal pause")
+
+            if not args.loop and calls >= args.limit_calls:
+                print("Done.")
+                return
+
+        except KeyboardInterrupt:
+            print("")
+            print("Manual stop.")
+            return
+
+        except Exception as err:
+            msg = str(err).lower()
+            print("")
+            print("Error:")
+            print(err)
+
+            if "429" in msg or "quota" in msg or "resource_exhausted" in msg:
+                sleep_msg(args.quota_sleep, "quota reached")
+            elif "503" in msg or "unavailable" in msg or "overload" in msg or "high demand" in msg:
+                sleep_msg(args.overload_sleep + random.randint(0, 300), "Gemini overloaded")
+            else:
+                sleep_msg(300, "unknown error")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
